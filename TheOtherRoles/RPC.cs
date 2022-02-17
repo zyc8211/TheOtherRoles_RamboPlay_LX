@@ -677,7 +677,7 @@ namespace TheOtherRoles
             Trickster.lightsOutTimer = Trickster.lightsOutDuration;
             // If the local player is impostor indicate lights out
             if(PlayerControl.LocalPlayer.Data.Role.IsImpostor) {
-                new CustomMessage("Lights are out", Trickster.lightsOutDuration);
+                new CustomMessage("光辉已经熄灭", Trickster.lightsOutDuration);
             }
         }
 
@@ -694,7 +694,7 @@ namespace TheOtherRoles
 
             var camera = UnityEngine.Object.Instantiate<SurvCamera>(referenceCamera);
             camera.transform.position = new Vector3(position.x, position.y, referenceCamera.transform.position.z - 1f);
-            camera.CamName = $"Security Camera {SecurityGuard.placedCameras}";
+            camera.CamName = $"安保摄像机 {SecurityGuard.placedCameras}";
             camera.Offset = new Vector3(0f, 0f, camera.Offset.z);
             if (PlayerControl.GameOptions.MapId == 2 || PlayerControl.GameOptions.MapId == 4) camera.transform.localRotation = new Quaternion(0, 0, 1, 1); // Polus and Airship 
 

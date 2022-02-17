@@ -88,16 +88,16 @@ namespace TheOtherRoles.Modules {
         }
 
         public static void ExecuteUpdate() {
-            string info = "Updating The Other Roles\nPlease wait...";
+            string info = "更新MOD中\n请稍后...";
             ModUpdater.InfoPopup.Show(info); // Show originally
             if (updateTask == null) {
                 if (updateURI != null) {
                     updateTask = downloadUpdate();
                 } else {
-                    info = "Unable to auto-update\nPlease update manually";
+                    info = "无法自动升级\n请手动升级";
                 }
             } else {
-                info = "Update might already\nbe in progress";
+                info = "升级可能已\n经开始了";
             }
             ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f, new System.Action<float>((p) => { ModUpdater.setPopupText(info); })));
         }
@@ -109,7 +109,7 @@ namespace TheOtherRoles.Modules {
                 foreach (string f in files)
                     File.Delete(f);
             } catch (System.Exception e) {
-                System.Console.WriteLine("Exception occured when clearing old versions:\n" + e);
+                System.Console.WriteLine("清除旧版本时发生错误:\n" + e);
             }
         }
 
@@ -117,7 +117,7 @@ namespace TheOtherRoles.Modules {
             try {
                 HttpClient http = new HttpClient();
                 http.DefaultRequestHeaders.Add("User-Agent", "TheOtherRoles Updater");
-                var response = await http.GetAsync(new System.Uri("https://api.github.com/repos/Eisbison/TheOtherRoles/releases/latest"), HttpCompletionOption.ResponseContentRead);
+                var response = await http.GetAsync(new System.Uri("https://api.github.com/repos/AlerHugu3s/TheOtherRoles_ZH/releases/latest"), HttpCompletionOption.ResponseContentRead);
                 // var response = await http.GetAsync(new System.Uri("https://api.github.com/repos/EoF-1141/TheOtherRoles/releases/latest"), HttpCompletionOption.ResponseContentRead);
                 if (response.StatusCode != HttpStatusCode.OK || response.Content == null) {
                     System.Console.WriteLine("Server returned no data: " + response.StatusCode.ToString());

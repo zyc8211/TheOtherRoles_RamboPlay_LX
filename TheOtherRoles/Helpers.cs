@@ -122,9 +122,9 @@ namespace TheOtherRoles {
                 var task = new GameObject("RoleTask").AddComponent<ImportantTextTask>();
                 task.transform.SetParent(player.transform, false);
 
-                if (roleInfo.name == "Jackal") {
-                    var getSidekickText = Jackal.canCreateSidekick ? " and recruit a Sidekick" : "";
-                    task.Text = cs(roleInfo.color, $"{roleInfo.name}: Kill everyone{getSidekickText}");  
+                if (roleInfo.name == "豺狼") {
+                    var getSidekickText = Jackal.canCreateSidekick ? "并招募走狗" : "";
+                    task.Text = cs(roleInfo.color, $"{roleInfo.name}: 杀死所有人{getSidekickText}");  
                 } else {
                     task.Text = cs(roleInfo.color, $"{roleInfo.name}: {roleInfo.shortDescription}");  
                 }

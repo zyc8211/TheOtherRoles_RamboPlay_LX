@@ -1,0 +1,5 @@
+D:\TheOtherRoles_ChineseEdition\TheOtherRoles\obj\Debug\netstandard2.1\TheOtherRoles.csproj.AssemblyReference.cache
+D:\TheOtherRoles_ChineseEdition\TheOtherRoles\obj\Debug\netstandard2.1\TheOtherRoles.GeneratedMSBuildEditorConfig.editorconfig
+D:\TheOtherRoles_ChineseEdition\TheOtherRoles\obj\Debug\netstandard2.1\TheOtherRoles.AssemblyInfoInputs.cache
+D:\TheOtherRoles_ChineseEdition\TheOtherRoles\obj\Debug\netstandard2.1\TheOtherRoles.AssemblyInfo.cs
+D:\TheOtherRoles_ChineseEdition\TheOtherRoles\obj\Debug\netstandard2.1\TheOtherRoles.csproj.CoreCompileInputs.cache

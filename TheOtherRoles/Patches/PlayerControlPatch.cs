@@ -441,7 +441,7 @@ namespace TheOtherRoles.Patches {
                         playerInfoText = $"{roleNames}";
                         if (DestroyableSingleton<TaskPanelBehaviour>.InstanceExists) {
                             TMPro.TextMeshPro tabText = DestroyableSingleton<TaskPanelBehaviour>.Instance.tab.transform.FindChild("TabText_TMP").GetComponent<TMPro.TextMeshPro>();
-                            tabText.SetText($"Tasks {taskInfo}");
+                            tabText.SetText($"任务 {taskInfo}");
                         }
                         meetingInfoText = $"{roleNames} {taskInfo}".Trim();
                     }
@@ -872,15 +872,15 @@ namespace TheOtherRoles.Patches {
                     string msg = "";
 
                     if (isMedicReport) {
-                        msg = $"Body Report: Killed {Math.Round(timeSinceDeath / 1000)}s ago!";
+                        msg = $"尸检报告: {Math.Round(timeSinceDeath / 1000)}秒前死亡!";
                     } else if (isDetectiveReport) {
                         if (timeSinceDeath < Detective.reportNameDuration * 1000) {
-                            msg =  $"Body Report: The killer appears to be {deadPlayer.killerIfExisting.Data.PlayerName}!";
+                            msg =  $"尸检报告: 杀手似乎是{deadPlayer.killerIfExisting.Data.PlayerName}!";
                         } else if (timeSinceDeath < Detective.reportColorDuration * 1000) {
-                            var typeOfColor = Helpers.isLighterColor(deadPlayer.killerIfExisting.Data.DefaultOutfit.ColorId) ? "lighter" : "darker";
-                            msg =  $"Body Report: The killer appears to be a {typeOfColor} color!";
+                            var typeOfColor = Helpers.isLighterColor(deadPlayer.killerIfExisting.Data.DefaultOutfit.ColorId) ? "浅" : "深";
+                            msg =  $"尸检报告: 凶手似乎是{typeOfColor}色!";
                         } else {
-                            msg = $"Body Report: The corpse is too old to gain information from!";
+                            msg = $"尸检报告: 尸体死亡时间过久，无有效信息!";
                         }
                     }
 

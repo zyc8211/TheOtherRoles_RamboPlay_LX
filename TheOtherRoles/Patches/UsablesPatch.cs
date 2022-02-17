@@ -183,17 +183,17 @@ namespace TheOtherRoles.Patches {
             // Deactivate emergency button for Swapper
             if (Swapper.swapper != null && Swapper.swapper == PlayerControl.LocalPlayer && !Swapper.canCallEmergency) {
                 roleCanCallEmergency = false;
-                statusText = "The Swapper can't start an emergency meeting";
+                statusText = "交换师无法发起紧急会议";
             }
             // Potentially deactivate emergency button for Jester
             if (Jester.jester != null && Jester.jester == PlayerControl.LocalPlayer && !Jester.canCallEmergency) {
                 roleCanCallEmergency = false;
-                statusText = "The Jester can't start an emergency meeting";
+                statusText = "小丑无法发起紧急会议";
             }
             // Potentially deactivate emergency button for Lawyer
             if (Lawyer.lawyer != null && Lawyer.lawyer == PlayerControl.LocalPlayer && Lawyer.winsAfterMeetings) {
                 roleCanCallEmergency = false;
-                statusText = "The Lawyer can't start an emergency meeting (" + Lawyer.meetings + "/" + Lawyer.neededMeetings + " meetings)";
+                statusText = "律师无法发起紧急会议 (" + Lawyer.meetings + "/" + Lawyer.neededMeetings + " 会议)";
             }
 
             if (!roleCanCallEmergency) {
