@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Logger = BepInEx.Logging.Logger;
 
 namespace TheOtherRoles.Modules {
     [HarmonyPatch]
@@ -365,7 +366,7 @@ namespace TheOtherRoles.Modules {
 
     public class CustomHatLoader {
         public static bool running = false;
-        private const string REPO = "https://raw.githubusercontents.com/Eisbison/TheOtherHats/master/";
+        private const string REPO = "https://gitee.com/KarasumaChitose/TheOtherHats/raw/master";
 
         public static List<CustomHatOnline> hatdetails = new List<CustomHatOnline>();
         private static Task hatFetchTask = null;
@@ -401,7 +402,7 @@ namespace TheOtherRoles.Modules {
         public static async Task<HttpStatusCode> FetchHats() {
             HttpClient http = new HttpClient();
             http.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue{ NoCache = true };
-			var response = await http.GetAsync(new System.Uri($"{REPO}/CustomHats.json"), HttpCompletionOption.ResponseContentRead);
+            var response = await http.GetAsync(new System.Uri($"{REPO}/CustomHats.json"), HttpCompletionOption.ResponseContentRead).ConfigureAwait(false);
             try {
                 if (response.StatusCode != HttpStatusCode.OK) return response.StatusCode;
                 if (response.Content == null) {
@@ -409,6 +410,7 @@ namespace TheOtherRoles.Modules {
                     return HttpStatusCode.ExpectationFailed;
                 }
                 string json = await response.Content.ReadAsStringAsync();
+                TheOtherRolesPlugin.Logger.LogMessage(json);
                 JToken jobj = JObject.Parse(json)["hats"];
                 if (!jobj.HasValues) return HttpStatusCode.ExpectationFailed;
 
