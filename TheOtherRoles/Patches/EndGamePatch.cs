@@ -315,7 +315,7 @@ namespace TheOtherRoles.Patches {
                 } else if (cond == WinCondition.AdditionalLawyerBonusWin) {
                     textRenderer.text += $"\n{Helpers.cs(Lawyer.color, "律师与客户一同胜利")}";
                 } else if (cond == WinCondition.AdditionalAlivePursuerWin) {
-                    textRenderer.text += $"\n{Helpers.cs(Pursuer.color, "告密者活了下来")}";
+                    textRenderer.text += $"\n{Helpers.cs(Pursuer.color, "起诉人活了下来")}";
                 }
             }
 
