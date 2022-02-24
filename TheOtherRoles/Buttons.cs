@@ -15,6 +15,7 @@ namespace TheOtherRoles
         private static CustomButton engineerRepairButton;
         private static CustomButton janitorCleanButton;
         private static CustomButton sheriffKillButton;
+        private static CustomButton soliderKillButton;
         private static CustomButton deputyHandcuffButton;
         private static CustomButton timeMasterShieldButton;
         private static CustomButton medicShieldButton;
@@ -57,6 +58,7 @@ namespace TheOtherRoles
         public static void setCustomButtonCooldowns() {
             engineerRepairButton.MaxTimer = 0f;
             janitorCleanButton.MaxTimer = Janitor.cooldown;
+            soliderKillButton.MaxTimer = Soldier.cooldown;
             sheriffKillButton.MaxTimer = Sheriff.cooldown;
             deputyHandcuffButton.MaxTimer = Deputy.handcuffCooldown;
             timeMasterShieldButton.MaxTimer = TimeMaster.cooldown;
@@ -259,6 +261,36 @@ namespace TheOtherRoles
                 new Vector3(-1.8f, -0.06f, 0),
                 __instance,
                 KeyCode.F
+            );
+            
+            // Solider Kill
+            soliderKillButton = new CustomButton(
+                () => {
+                    MurderAttemptResult murderAttemptResult = Helpers.checkMuderAttempt(Soldier.soldier, Soldier.target);
+                    if (murderAttemptResult == MurderAttemptResult.SuppressKill) return;
+
+                    if (murderAttemptResult == MurderAttemptResult.PerformKill) {
+                        byte targetId = 0;
+                        targetId = Soldier.target.PlayerId;
+
+                        MessageWriter killWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.UncheckedMurderPlayer, Hazel.SendOption.Reliable, -1);
+                        killWriter.Write(Sheriff.sheriff.Data.PlayerId);
+                        killWriter.Write(targetId);
+                        killWriter.Write(byte.MaxValue);
+                        AmongUsClient.Instance.FinishRpcImmediately(killWriter);
+                        RPCProcedure.uncheckedMurderPlayer(Soldier.soldier.Data.PlayerId, targetId, Byte.MaxValue);
+                    }
+
+                    Soldier.target = null;
+                    Soldier.usedGun = true;
+                },
+                () => { return Soldier.soldier != null && Soldier.soldier == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead && Soldier.usedBulletProof == true && Soldier.usedGun == false; },
+                () => { return Soldier.target && PlayerControl.LocalPlayer.CanMove; },
+                () => { soliderKillButton.Timer = soliderKillButton.MaxTimer;},
+                __instance.KillButton.graphic.sprite,
+                new Vector3(0f, 1f, 0),
+                __instance,
+                KeyCode.Q
             );
 
             // Sheriff Kill

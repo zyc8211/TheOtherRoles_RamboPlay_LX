@@ -74,6 +74,12 @@ namespace TheOtherRoles.Patches {
                 else {
                     target.myRend.material.SetFloat("_Outline", 0f);
                 }
+
+                if (PlayerControl.LocalPlayer == Soldier.soldier && !Soldier.usedBulletProof)
+                {
+                    target.myRend.material.SetFloat("_Outline",1f);
+                    target.myRend.material.SetColor("_OutlineColor", Soldier.bulletproofColor);
+                }
             }
         }
 
@@ -734,6 +740,16 @@ namespace TheOtherRoles.Patches {
             }
         }
 
+        public static void soldierSetTarget()
+        {
+            if (Soldier.soldier == null || PlayerControl.LocalPlayer != Soldier.soldier || Soldier.soldier.Data.IsDead) return;
+            if (Soldier.usedBulletProof == true && Soldier.usedGun == false)
+            {
+                Soldier.target = setTarget();
+                setPlayerOutline(Soldier.target, Soldier.color);
+            }
+        }
+
         static void pursuerSetTarget() {
             if (Pursuer.pursuer == null || Pursuer.pursuer != PlayerControl.LocalPlayer) return;
             Pursuer.target = setTarget();
@@ -827,6 +843,8 @@ namespace TheOtherRoles.Patches {
                 morphlingAndCamouflagerUpdate();
                 // Lawyer
                 lawyerUpdate();
+                //Soldier
+                soldierSetTarget();
                 // Pursuer
                 pursuerSetTarget();
                 // Witch

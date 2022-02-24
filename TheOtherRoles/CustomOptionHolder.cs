@@ -23,6 +23,8 @@ namespace TheOtherRoles {
         public static CustomOption impostorRolesCountMin;
         public static CustomOption impostorRolesCountMax;
 
+        public static CustomOption soldierSpawnRate;
+
         public static CustomOption mafiaSpawnRate;
         public static CustomOption janitorCooldown;
 
@@ -366,10 +368,12 @@ namespace TheOtherRoles {
             pursuerBlanksNumber = CustomOption.Create(357, "起诉人空包弹数量", 5f, 1f, 20f, 1f, lawyerSpawnRate);
 
             shifterSpawnRate = CustomOption.Create(70, cs(Shifter.color, "交换师生成概率"), rates, null, true);
-            shifterShiftsModifiers = CustomOption.Create(71, "交换师交换后能力增强", false, shifterSpawnRate);
+            shifterShiftsModifiers = CustomOption.Create(71, "交换能力增强(可交换医生护盾和恋人)", false, shifterSpawnRate);
 
             mayorSpawnRate = CustomOption.Create(80, cs(Mayor.color, "市长生成概率"), rates, null, true);
 
+            soldierSpawnRate = CustomOption.Create(190, cs(Soldier.color, "士兵生成概率"), rates, null, true);
+            
             engineerSpawnRate = CustomOption.Create(90, cs(Engineer.color, "工程师生成概率"), rates, null, true);
             engineerNumberOfFixes = CustomOption.Create(91, "工程师可维修破坏次数", 1f, 1f, 3f, 1f, engineerSpawnRate);
             engineerHighlightForImpostors = CustomOption.Create(92, "伪装者能看见工程师在管道中", true, engineerSpawnRate);

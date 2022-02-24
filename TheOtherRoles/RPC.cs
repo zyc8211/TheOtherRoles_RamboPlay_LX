@@ -16,6 +16,7 @@ namespace TheOtherRoles
     enum RoleId {
         Jester,
         Mayor,
+        Soldier,
         Engineer,
         Sheriff,
         Deputy,
@@ -79,6 +80,7 @@ namespace TheOtherRoles
         EngineerFixLights = 91,
         EngineerUsedRepair,
         CleanBody,
+        SoldierLoseBulletproof,
         MedicSetShielded,
         ShieldedMurderAttempt,
         TimeMasterShield,
@@ -159,6 +161,9 @@ namespace TheOtherRoles
                         break;
                     case RoleId.Mayor:
                         Mayor.mayor = player;
+                        break;
+                    case RoleId.Soldier:
+                        Soldier.soldier = player;
                         break;
                     case RoleId.Engineer:
                         Engineer.engineer = player;
@@ -440,6 +445,8 @@ namespace TheOtherRoles
             // Shift role
             if (Mayor.mayor != null && Mayor.mayor == player)
                 Mayor.mayor = oldShifter;
+            if (Soldier.soldier != null && Soldier.soldier == player)
+                Soldier.soldier = oldShifter;
             if (Engineer.engineer != null && Engineer.engineer == player)
                 Engineer.engineer = oldShifter;
             if (Sheriff.sheriff != null && Sheriff.sheriff == player) {
@@ -585,6 +592,7 @@ namespace TheOtherRoles
 
             // Crewmate roles
             if (player == Mayor.mayor) Mayor.clearAndReload();
+            if (player == Soldier.soldier) Soldier.clearAndReload();
             if (player == Engineer.engineer) Engineer.clearAndReload();
             if (player == Sheriff.sheriff) Sheriff.clearAndReload();
             if (player == Deputy.deputy) Deputy.clearAndReload();
@@ -793,7 +801,7 @@ namespace TheOtherRoles
             PlayerControl guessedTarget = Helpers.playerById(guessedTargetId);
             if (Guesser.showInfoInGhostChat && PlayerControl.LocalPlayer.Data.IsDead && guessedTarget != null) {
                 RoleInfo roleInfo = RoleInfo.allRoleInfos.FirstOrDefault(x => (byte)x.roleId == guessedRoleId);
-                string msg = $"Guesser guessed the role {roleInfo?.name ?? ""} for {guessedTarget.Data.PlayerName}!";
+                string msg = $"赌怪猜测 {guessedTarget.Data.PlayerName} 的角色是 {roleInfo?.name ?? ""} !";
                 if (AmongUsClient.Instance.AmClient && DestroyableSingleton<HudManager>.Instance)
                     DestroyableSingleton<HudManager>.Instance.Chat.AddChat(guesser, msg);
                 if (msg.IndexOf("who", StringComparison.OrdinalIgnoreCase) >= 0)

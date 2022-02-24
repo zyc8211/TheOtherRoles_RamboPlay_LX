@@ -297,6 +297,12 @@ namespace TheOtherRoles {
                 return MurderAttemptResult.SuppressKill;
             }
 
+            else if (Soldier.soldier != null && target == Soldier.soldier && Soldier.usedBulletProof == false)
+            {
+                Soldier.usedBulletProof = true;
+                return MurderAttemptResult.SuppressKill;
+            }
+
             // Block impostor not fully grown mini kill
             else if (Mini.mini != null && target == Mini.mini && !Mini.isGrownUp()) {
                 return MurderAttemptResult.SuppressKill;
