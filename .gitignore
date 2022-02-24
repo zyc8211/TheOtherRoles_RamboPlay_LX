@@ -2,3 +2,9 @@
 .vscode/tasks.json
 TODO
 .DS_Store
+.idea
+TheOtherRoles/bin
+TheOtherRoles/bin/*
+TheOtherRoles/obj
+TheOtherRoles/obj/*
+TheOtherRoles.sln.DotSettings.user
