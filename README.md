@@ -1,7 +1,6 @@
 
 此项目为The Other Roles模组的汉化项目
 目前支持版本：3.4.3
-
 ![eisbison banner](./Images/TOR_logo.png)
 <p align="center"><a href="https://github.com/Eisbison/TheOtherRoles/releases/"><img src="https://badgen.net/github/release/eisbison/theotherroles"></a></p>
 
@@ -14,7 +13,7 @@
 
 # 更多职业模组
 
-**更多职业模组**, 是[Among Us](https://store.steampowered.com/app/945360/Among_Us)游戏的MOD，且添加了全新角色、全新的[设置选项](#settings)、全新的[自定义帽子](#custom-hats)并且为游戏添加了支持[超过十位玩家的游戏大厅](#Custom-Servers-and-10+-Players)。
+**更多职业模组**, 是[Among Us](https://store.steampowered.com/app/945360/Among_Us)游戏的MOD，且添加了全新角色、全新的[设置选项](#settings)、全新的[自定义帽子](#custom-hats)并且为游戏添加了支持[超过十位玩家的游戏大厅](#超过十位玩家的游戏大厅)。
 未来还将有更多的全新角色 :)
 
 | 伪装者角色 | 船员角色 | 中立角色 | 次要身份 |
@@ -80,7 +79,7 @@
 3. 在proton winecfg中将`winhttp.dll`设置为Enable(https://docs.bepinex.dev/articles/advanced/steam_interop.html#open-winecfg-for-the-target-game)
 4. 通过steam开启游戏
 
-# 自定义服务器与超过10位的玩家
+# 超过十位玩家的游戏大厅
 我们强烈建议你在自定义服务器而非官方服务器上游玩. 如果你想和超过10位玩家一起游玩, 你就必须使用自定义服务器（目前官方服务器也已经支持）. 最初允许你超过10位玩家一起游玩的自定义服务器要归功于[CrowdedMod](https://github.com/CrowdedMods/CrowdedMod).
 
 **客户端设置:**
