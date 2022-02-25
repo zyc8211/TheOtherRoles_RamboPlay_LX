@@ -297,6 +297,14 @@ namespace TheOtherRoles {
                 return MurderAttemptResult.SuppressKill;
             }
 
+            else if (Solider.solider != null && target == Solider.solider && Solider.usedBulletProof == false)
+            {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)CustomRPC.SoliderLoseBulletproof, SendOption.Reliable, -1);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPCProcedure.soliderLoseBulletproof();
+                return MurderAttemptResult.BlankKill;
+            }
+            
             // Block impostor not fully grown mini kill
             else if (Mini.mini != null && target == Mini.mini && !Mini.isGrownUp()) {
                 return MurderAttemptResult.SuppressKill;

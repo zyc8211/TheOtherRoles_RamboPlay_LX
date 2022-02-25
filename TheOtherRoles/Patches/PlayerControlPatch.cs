@@ -9,6 +9,7 @@ using static TheOtherRoles.TheOtherRoles;
 using static TheOtherRoles.GameHistory;
 using TheOtherRoles.Objects;
 using UnityEngine;
+using Logger = BepInEx.Logging.Logger;
 
 namespace TheOtherRoles.Patches {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
@@ -70,6 +71,12 @@ namespace TheOtherRoles.Patches {
                 if (hasVisibleShield) {
                     target.myRend.material.SetFloat("_Outline", 1f);
                     target.myRend.material.SetColor("_OutlineColor", Medic.shieldedColor);
+                }
+                else if(PlayerControl.LocalPlayer == Solider.solider && target == Solider.solider && !Solider.usedBulletProof)
+                {
+                    TheOtherRolesPlugin.Logger.LogMessage("Solider.usedBulletProof:"+Solider.usedBulletProof);
+                    target.myRend.material.SetFloat("_Outline",1f);
+                    target.myRend.material.SetColor("_OutlineColor", Solider.bulletproofColor);
                 }
                 else {
                     target.myRend.material.SetFloat("_Outline", 0f);
@@ -734,6 +741,16 @@ namespace TheOtherRoles.Patches {
             }
         }
 
+        public static void soliderSetTarget()
+        {
+            if (Solider.solider == null || PlayerControl.LocalPlayer != Solider.solider || Solider.solider.Data.IsDead) return;
+            if (Solider.usedBulletProof && Solider.usedGun == false)
+            {
+                Solider.target = setTarget();
+                setPlayerOutline(Solider.target, Solider.color);
+            }
+        }
+
         static void pursuerSetTarget() {
             if (Pursuer.pursuer == null || Pursuer.pursuer != PlayerControl.LocalPlayer) return;
             Pursuer.target = setTarget();
@@ -827,6 +844,8 @@ namespace TheOtherRoles.Patches {
                 morphlingAndCamouflagerUpdate();
                 // Lawyer
                 lawyerUpdate();
+                //Solider
+                soliderSetTarget();
                 // Pursuer
                 pursuerSetTarget();
                 // Witch

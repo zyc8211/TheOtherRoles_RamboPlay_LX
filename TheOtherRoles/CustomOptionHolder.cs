@@ -23,6 +23,8 @@ namespace TheOtherRoles {
         public static CustomOption impostorRolesCountMin;
         public static CustomOption impostorRolesCountMax;
 
+        public static CustomOption soliderSpawnRate;
+
         public static CustomOption mafiaSpawnRate;
         public static CustomOption janitorCooldown;
 
@@ -366,10 +368,12 @@ namespace TheOtherRoles {
             pursuerBlanksNumber = CustomOption.Create(357, "起诉人空包弹数量", 5f, 1f, 20f, 1f, lawyerSpawnRate);
 
             shifterSpawnRate = CustomOption.Create(70, cs(Shifter.color, "交换师生成概率"), rates, null, true);
-            shifterShiftsModifiers = CustomOption.Create(71, "交换师交换后能力增强", false, shifterSpawnRate);
+            shifterShiftsModifiers = CustomOption.Create(71, "交换能力增强(可交换医生护盾和恋人)", false, shifterSpawnRate);
 
             mayorSpawnRate = CustomOption.Create(80, cs(Mayor.color, "市长生成概率"), rates, null, true);
 
+            soliderSpawnRate = CustomOption.Create(190, cs(Solider.color, "士兵生成概率"), rates, null, true);
+            
             engineerSpawnRate = CustomOption.Create(90, cs(Engineer.color, "工程师生成概率"), rates, null, true);
             engineerNumberOfFixes = CustomOption.Create(91, "工程师可维修破坏次数", 1f, 1f, 3f, 1f, engineerSpawnRate);
             engineerHighlightForImpostors = CustomOption.Create(92, "伪装者能看见工程师在管道中", true, engineerSpawnRate);
@@ -383,7 +387,7 @@ namespace TheOtherRoles {
             deputyHandcuffCooldown = CustomOption.Create(105, "手铐冷却", 30f, 10f, 60f, 2.5f, deputySpawnRate);
             deputyHandcuffDuration = CustomOption.Create(106, "手铐持续时间", 15f, 5f, 60f, 2.5f, deputySpawnRate);
             deputyKnowsSheriff = CustomOption.Create(107, "警长和警员互相可知身份 ", true, deputySpawnRate);
-            deputyGetsPromoted = CustomOption.Create(108, "警员在警长死后可升职为警长", new string[] { "Off", "On (Immediately)", "On (After Meeting)" }, deputySpawnRate);
+            deputyGetsPromoted = CustomOption.Create(108, "警员在警长死后可升职为警长", new string[] { "关闭", "开启 (立即生效)", "开启 (会议后生效)" }, deputySpawnRate);
             deputyKeepsHandcuffs = CustomOption.Create(109, "警员升职后保留手铐", true, deputyGetsPromoted);
 
             lighterSpawnRate = CustomOption.Create(110, cs(Lighter.color, "秉烛者生成概率"), rates, null, true);

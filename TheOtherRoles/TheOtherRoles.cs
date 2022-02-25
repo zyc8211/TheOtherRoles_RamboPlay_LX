@@ -22,6 +22,7 @@ namespace TheOtherRoles
         public static void clearAndReloadRoles() {
             Jester.clearAndReload();
             Mayor.clearAndReload();
+            Solider.clearAndReload();
             Engineer.clearAndReload();
             Sheriff.clearAndReload();
             Deputy.clearAndReload();
@@ -86,6 +87,24 @@ namespace TheOtherRoles
                 mayor = null;
             }
         }
+        
+        public static class Solider {
+            public static PlayerControl solider;
+            public static PlayerControl target;
+            public static float cooldown = 15f;
+            public static Color color = new Color32(105, 139, 34, byte.MaxValue);
+            public static bool usedBulletProof = false;
+            public static bool usedGun = false;
+            public static Color bulletproofColor = new Color32(255, 100, 100, byte.MaxValue);
+
+            public static void clearAndReload() {
+                solider = null;
+                target = null;
+                usedBulletProof = false;
+                usedGun = false;
+                cooldown = 15f;
+            }
+        }
 
         public static class Engineer {
             public static PlayerControl engineer;
@@ -132,7 +151,7 @@ namespace TheOtherRoles
         public static class Janitor {
             public static PlayerControl janitor;
             public static Color color = Palette.ImpostorRed;
-
+            
             public static float cooldown = 30f;
 
             private static Sprite buttonSprite;

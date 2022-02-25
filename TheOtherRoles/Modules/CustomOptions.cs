@@ -55,7 +55,7 @@ namespace TheOtherRoles {
         }
 
         public static CustomOption Create(int id, string name, bool defaultValue, CustomOption parent = null, bool isHeader = false) {
-            return new CustomOption(id, name, new string[]{"Off", "On"}, defaultValue ? "On" : "Off", parent, isHeader);
+            return new CustomOption(id, name, new string[]{"关闭", "开启"}, defaultValue ? "开启" : "关闭", parent, isHeader);
         }
 
         // Static behaviour
