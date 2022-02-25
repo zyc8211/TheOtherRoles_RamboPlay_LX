@@ -16,7 +16,7 @@ namespace TheOtherRoles
     enum RoleId {
         Jester,
         Mayor,
-        Soldier,
+        Solider,
         Engineer,
         Sheriff,
         Deputy,
@@ -80,7 +80,8 @@ namespace TheOtherRoles
         EngineerFixLights = 91,
         EngineerUsedRepair,
         CleanBody,
-        SoldierLoseBulletproof,
+        SoliderLoseBulletproof,
+        SoliderLoseGun,
         MedicSetShielded,
         ShieldedMurderAttempt,
         TimeMasterShield,
@@ -162,8 +163,8 @@ namespace TheOtherRoles
                     case RoleId.Mayor:
                         Mayor.mayor = player;
                         break;
-                    case RoleId.Soldier:
-                        Soldier.soldier = player;
+                    case RoleId.Solider:
+                        Solider.solider = player;
                         break;
                     case RoleId.Engineer:
                         Engineer.engineer = player;
@@ -384,6 +385,18 @@ namespace TheOtherRoles
             })));
         }
 
+        public static void soliderLoseBulletproof()
+        {
+            Solider.usedBulletProof = true;
+            Solider.usedGun = false;
+        }
+        
+        public static void soliderLoseGun()
+        {
+            Solider.usedBulletProof = true;
+            Solider.usedGun = true;
+        }
+
         public static void medicSetShielded(byte shieldedId) {
             Medic.usedShield = true;
             Medic.shielded = Helpers.playerById(shieldedId);
@@ -445,8 +458,8 @@ namespace TheOtherRoles
             // Shift role
             if (Mayor.mayor != null && Mayor.mayor == player)
                 Mayor.mayor = oldShifter;
-            if (Soldier.soldier != null && Soldier.soldier == player)
-                Soldier.soldier = oldShifter;
+            if (Solider.solider != null && Solider.solider == player)
+                Solider.solider = oldShifter;
             if (Engineer.engineer != null && Engineer.engineer == player)
                 Engineer.engineer = oldShifter;
             if (Sheriff.sheriff != null && Sheriff.sheriff == player) {
@@ -592,7 +605,7 @@ namespace TheOtherRoles
 
             // Crewmate roles
             if (player == Mayor.mayor) Mayor.clearAndReload();
-            if (player == Soldier.soldier) Soldier.clearAndReload();
+            if (player == Solider.solider) Solider.clearAndReload();
             if (player == Engineer.engineer) Engineer.clearAndReload();
             if (player == Sheriff.sheriff) Sheriff.clearAndReload();
             if (player == Deputy.deputy) Deputy.clearAndReload();
@@ -901,6 +914,12 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.TimeMasterShield:
                     RPCProcedure.timeMasterShield();
+                    break;
+                case (byte)CustomRPC.SoliderLoseBulletproof:
+                    RPCProcedure.soliderLoseBulletproof();
+                    break;
+                case (byte)CustomRPC.SoliderLoseGun:
+                    RPCProcedure.soliderLoseGun();
                     break;
                 case (byte)CustomRPC.MedicSetShielded:
                     RPCProcedure.medicSetShielded(reader.ReadByte());

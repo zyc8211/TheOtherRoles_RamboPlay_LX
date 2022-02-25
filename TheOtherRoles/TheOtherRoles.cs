@@ -22,7 +22,7 @@ namespace TheOtherRoles
         public static void clearAndReloadRoles() {
             Jester.clearAndReload();
             Mayor.clearAndReload();
-            Soldier.clearAndReload();
+            Solider.clearAndReload();
             Engineer.clearAndReload();
             Sheriff.clearAndReload();
             Deputy.clearAndReload();
@@ -88,8 +88,8 @@ namespace TheOtherRoles
             }
         }
         
-        public static class Soldier {
-            public static PlayerControl soldier;
+        public static class Solider {
+            public static PlayerControl solider;
             public static PlayerControl target;
             public static float cooldown = 15f;
             public static Color color = new Color32(105, 139, 34, byte.MaxValue);
@@ -98,7 +98,7 @@ namespace TheOtherRoles
             public static Color bulletproofColor = new Color32(255, 100, 100, byte.MaxValue);
 
             public static void clearAndReload() {
-                soldier = null;
+                solider = null;
                 target = null;
                 usedBulletProof = false;
                 usedGun = false;

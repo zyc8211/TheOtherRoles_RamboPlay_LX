@@ -58,7 +58,7 @@ namespace TheOtherRoles
         public static void setCustomButtonCooldowns() {
             engineerRepairButton.MaxTimer = 0f;
             janitorCleanButton.MaxTimer = Janitor.cooldown;
-            soliderKillButton.MaxTimer = Soldier.cooldown;
+            soliderKillButton.MaxTimer = Solider.cooldown;
             sheriffKillButton.MaxTimer = Sheriff.cooldown;
             deputyHandcuffButton.MaxTimer = Deputy.handcuffCooldown;
             timeMasterShieldButton.MaxTimer = TimeMaster.cooldown;
@@ -266,26 +266,26 @@ namespace TheOtherRoles
             // Solider Kill
             soliderKillButton = new CustomButton(
                 () => {
-                    MurderAttemptResult murderAttemptResult = Helpers.checkMuderAttempt(Soldier.soldier, Soldier.target);
-                    if (murderAttemptResult == MurderAttemptResult.SuppressKill) return;
-
+                    MurderAttemptResult murderAttemptResult = Helpers.checkMuderAttempt(Solider.solider, Solider.target);
                     if (murderAttemptResult == MurderAttemptResult.PerformKill) {
                         byte targetId = 0;
-                        targetId = Soldier.target.PlayerId;
+                        targetId = Solider.target.PlayerId;
 
                         MessageWriter killWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.UncheckedMurderPlayer, Hazel.SendOption.Reliable, -1);
-                        killWriter.Write(Sheriff.sheriff.Data.PlayerId);
+                        killWriter.Write(Solider.solider.Data.PlayerId);
                         killWriter.Write(targetId);
                         killWriter.Write(byte.MaxValue);
                         AmongUsClient.Instance.FinishRpcImmediately(killWriter);
-                        RPCProcedure.uncheckedMurderPlayer(Soldier.soldier.Data.PlayerId, targetId, Byte.MaxValue);
+                        RPCProcedure.uncheckedMurderPlayer(Solider.solider.Data.PlayerId, targetId, Byte.MaxValue);
                     }
 
-                    Soldier.target = null;
-                    Soldier.usedGun = true;
+                    Solider.target = null;
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SoliderLoseGun, SendOption.Reliable, -1);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    RPCProcedure.soliderLoseGun();
                 },
-                () => { return Soldier.soldier != null && Soldier.soldier == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead && Soldier.usedBulletProof == true && Soldier.usedGun == false; },
-                () => { return Soldier.target && PlayerControl.LocalPlayer.CanMove; },
+                () => { return Solider.solider != null && Solider.solider == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead && Solider.usedBulletProof && !Solider.usedGun; },
+                () => { return Solider.target && PlayerControl.LocalPlayer.CanMove && Solider.usedGun == false && Solider.usedBulletProof; },
                 () => { soliderKillButton.Timer = soliderKillButton.MaxTimer;},
                 __instance.KillButton.graphic.sprite,
                 new Vector3(0f, 1f, 0),

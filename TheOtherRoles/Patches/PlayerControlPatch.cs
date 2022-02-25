@@ -9,6 +9,7 @@ using static TheOtherRoles.TheOtherRoles;
 using static TheOtherRoles.GameHistory;
 using TheOtherRoles.Objects;
 using UnityEngine;
+using Logger = BepInEx.Logging.Logger;
 
 namespace TheOtherRoles.Patches {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
@@ -71,14 +72,14 @@ namespace TheOtherRoles.Patches {
                     target.myRend.material.SetFloat("_Outline", 1f);
                     target.myRend.material.SetColor("_OutlineColor", Medic.shieldedColor);
                 }
+                else if(PlayerControl.LocalPlayer == Solider.solider && target == Solider.solider && !Solider.usedBulletProof)
+                {
+                    TheOtherRolesPlugin.Logger.LogMessage("Solider.usedBulletProof:"+Solider.usedBulletProof);
+                    target.myRend.material.SetFloat("_Outline",1f);
+                    target.myRend.material.SetColor("_OutlineColor", Solider.bulletproofColor);
+                }
                 else {
                     target.myRend.material.SetFloat("_Outline", 0f);
-                }
-
-                if (PlayerControl.LocalPlayer == Soldier.soldier && !Soldier.usedBulletProof)
-                {
-                    target.myRend.material.SetFloat("_Outline",1f);
-                    target.myRend.material.SetColor("_OutlineColor", Soldier.bulletproofColor);
                 }
             }
         }
@@ -740,13 +741,13 @@ namespace TheOtherRoles.Patches {
             }
         }
 
-        public static void soldierSetTarget()
+        public static void soliderSetTarget()
         {
-            if (Soldier.soldier == null || PlayerControl.LocalPlayer != Soldier.soldier || Soldier.soldier.Data.IsDead) return;
-            if (Soldier.usedBulletProof == true && Soldier.usedGun == false)
+            if (Solider.solider == null || PlayerControl.LocalPlayer != Solider.solider || Solider.solider.Data.IsDead) return;
+            if (Solider.usedBulletProof && Solider.usedGun == false)
             {
-                Soldier.target = setTarget();
-                setPlayerOutline(Soldier.target, Soldier.color);
+                Solider.target = setTarget();
+                setPlayerOutline(Solider.target, Solider.color);
             }
         }
 
@@ -843,8 +844,8 @@ namespace TheOtherRoles.Patches {
                 morphlingAndCamouflagerUpdate();
                 // Lawyer
                 lawyerUpdate();
-                //Soldier
-                soldierSetTarget();
+                //Solider
+                soliderSetTarget();
                 // Pursuer
                 pursuerSetTarget();
                 // Witch
