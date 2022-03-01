@@ -1,6 +1,7 @@
 
 此项目为The Other Roles模组的汉化项目
-目前支持版本：3.4.3
+目前支持版本：3.4.4
+感谢岸天提供的汉化Sprite资源
 ![eisbison banner](./Images/TOR_logo.png)
 <p align="center"><a href="https://github.com/Eisbison/TheOtherRoles/releases/"><img src="https://badgen.net/github/release/eisbison/theotherroles"></a></p>
 
@@ -144,6 +145,7 @@ docker run -d -p 22023:22023/udp --env IMPOSTOR_AntiCheat__Enabled=false --env I
 [Ottomated](https://twitter.com/ottomated_) - 化形者、告密者以及伪装者的创意原本是由**Ottomated**提供的\
 [Crowded-Mod](https://github.com/CrowdedMods/CrowdedMod) - 超过10位玩家的游戏大厅需要归功于**Crowded Mod Team**\
 [Goose-Goose-Duck](https://store.steampowered.com/app/1568590/Goose_Goose_Duck) - 秃鹫职业的创意原本是由**Slushygoose**提供的
+感谢岸天提供的汉化Sprite资源
 
 # Settings
 The mod adds a few new settings to Among Us (in addition to the role settings):
