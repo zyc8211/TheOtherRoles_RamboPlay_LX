@@ -24,6 +24,7 @@ namespace TheOtherRoles {
         public static CustomOption impostorRolesCountMax;
 
         public static CustomOption soliderSpawnRate;
+        public static CustomOption bulletProofDisappearLatency;
 
         public static CustomOption mafiaSpawnRate;
         public static CustomOption janitorCooldown;
@@ -373,6 +374,7 @@ namespace TheOtherRoles {
             mayorSpawnRate = CustomOption.Create(80, cs(Mayor.color, "市长生成概率"), rates, null, true);
 
             soliderSpawnRate = CustomOption.Create(190, cs(Solider.color, "士兵生成概率"), rates, null, true);
+            bulletProofDisappearLatency = CustomOption.Create(191,"防弹衣失效延迟",10.0f,5.0f,30.0f,5.0f,soliderSpawnRate);
             
             engineerSpawnRate = CustomOption.Create(90, cs(Engineer.color, "工程师生成概率"), rates, null, true);
             engineerNumberOfFixes = CustomOption.Create(91, "工程师可维修破坏次数", 1f, 1f, 3f, 1f, engineerSpawnRate);

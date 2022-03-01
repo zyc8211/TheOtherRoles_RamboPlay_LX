@@ -308,8 +308,9 @@ namespace TheOtherRoles.Patches {
                             UnityEngine.Object.Destroy(container.gameObject);
                             
                             MessageWriter murderAttemptWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SoliderLoseBulletproof, SendOption.Reliable, -1);
+                            murderAttemptWriter.Write(Byte.MaxValue);
                             AmongUsClient.Instance.FinishRpcImmediately(murderAttemptWriter);
-                            RPCProcedure.soliderLoseBulletproof();
+                            RPCProcedure.soliderLoseBulletproof(Byte.MaxValue);
                             return;
                         }
 

@@ -91,9 +91,11 @@ namespace TheOtherRoles
         public static class Solider {
             public static PlayerControl solider;
             public static PlayerControl target;
+            public static float bulletProofDisappearLatency = 5.0f;
             public static float cooldown = 15f;
             public static Color color = new Color32(105, 139, 34, byte.MaxValue);
             public static bool usedBulletProof = false;
+            public static bool isInLatency = false;
             public static bool usedGun = false;
             public static Color bulletproofColor = new Color32(255, 100, 100, byte.MaxValue);
 
@@ -102,7 +104,9 @@ namespace TheOtherRoles
                 target = null;
                 usedBulletProof = false;
                 usedGun = false;
+                isInLatency = false;
                 cooldown = 15f;
+                bulletProofDisappearLatency = CustomOptionHolder.bulletProofDisappearLatency.getFloat();
             }
         }
 

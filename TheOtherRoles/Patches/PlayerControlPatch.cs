@@ -72,9 +72,8 @@ namespace TheOtherRoles.Patches {
                     target.myRend.material.SetFloat("_Outline", 1f);
                     target.myRend.material.SetColor("_OutlineColor", Medic.shieldedColor);
                 }
-                else if(PlayerControl.LocalPlayer == Solider.solider && target == Solider.solider && !Solider.usedBulletProof)
-                {
-                    TheOtherRolesPlugin.Logger.LogMessage("Solider.usedBulletProof:"+Solider.usedBulletProof);
+                else if(PlayerControl.LocalPlayer == Solider.solider && target == Solider.solider && (!Solider.usedBulletProof || Solider.usedBulletProof && Solider.isInLatency))
+                { 
                     target.myRend.material.SetFloat("_Outline",1f);
                     target.myRend.material.SetColor("_OutlineColor", Solider.bulletproofColor);
                 }
@@ -741,13 +740,27 @@ namespace TheOtherRoles.Patches {
             }
         }
 
-        public static void soliderSetTarget()
+        static void soliderSetTarget()
         {
             if (Solider.solider == null || PlayerControl.LocalPlayer != Solider.solider || Solider.solider.Data.IsDead) return;
-            if (Solider.usedBulletProof && Solider.usedGun == false)
+            if (Solider.usedBulletProof && !Solider.isInLatency && Solider.usedGun == false)
             {
                 Solider.target = setTarget();
                 setPlayerOutline(Solider.target, Solider.color);
+            }
+        }
+
+        static void soliderUpdate()
+        {
+            if (Solider.solider != null && PlayerControl.LocalPlayer == Solider.solider && !Solider.solider.Data.IsDead)
+            {
+                if (Solider.isInLatency)
+                    Solider.bulletProofDisappearLatency -= Time.fixedDeltaTime;
+
+                if (Solider.bulletProofDisappearLatency <= 0f)
+                {
+                    Solider.isInLatency = false;
+                }
             }
         }
 
@@ -846,6 +859,7 @@ namespace TheOtherRoles.Patches {
                 lawyerUpdate();
                 //Solider
                 soliderSetTarget();
+                soliderUpdate();
                 // Pursuer
                 pursuerSetTarget();
                 // Witch

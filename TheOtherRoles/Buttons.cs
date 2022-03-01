@@ -284,8 +284,8 @@ namespace TheOtherRoles
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPCProcedure.soliderLoseGun();
                 },
-                () => { return Solider.solider != null && Solider.solider == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead && Solider.usedBulletProof && !Solider.usedGun; },
-                () => { return Solider.target && PlayerControl.LocalPlayer.CanMove && Solider.usedGun == false && Solider.usedBulletProof; },
+                () => { return Solider.solider != null && Solider.solider == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead && Solider.usedBulletProof && !Solider.isInLatency && !Solider.usedGun; },
+                () => { return Solider.target && PlayerControl.LocalPlayer.CanMove && Solider.usedGun == false && Solider.usedBulletProof && !Solider.isInLatency; },
                 () => { soliderKillButton.Timer = soliderKillButton.MaxTimer;},
                 __instance.KillButton.graphic.sprite,
                 new Vector3(0f, 1f, 0),

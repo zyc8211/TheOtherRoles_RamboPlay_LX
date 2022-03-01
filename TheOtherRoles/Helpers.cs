@@ -300,6 +300,7 @@ namespace TheOtherRoles {
             else if (Solider.solider != null && target == Solider.solider && Solider.usedBulletProof == false)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)CustomRPC.SoliderLoseBulletproof, SendOption.Reliable, -1);
+                writer.Write((byte)0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.soliderLoseBulletproof();
                 return MurderAttemptResult.BlankKill;

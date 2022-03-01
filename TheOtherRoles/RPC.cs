@@ -385,10 +385,17 @@ namespace TheOtherRoles
             })));
         }
 
-        public static void soliderLoseBulletproof()
+        public static void soliderLoseBulletproof(byte inMeeting = 0)
         {
             Solider.usedBulletProof = true;
+            Solider.isInLatency = true;
             Solider.usedGun = false;
+
+            if (inMeeting != 0)
+            {
+                Solider.bulletProofDisappearLatency = 0.0f;
+                Solider.isInLatency = false;
+            }
         }
         
         public static void soliderLoseGun()
@@ -916,7 +923,8 @@ namespace TheOtherRoles
                     RPCProcedure.timeMasterShield();
                     break;
                 case (byte)CustomRPC.SoliderLoseBulletproof:
-                    RPCProcedure.soliderLoseBulletproof();
+                    byte inMeeting = reader.ReadByte();
+                    RPCProcedure.soliderLoseBulletproof(inMeeting);
                     break;
                 case (byte)CustomRPC.SoliderLoseGun:
                     RPCProcedure.soliderLoseGun();
