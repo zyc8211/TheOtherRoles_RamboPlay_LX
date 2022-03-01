@@ -301,7 +301,7 @@ namespace TheOtherRoles.Patches {
                 __instance.BackgroundBar.material.SetColor("_Color", Lovers.color);
             }
             else if (AdditionalTempData.winCondition == WinCondition.JackalWin) {
-                textRenderer.text = "豺狼团队胜利s";
+                textRenderer.text = "豺狼团队胜利";
                 textRenderer.color = Jackal.color;
             }
             else if (AdditionalTempData.winCondition == WinCondition.MiniLose) {
