@@ -241,6 +241,8 @@ namespace TheOtherRoles {
         public static CustomOption dynamicMapEnableDleks;
         public static CustomOption dynamicMapEnableAirShip;
 
+        public static CustomOption vigilanteSpawnRate;
+        public static CustomOption vigilanteCooldown;
 
         internal static Dictionary<byte, byte[]> blockedRolePairings = new Dictionary<byte, byte[]>();
 
@@ -471,6 +473,9 @@ namespace TheOtherRoles {
             mediumDuration = CustomOption.Create(362, "通灵师提问持续时间", 3f, 0f, 15f, 1f, mediumSpawnRate);
             mediumOneTimeUse = CustomOption.Create(363, "每个灵魂只可被提问一次", false, mediumSpawnRate);
 
+            vigilanteSpawnRate = CustomOption.Create(900,cs(Vigilante.color,"义警与线人生成概率"),rates,null,true);
+            vigilanteCooldown = CustomOption.Create(901, "义警击杀冷却", 30f, 10f, 60f, 2.5f, vigilanteSpawnRate);
+            
             // Other options
             maxNumberOfMeetings = CustomOption.Create(3, "会议总数（市长会议除外）", 10, 0, 15, 1, null, true);
             blockSkippingInEmergencyMeetings = CustomOption.Create(4, "紧急会议中禁止跳过", false);

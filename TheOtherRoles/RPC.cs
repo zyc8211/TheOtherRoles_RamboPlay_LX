@@ -56,6 +56,9 @@ namespace TheOtherRoles
         Lawyer,
         Pursuer,
         Witch,
+        Vigilante,
+        Informer,
+        Revenger,
         Crewmate,
         Impostor
     }
@@ -113,6 +116,10 @@ namespace TheOtherRoles
         LawyerSetTarget,
         LawyerPromotesToPursuer,
         SetBlanked,
+        VigilanteAndInformerWin,
+        InformerSetTarget,
+        BecomeRevenger,
+        ReverngerWin,
     }
 
     public static class RPCProcedure {
@@ -783,6 +790,30 @@ namespace TheOtherRoles
                     if (playerInfo != null) playerInfo.text = "";
             }
         }
+        
+        public static void vigilanteAndInformerWin() 
+        {
+        }
+        public static void informerSetTarget(byte playerId) {
+            Informer.target = Helpers.playerById(playerId);
+        }
+        public static void becomeRevenger()
+        {
+            PlayerControl player = PlayerControl.LocalPlayer;
+            if (player == Vigilante.vigilante && !Vigilante.targetElimated)
+            {
+                Revenger.revenger = player;
+                Vigilante.clearAndReload();
+            }
+            else if (player == Informer.informer && !Informer.targetElimated)
+            {
+                Revenger.revenger = player;
+                Informer.clearAndReload();
+            }
+        }
+        public static void revengerWin() 
+        {
+        }
 
         public static void guesserShoot(byte killerId, byte dyingTargetId, byte guessedTargetId, byte guessedRoleId) {
             PlayerControl dyingTarget = Helpers.playerById(dyingTargetId);
@@ -1017,6 +1048,18 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.LawyerPromotesToPursuer:
                     RPCProcedure.lawyerPromotesToPursuer();
+                    break;
+                case (byte)CustomRPC.VigilanteAndInformerWin:
+                    RPCProcedure.vigilanteAndInformerWin();
+                    break;
+                case (byte)CustomRPC.InformerSetTarget:
+                    RPCProcedure.informerSetTarget(reader.ReadByte());
+                    break;
+                case (byte)CustomRPC.BecomeRevenger:
+                    RPCProcedure.becomeRevenger();
+                    break;
+                case (byte)CustomRPC.ReverngerWin:
+                    RPCProcedure.revengerWin();
                     break;
                 case (byte)CustomRPC.SetBlanked:
                     var pid = reader.ReadByte();

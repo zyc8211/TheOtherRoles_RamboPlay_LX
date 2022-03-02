@@ -5,6 +5,7 @@ using System.Linq;
 using UnhollowerBaseLib;
 using UnityEngine;
 using System;
+using Rewired;
 using static TheOtherRoles.TheOtherRoles;
 
 namespace TheOtherRoles.Patches {
@@ -145,6 +146,14 @@ namespace TheOtherRoles.Patches {
                     }
                 }
             }
+            
+            // Assign Vigilante and Informer
+            if (rnd.Next(1, 101) <= CustomOptionHolder.vigilanteSpawnRate.getSelection() * 10 && data.maxNeutralRoles >= 2 && data.crewmates.Count >= 2)
+            {
+                setRoleToRandomPlayer((byte)RoleId.Vigilante, data.crewmates);
+                setRoleToRandomPlayer((byte)RoleId.Informer, data.crewmates);
+                data.maxNeutralRoles -= 2;
+            }
 
             // Assign Mafia
             if (data.impostors.Count >= 3 && data.maxImpostorRoles >= 3 && (rnd.Next(1, 101) <= CustomOptionHolder.mafiaSpawnRate.getSelection() * 10)) {
@@ -170,7 +179,6 @@ namespace TheOtherRoles.Patches {
                 CustomOptionHolder.guesserSpawnBothRate.getSelection() == 0) {
                     if (isEvilGuesser) data.impSettings.Add((byte)RoleId.EvilGuesser, CustomOptionHolder.guesserSpawnRate.getSelection());
                     else data.crewSettings.Add((byte)RoleId.NiceGuesser, CustomOptionHolder.guesserSpawnRate.getSelection());
-
             }
 
             // Assign Sheriff
@@ -178,8 +186,7 @@ namespace TheOtherRoles.Patches {
                 CustomOptionHolder.sheriffSpawnRate.getSelection() == 10) ||
                 CustomOptionHolder.deputySpawnRate.getSelection() == 0) 
                     data.crewSettings.Add((byte)RoleId.Sheriff, CustomOptionHolder.sheriffSpawnRate.getSelection());
-
-
+            
             crewValues = data.crewSettings.Values.ToList().Sum();
             impValues = data.impSettings.Values.ToList().Sum();
         }
@@ -374,6 +381,25 @@ namespace TheOtherRoles.Patches {
                     writer.Write(target.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPCProcedure.lawyerSetTarget(target.PlayerId);
+                }
+            }
+            // Set Informer Target
+            if (Informer.informer != null)
+            {
+                var possibleTargets = new List<PlayerControl>();
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if(!p.Data.IsDead && !p.Data.Disconnected && Vigilante.vigilante != p && Informer.informer != p)
+                        possibleTargets.Add(p);
+                    if (possibleTargets.Count == 0) {
+                        
+                    } else {
+                        var target = possibleTargets[TheOtherRoles.rnd.Next(0, possibleTargets.Count)];
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.InformerSetTarget, Hazel.SendOption.Reliable, -1);
+                        writer.Write(target.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPCProcedure.informerSetTarget(target.PlayerId);
+                    }
                 }
             }
         }

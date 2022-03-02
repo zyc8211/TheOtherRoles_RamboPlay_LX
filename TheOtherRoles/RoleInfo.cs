@@ -69,6 +69,10 @@ namespace TheOtherRoles
         public static RoleInfo crewmate = new RoleInfo("船员", Color.white, "找到伪装者", "找到伪装者", RoleId.Crewmate);
         public static RoleInfo lover = new RoleInfo("恋人", Lovers.color, $"你们相恋了", $"你们相恋了", RoleId.Lover);
         public static RoleInfo witch = new RoleInfo("女巫", Witch.color, "对你的敌人施咒", "对你的敌人施咒", RoleId.Witch);
+        
+        public static RoleInfo vigilante = new RoleInfo("义警", Vigilante.color, "根据线人的提示杀死目标", "杀死目标", RoleId.Vigilante);
+        public static RoleInfo informer = new RoleInfo("线人", Witch.color, "通知你的义警目标是谁", "通知义警", RoleId.Informer);
+        public static RoleInfo revenger = new RoleInfo("复仇者", Witch.color, "杀光他们", "杀死所有人", RoleId.Revenger);
 
         public static List<RoleInfo> allRoleInfos = new List<RoleInfo>() {
             impostor,
@@ -115,7 +119,10 @@ namespace TheOtherRoles
             spy,
             securityGuard,
             bait,
-            medium
+            medium,
+            vigilante,
+            informer,
+            revenger
         };
 
         public static List<RoleInfo> getRoleInfoForPlayer(PlayerControl p) {

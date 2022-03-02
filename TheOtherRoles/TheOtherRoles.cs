@@ -1435,4 +1435,50 @@ namespace TheOtherRoles
             witchVoteSavesTargets = CustomOptionHolder.witchVoteSavesTargets.getBool();
         }
     }
+
+    public static class Vigilante
+    {
+        public static PlayerControl vigilante;
+        public static Color color = Color.yellow;
+        public static PlayerControl informer;
+        public static bool targetElimated = false;
+        
+        public static float cooldown = 30f;
+        
+        public static void clearAndReload() {
+            vigilante = null;
+            informer = null;
+            targetElimated = false;
+            cooldown = CustomOptionHolder.vigilanteCooldown.getFloat();
+        }
+    }
+    
+    public static class Informer
+    {
+        public static PlayerControl informer;
+        public static Color color = Color.yellow;
+        public static PlayerControl vigilante;
+        public static PlayerControl target;
+        public static bool targetElimated = false;
+        public static void clearAndReload() {
+            vigilante = null;
+            informer = null;
+            target = null;
+            targetElimated = false;
+        }
+    }
+    
+    public static class Revenger
+    {
+        public static PlayerControl revenger;
+        public static Color color = Color.yellow;
+
+        public static float cooldown = 30f;
+        
+        public static void clearAndReload()
+        {
+            revenger = null;
+            cooldown = CustomOptionHolder.vigilanteCooldown.getFloat();
+        }
+    }
 }
