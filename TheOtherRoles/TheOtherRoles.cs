@@ -1440,14 +1440,14 @@ namespace TheOtherRoles
     {
         public static PlayerControl vigilante;
         public static Color color = Color.yellow;
-        public static PlayerControl informer;
+        public static PlayerControl target;
         public static bool targetElimated = false;
         
         public static float cooldown = 30f;
         
         public static void clearAndReload() {
             vigilante = null;
-            informer = null;
+            target = null;
             targetElimated = false;
             cooldown = CustomOptionHolder.vigilanteCooldown.getFloat();
         }
@@ -1457,11 +1457,9 @@ namespace TheOtherRoles
     {
         public static PlayerControl informer;
         public static Color color = Color.yellow;
-        public static PlayerControl vigilante;
         public static PlayerControl target;
         public static bool targetElimated = false;
         public static void clearAndReload() {
-            vigilante = null;
             informer = null;
             target = null;
             targetElimated = false;
@@ -1471,6 +1469,7 @@ namespace TheOtherRoles
     public static class Revenger
     {
         public static PlayerControl revenger;
+        public static PlayerControl target;
         public static Color color = Color.yellow;
 
         public static float cooldown = 30f;
@@ -1478,6 +1477,7 @@ namespace TheOtherRoles
         public static void clearAndReload()
         {
             revenger = null;
+            target = null;
             cooldown = CustomOptionHolder.vigilanteCooldown.getFloat();
         }
     }

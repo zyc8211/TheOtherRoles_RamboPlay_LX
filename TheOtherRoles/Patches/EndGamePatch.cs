@@ -250,6 +250,17 @@ namespace TheOtherRoles.Patches {
                 }
             }
 
+            // Possible replace winner : Vigilante and Informer
+            if ((Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead && Vigilante.targetElimated) ||
+                (Informer.informer != null && !Informer.informer.Data.IsDead && Informer.targetElimated))
+            {
+                TempData.winners.Clear();
+                TempData.winners.Add(new WinningPlayerData(Vigilante.vigilante.Data));
+                TempData.winners.Add(new WinningPlayerData(Informer.informer.Data));
+                AdditionalTempData.winCondition = WinCondition.VigilanteAndInformerWin;
+                AdditionalTempData.additionalWinConditions.Clear();
+            }
+            
             // Possible Additional winner: Pursuer
             if (Pursuer.pursuer != null && !Pursuer.pursuer.Data.IsDead && !Pursuer.notAckedExiled) {
                 if (!TempData.winners.ToArray().Any(x => x.PlayerName == Pursuer.pursuer.Data.PlayerName))
@@ -412,7 +423,6 @@ namespace TheOtherRoles.Patches {
             if (CheckAndEndGameForVultureWin(__instance)) return false;
             if (CheckAndEndGameForSabotageWin(__instance)) return false;
             if (CheckAndEndGameForTaskWin(__instance)) return false;
-            if (CheckAndEndGameForVigilanteAndInformerWin(__instance, statistics)) return false;
             if (CheckAndEndGameForRevengerWin(__instance, statistics)) return false;
             if (CheckAndEndGameForLoverWin(__instance, statistics)) return false;
             if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
@@ -492,17 +502,6 @@ namespace TheOtherRoles.Patches {
             return false;
         }
 
-        private static bool CheckAndEndGameForVigilanteAndInformerWin(ShipStatus __instance, PlayerStatistics statistics)
-        {
-            if (statistics.VigilanteAndInformerAlive != 0 && (Vigilante.targetElimated || Informer.targetElimated))
-            {
-                __instance.enabled = false;
-                ShipStatus.RpcEndGame((GameOverReason)CustomGameOverReason.VigilanteAndImformerWin, false);
-                return true;
-            }
-            return false;
-        }
-        
         private static bool CheckAndEndGameForRevengerWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TotalAlive == 1 && statistics.RevengerAlive)
@@ -583,7 +582,6 @@ namespace TheOtherRoles.Patches {
         public int TeamImpostorsAlive {get;set;}
         public int TeamJackalAlive {get;set;}
         public int TeamLoversAlive {get;set;}
-        public int VigilanteAndInformerAlive { get; set; }
         public int TotalAlive {get;set;}
         public bool TeamImpostorHasAliveLover {get;set;}
         public bool TeamJackalHasAliveLover {get;set;}
@@ -612,7 +610,6 @@ namespace TheOtherRoles.Patches {
             int numImpostorsAlive = 0;
             int numLoversAlive = 0;
             int numTotalAlive = 0;
-            int numVigilanteAndInformerAlive = 0;
             bool impLover = false;
             bool jackalLover = false;
             bool revengerAlive = false;
@@ -630,9 +627,6 @@ namespace TheOtherRoles.Patches {
                         if (lover) numLoversAlive++;
 
                         revengerAlive = isRevenger(playerInfo);
-
-                        bool VOrIAlive = isVigilanteOrInformer(playerInfo);
-                        if (VOrIAlive) numVigilanteAndInformerAlive++;
 
                         if (playerInfo.Role.IsImpostor) {
                             numImpostorsAlive++;
@@ -653,7 +647,6 @@ namespace TheOtherRoles.Patches {
             TeamJackalAlive = numJackalAlive;
             TeamImpostorsAlive = numImpostorsAlive;
             TeamLoversAlive = numLoversAlive;
-            VigilanteAndInformerAlive = numVigilanteAndInformerAlive;
             TotalAlive = numTotalAlive;
             TeamImpostorHasAliveLover = impLover;
             TeamJackalHasAliveLover = jackalLover;

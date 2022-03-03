@@ -116,10 +116,9 @@ namespace TheOtherRoles
         LawyerSetTarget,
         LawyerPromotesToPursuer,
         SetBlanked,
-        VigilanteAndInformerWin,
+        VigilanteAndInformerDie,
         InformerSetTarget,
-        BecomeRevenger,
-        ReverngerWin,
+        BecomeRevenger
     }
 
     public static class RPCProcedure {
@@ -449,7 +448,7 @@ namespace TheOtherRoles
             Shifter.clearAndReload();
 
             // Suicide (exile) when impostor or impostor variants
-            if (player.Data.Role.IsImpostor || player == Jackal.jackal || player == Sidekick.sidekick || Jackal.formerJackals.Contains(player) || player == Jester.jester || player == Arsonist.arsonist || player == Vulture.vulture || player == Lawyer.lawyer) {
+            if (player.Data.Role.IsImpostor || player == Jackal.jackal || player == Sidekick.sidekick || Jackal.formerJackals.Contains(player) || player == Jester.jester || player == Arsonist.arsonist || player == Vulture.vulture || player == Lawyer.lawyer || player == Revenger.revenger || player == Vigilante.vigilante || player == Informer.informer) {
                 oldShifter.Exiled();
                 return;
             }
@@ -655,6 +654,9 @@ namespace TheOtherRoles
             // Other roles
             if (player == Jester.jester) Jester.clearAndReload();
             if (player == Arsonist.arsonist) Arsonist.clearAndReload();
+            if (player == Vigilante.vigilante) Vigilante.clearAndReload();
+            if (player == Informer.informer) Informer.clearAndReload();
+            if (player == Revenger.revenger) Revenger.clearAndReload();
             if (Guesser.isGuesser(player.PlayerId)) Guesser.clear(player.PlayerId);
             if (!ignoreLovers && (player == Lovers.lover1 || player == Lovers.lover2)) { // The whole Lover couple is being erased
                 Lovers.clearAndReload(); 
@@ -791,30 +793,45 @@ namespace TheOtherRoles
             }
         }
         
-        public static void vigilanteAndInformerWin() 
+        public static void vigilanteAndInformerDie() 
         {
+            if (Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead &&
+                !Vigilante.vigilante.Data.Disconnected)
+            {
+                uncheckedMurderPlayer(Vigilante.vigilante.Data.PlayerId, Vigilante.vigilante.Data.PlayerId, Byte.MaxValue);
+            }
+
+            if (Informer.informer != null && !Informer.informer.Data.IsDead && !Informer.informer.Data.Disconnected)
+            {
+                uncheckedMurderPlayer(Vigilante.vigilante.Data.PlayerId, Informer.informer.Data.PlayerId, Byte.MaxValue);
+            }
         }
+        
         public static void informerSetTarget(byte playerId) {
             Informer.target = Helpers.playerById(playerId);
         }
         public static void becomeRevenger()
         {
-            PlayerControl player = PlayerControl.LocalPlayer;
-            if (player == Vigilante.vigilante && !Vigilante.targetElimated)
+            if (Vigilante.vigilante == null && Informer.informer == null) return;
+            PlayerControl player = null;
+            if (Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead && !Vigilante.vigilante.Data.Disconnected && (Informer.informer == null || Informer.informer.Data.IsDead || Informer.informer.Data.Disconnected) && !Vigilante.targetElimated)
             {
+                player = Vigilante.vigilante;
                 Revenger.revenger = player;
-                Vigilante.clearAndReload();
             }
-            else if (player == Informer.informer && !Informer.targetElimated)
+            else if (Informer.informer != null && !Informer.informer.Data.IsDead && !Informer.informer.Data.Disconnected && (Vigilante.vigilante == null || Vigilante.vigilante.Data.IsDead || Vigilante.vigilante.Data.Disconnected) && !Informer.targetElimated)
             {
+                player = Informer.informer;
                 Revenger.revenger = player;
+            }
+            
+            if (player != null) 
+            {
+                Vigilante.clearAndReload();
                 Informer.clearAndReload();
             }
         }
-        public static void revengerWin() 
-        {
-        }
-
+        
         public static void guesserShoot(byte killerId, byte dyingTargetId, byte guessedTargetId, byte guessedRoleId) {
             PlayerControl dyingTarget = Helpers.playerById(dyingTargetId);
             if (dyingTarget == null ) return;
@@ -1049,17 +1066,14 @@ namespace TheOtherRoles
                 case (byte)CustomRPC.LawyerPromotesToPursuer:
                     RPCProcedure.lawyerPromotesToPursuer();
                     break;
-                case (byte)CustomRPC.VigilanteAndInformerWin:
-                    RPCProcedure.vigilanteAndInformerWin();
+                case (byte)CustomRPC.VigilanteAndInformerDie:
+                    RPCProcedure.vigilanteAndInformerDie();
                     break;
                 case (byte)CustomRPC.InformerSetTarget:
                     RPCProcedure.informerSetTarget(reader.ReadByte());
                     break;
                 case (byte)CustomRPC.BecomeRevenger:
                     RPCProcedure.becomeRevenger();
-                    break;
-                case (byte)CustomRPC.ReverngerWin:
-                    RPCProcedure.revengerWin();
                     break;
                 case (byte)CustomRPC.SetBlanked:
                     var pid = reader.ReadByte();
