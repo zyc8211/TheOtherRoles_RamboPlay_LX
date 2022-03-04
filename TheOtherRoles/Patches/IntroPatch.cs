@@ -121,7 +121,7 @@ namespace TheOtherRoles.Patches {
                     if (infos.Any(info => info.roleId == RoleId.Vigilante)) 
                         __instance.RoleBlurbText.text += Helpers.cs(Vigilante.color, $"\n你的线人是{Informer.informer?.Data?.PlayerName ?? ""}");
                     else if (infos.Any(info => info.roleId == RoleId.Informer))
-                        __instance.RoleBlurbText.text += Helpers.cs(Informer.color, $"\n你们的目标是{Informer.target?.Data?.PlayerName ?? ""}\n通知{Vigilante.vigilante?.Data?.PlayerName ?? ""}杀死他！");
+                        __instance.RoleBlurbText.text += Helpers.cs(Informer.color, $"\n你们的目标是{Informer.target?.Data?.PlayerName ?? ""},通知{Vigilante.vigilante?.Data?.PlayerName ?? ""}杀死他！");
 
                 }
             }

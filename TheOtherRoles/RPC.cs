@@ -290,6 +290,15 @@ namespace TheOtherRoles
                     case RoleId.Witch:
                         Witch.witch = player;
                         break;
+                    case RoleId.Vigilante:
+                        Vigilante.vigilante = player;
+                        break;
+                    case RoleId.Informer:
+                        Informer.informer = player;
+                        break;
+                    case RoleId.Revenger:
+                        Revenger.revenger = player;
+                        break;
                     }
                 }
         }

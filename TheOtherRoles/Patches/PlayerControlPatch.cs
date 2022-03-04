@@ -764,6 +764,9 @@ namespace TheOtherRoles.Patches {
 
         static void vigilanteAndInformerStateCheck()
         {
+            if ((Vigilante.vigilante != PlayerControl.LocalPlayer || Vigilante.vigilante == null) && 
+                (Informer.informer != PlayerControl.LocalPlayer || Informer.informer == null)) return;
+            
             if ((Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead && !Vigilante.vigilante.Data.Disconnected && (Informer.informer == null || Informer.informer.Data.IsDead || Informer.informer.Data.Disconnected) && !Vigilante.targetElimated) || 
                 (Informer.informer != null && !Informer.informer.Data.IsDead && !Informer.informer.Data.Disconnected && (Vigilante.vigilante == null || Vigilante.vigilante.Data.IsDead || Vigilante.vigilante.Data.Disconnected) && !Informer.targetElimated))
             {
