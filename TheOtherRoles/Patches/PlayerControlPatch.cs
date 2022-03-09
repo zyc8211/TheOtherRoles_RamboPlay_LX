@@ -778,7 +778,12 @@ namespace TheOtherRoles.Patches {
 
         static void InformerTargetUpdate()
         {
-            if (Informer.target != null && (Informer.target.Data.IsDead || Informer.target.Data.Disconnected))
+            if (Informer.targetElimated)
+            {
+                Informer.target = null;
+                return;
+            }
+            if (Informer.target == null || (Informer.target.Data.IsDead || Informer.target.Data.Disconnected))
             {
                 var possibleTargets = new List<PlayerControl>();
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)

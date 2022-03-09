@@ -822,19 +822,16 @@ namespace TheOtherRoles
         public static void becomeRevenger()
         {
             if (Vigilante.vigilante == null && Informer.informer == null) return;
-            PlayerControl player = null;
             if (Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead && !Vigilante.vigilante.Data.Disconnected && (Informer.informer == null || Informer.informer.Data.IsDead || Informer.informer.Data.Disconnected) && !Vigilante.targetElimated)
             {
-                player = Vigilante.vigilante;
-                Revenger.revenger = player;
+                Revenger.revenger = Vigilante.vigilante;
             }
             else if (Informer.informer != null && !Informer.informer.Data.IsDead && !Informer.informer.Data.Disconnected && (Vigilante.vigilante == null || Vigilante.vigilante.Data.IsDead || Vigilante.vigilante.Data.Disconnected) && !Informer.targetElimated)
             {
-                player = Informer.informer;
-                Revenger.revenger = player;
+                Revenger.revenger = Informer.informer;
             }
             
-            if (player != null) 
+            if (Revenger.revenger != null) 
             {
                 Vigilante.clearAndReload();
                 Informer.clearAndReload();

@@ -217,7 +217,7 @@ namespace TheOtherRoles.Patches {
             // Informer
             bool localIsInformer = Informer.informer != null && Informer.target != null && Informer.informer == PlayerControl.LocalPlayer;
             if (localIsInformer) {
-                string suffix = Helpers.cs(Informer.color, " ☠");
+                string suffix = Helpers.cs(Informer.color, " ✸");
                 Informer.target.nameText.text += suffix;
 
                 if (MeetingHud.Instance != null)
