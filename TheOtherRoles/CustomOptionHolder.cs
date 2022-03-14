@@ -24,6 +24,7 @@ namespace TheOtherRoles {
         public static CustomOption impostorRolesCountMax;
 
         public static CustomOption soliderSpawnRate;
+        public static CustomOption bulletProofDisappearLatency;
 
         public static CustomOption mafiaSpawnRate;
         public static CustomOption janitorCooldown;
@@ -240,6 +241,8 @@ namespace TheOtherRoles {
         public static CustomOption dynamicMapEnableDleks;
         public static CustomOption dynamicMapEnableAirShip;
 
+        public static CustomOption vigilanteSpawnRate;
+        public static CustomOption vigilanteCooldown;
 
         internal static Dictionary<byte, byte[]> blockedRolePairings = new Dictionary<byte, byte[]>();
 
@@ -373,6 +376,7 @@ namespace TheOtherRoles {
             mayorSpawnRate = CustomOption.Create(80, cs(Mayor.color, "市长生成概率"), rates, null, true);
 
             soliderSpawnRate = CustomOption.Create(190, cs(Solider.color, "士兵生成概率"), rates, null, true);
+            bulletProofDisappearLatency = CustomOption.Create(191,"防弹衣失效延迟",10.0f,5.0f,30.0f,5.0f,soliderSpawnRate);
             
             engineerSpawnRate = CustomOption.Create(90, cs(Engineer.color, "工程师生成概率"), rates, null, true);
             engineerNumberOfFixes = CustomOption.Create(91, "工程师可维修破坏次数", 1f, 1f, 3f, 1f, engineerSpawnRate);
@@ -469,6 +473,9 @@ namespace TheOtherRoles {
             mediumDuration = CustomOption.Create(362, "通灵师提问持续时间", 3f, 0f, 15f, 1f, mediumSpawnRate);
             mediumOneTimeUse = CustomOption.Create(363, "每个灵魂只可被提问一次", false, mediumSpawnRate);
 
+            vigilanteSpawnRate = CustomOption.Create(900,cs(Vigilante.color,"义警与线人生成概率"),rates,null,true);
+            vigilanteCooldown = CustomOption.Create(901, "义警击杀冷却", 30f, 10f, 60f, 2.5f, vigilanteSpawnRate);
+            
             // Other options
             maxNumberOfMeetings = CustomOption.Create(3, "会议总数（市长会议除外）", 10, 0, 15, 1, null, true);
             blockSkippingInEmergencyMeetings = CustomOption.Create(4, "紧急会议中禁止跳过", false);

@@ -72,9 +72,8 @@ namespace TheOtherRoles.Patches {
                     target.myRend.material.SetFloat("_Outline", 1f);
                     target.myRend.material.SetColor("_OutlineColor", Medic.shieldedColor);
                 }
-                else if(PlayerControl.LocalPlayer == Solider.solider && target == Solider.solider && !Solider.usedBulletProof)
-                {
-                    TheOtherRolesPlugin.Logger.LogMessage("Solider.usedBulletProof:"+Solider.usedBulletProof);
+                else if(PlayerControl.LocalPlayer == Solider.solider && target == Solider.solider && (!Solider.usedBulletProof || Solider.usedBulletProof && Solider.isInLatency))
+                { 
                     target.myRend.material.SetFloat("_Outline",1f);
                     target.myRend.material.SetColor("_OutlineColor", Solider.bulletproofColor);
                 }
@@ -741,13 +740,80 @@ namespace TheOtherRoles.Patches {
             }
         }
 
-        public static void soliderSetTarget()
+        static void soliderSetTarget()
         {
             if (Solider.solider == null || PlayerControl.LocalPlayer != Solider.solider || Solider.solider.Data.IsDead) return;
-            if (Solider.usedBulletProof && Solider.usedGun == false)
+            if (Solider.usedBulletProof && !Solider.isInLatency && Solider.usedGun == false)
             {
                 Solider.target = setTarget();
                 setPlayerOutline(Solider.target, Solider.color);
+            }
+        }
+
+        static void revengerSetTarget()
+        {
+            Revenger.target = setTarget();
+            setPlayerOutline(Revenger.target, Revenger.color);
+        }
+        
+        static void vigilanteSetTarget()
+        {
+            Vigilante.target = setTarget();
+            setPlayerOutline(Vigilante.target, Vigilante.color);
+        }
+
+        static void vigilanteAndInformerStateCheck()
+        {
+            if ((Vigilante.vigilante != PlayerControl.LocalPlayer || Vigilante.vigilante == null) && 
+                (Informer.informer != PlayerControl.LocalPlayer || Informer.informer == null)) return;
+            
+            if ((Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead && !Vigilante.vigilante.Data.Disconnected && (Informer.informer == null || Informer.informer.Data.IsDead || Informer.informer.Data.Disconnected) && !Vigilante.targetElimated) || 
+                (Informer.informer != null && !Informer.informer.Data.IsDead && !Informer.informer.Data.Disconnected && (Vigilante.vigilante == null || Vigilante.vigilante.Data.IsDead || Vigilante.vigilante.Data.Disconnected) && !Informer.targetElimated))
+            {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.BecomeRevenger, Hazel.SendOption.Reliable, -1);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPCProcedure.becomeRevenger();
+            }
+        }
+
+        static void InformerTargetUpdate()
+        {
+            if (Informer.targetElimated)
+            {
+                Informer.target = null;
+                return;
+            }
+            if (Informer.target == null || (Informer.target.Data.IsDead || Informer.target.Data.Disconnected))
+            {
+                var possibleTargets = new List<PlayerControl>();
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if(!p.Data.IsDead && !p.Data.Disconnected && Vigilante.vigilante != p && Informer.informer != p)
+                        possibleTargets.Add(p);
+                    if (possibleTargets.Count == 0) {
+                        
+                    } else {
+                        var target = possibleTargets[TheOtherRoles.rnd.Next(0, possibleTargets.Count)];
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.InformerSetTarget, Hazel.SendOption.Reliable, -1);
+                        writer.Write(target.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPCProcedure.informerSetTarget(target.PlayerId);
+                    }
+                }
+            }
+        }
+
+        static void soliderUpdate()
+        {
+            if (Solider.solider != null && PlayerControl.LocalPlayer == Solider.solider && !Solider.solider.Data.IsDead)
+            {
+                if (Solider.isInLatency)
+                    Solider.bulletProofDisappearLatency -= Time.fixedDeltaTime;
+
+                if (Solider.bulletProofDisappearLatency <= 0f)
+                {
+                    Solider.isInLatency = false;
+                }
             }
         }
 
@@ -846,6 +912,13 @@ namespace TheOtherRoles.Patches {
                 lawyerUpdate();
                 //Solider
                 soliderSetTarget();
+                soliderUpdate();
+                //Vigilante
+                vigilanteSetTarget();
+                vigilanteAndInformerStateCheck();
+                InformerTargetUpdate();
+                //Revenger
+                revengerSetTarget();
                 // Pursuer
                 pursuerSetTarget();
                 // Witch

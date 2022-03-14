@@ -16,6 +16,8 @@ namespace TheOtherRoles
         private static CustomButton janitorCleanButton;
         private static CustomButton sheriffKillButton;
         private static CustomButton soliderKillButton;
+        private static CustomButton revengerKillButton;
+        private static CustomButton vigilanteKillButton;
         private static CustomButton deputyHandcuffButton;
         private static CustomButton timeMasterShieldButton;
         private static CustomButton medicShieldButton;
@@ -59,6 +61,8 @@ namespace TheOtherRoles
             engineerRepairButton.MaxTimer = 0f;
             janitorCleanButton.MaxTimer = Janitor.cooldown;
             soliderKillButton.MaxTimer = Solider.cooldown;
+            revengerKillButton.MaxTimer = Revenger.cooldown;
+            vigilanteKillButton.MaxTimer = Vigilante.cooldown;
             sheriffKillButton.MaxTimer = Sheriff.cooldown;
             deputyHandcuffButton.MaxTimer = Deputy.handcuffCooldown;
             timeMasterShieldButton.MaxTimer = TimeMaster.cooldown;
@@ -284,14 +288,80 @@ namespace TheOtherRoles
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPCProcedure.soliderLoseGun();
                 },
-                () => { return Solider.solider != null && Solider.solider == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead && Solider.usedBulletProof && !Solider.usedGun; },
-                () => { return Solider.target && PlayerControl.LocalPlayer.CanMove && Solider.usedGun == false && Solider.usedBulletProof; },
+                () => { return Solider.solider != null && Solider.solider == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead && Solider.usedBulletProof && !Solider.isInLatency && !Solider.usedGun; },
+                () => { return Solider.target && PlayerControl.LocalPlayer.CanMove && Solider.usedGun == false && Solider.usedBulletProof && !Solider.isInLatency; },
                 () => { soliderKillButton.Timer = soliderKillButton.MaxTimer;},
                 __instance.KillButton.graphic.sprite,
                 new Vector3(0f, 1f, 0),
                 __instance,
                 KeyCode.Q
             );
+
+            // Revenger Kill
+            revengerKillButton = new CustomButton(
+                () => {
+                    MurderAttemptResult murderAttemptResult = Helpers.checkMuderAttempt(Revenger.revenger, Revenger.target);
+                    if (murderAttemptResult == MurderAttemptResult.PerformKill) {
+                        byte targetId = 0;
+                        targetId = Revenger.target.PlayerId;
+
+                        MessageWriter killWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.UncheckedMurderPlayer, Hazel.SendOption.Reliable, -1);
+                        killWriter.Write(Revenger.revenger.Data.PlayerId);
+                        killWriter.Write(targetId);
+                        killWriter.Write(byte.MaxValue);
+                        AmongUsClient.Instance.FinishRpcImmediately(killWriter);
+                        RPCProcedure.uncheckedMurderPlayer(Revenger.revenger.Data.PlayerId, targetId, Byte.MaxValue);
+                    }
+
+                    Revenger.target = null;
+                },
+                () => { return Revenger.revenger != null && Revenger.revenger == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead; },
+                () => { return Revenger.target && PlayerControl.LocalPlayer.CanMove; },
+                () => { revengerKillButton.Timer = revengerKillButton.MaxTimer;},
+                __instance.KillButton.graphic.sprite,
+                new Vector3(0f, 1f, 0),
+                __instance,
+                KeyCode.Q
+            );
+            
+            // Vigilante Kill
+            vigilanteKillButton = new CustomButton(
+                () => {
+                    MurderAttemptResult murderAttemptResult = Helpers.checkMuderAttempt(Vigilante.vigilante, Vigilante.target);
+                    if (murderAttemptResult == MurderAttemptResult.PerformKill) {
+                        byte targetId = 0;
+                        targetId = Vigilante.target.PlayerId;
+
+                        if (Vigilante.target != Informer.target)
+                        {
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VigilanteAndInformerDie, SendOption.Reliable, -1);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            RPCProcedure.vigilanteAndInformerDie();
+                        }
+                        else
+                        { 
+                            MessageWriter killWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.UncheckedMurderPlayer, Hazel.SendOption.Reliable, -1);
+                            killWriter.Write(Vigilante.vigilante.Data.PlayerId);
+                            killWriter.Write(targetId);
+                            killWriter.Write(byte.MaxValue);
+                            AmongUsClient.Instance.FinishRpcImmediately(killWriter);
+                            RPCProcedure.uncheckedMurderPlayer(Vigilante.vigilante.Data.PlayerId, targetId, Byte.MaxValue);
+                            Informer.targetElimated = true;
+                            Vigilante.targetElimated = true;
+                            Informer.target = null;
+                        }
+                    }
+                    Vigilante.target = null;
+                },
+                () => { return Vigilante.vigilante != null && Vigilante.vigilante == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead; },
+                () => { return Vigilante.target && PlayerControl.LocalPlayer.CanMove; },
+                () => { vigilanteKillButton.Timer = vigilanteKillButton.MaxTimer;},
+                __instance.KillButton.graphic.sprite,
+                new Vector3(0f, 1f, 0),
+                __instance,
+                KeyCode.Q
+            );
+
 
             // Sheriff Kill
             sheriffKillButton = new CustomButton(
@@ -303,8 +373,9 @@ namespace TheOtherRoles
                         byte targetId = 0;
                         if ((Sheriff.currentTarget.Data.Role.IsImpostor && (Sheriff.currentTarget != Mini.mini || Mini.isGrownUp())) ||
                             (Sheriff.spyCanDieToSheriff && Spy.spy == Sheriff.currentTarget) ||
-                            (Sheriff.canKillNeutrals && (Arsonist.arsonist == Sheriff.currentTarget || Jester.jester == Sheriff.currentTarget || Vulture.vulture == Sheriff.currentTarget || Lawyer.lawyer == Sheriff.currentTarget || Pursuer.pursuer == Sheriff.currentTarget)) ||
-                            (Jackal.jackal == Sheriff.currentTarget || Sidekick.sidekick == Sheriff.currentTarget)) {
+                            (Sheriff.canKillNeutrals && (Arsonist.arsonist == Sheriff.currentTarget || Jester.jester == Sheriff.currentTarget || Vulture.vulture == Sheriff.currentTarget || Lawyer.lawyer == Sheriff.currentTarget || Pursuer.pursuer == Sheriff.currentTarget || Vigilante.vigilante == Sheriff.currentTarget || Informer.informer == Sheriff.currentTarget)) ||
+                            (Jackal.jackal == Sheriff.currentTarget || Sidekick.sidekick == Sheriff.currentTarget) ||
+                            (Revenger.revenger == Sheriff.currentTarget)) {
                             targetId = Sheriff.currentTarget.PlayerId;
                         }
                         else {

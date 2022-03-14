@@ -144,7 +144,7 @@ namespace TheOtherRoles {
         }
 
         public static bool hasFakeTasks(this PlayerControl player) {
-            return (player == Jester.jester || player == Jackal.jackal || player == Sidekick.sidekick || player == Arsonist.arsonist || player == Vulture.vulture || Jackal.formerJackals.Contains(player));
+            return (player == Jester.jester || player == Jackal.jackal || player == Sidekick.sidekick || player == Arsonist.arsonist || player == Vulture.vulture || Jackal.formerJackals.Contains(player) || player == Vigilante.vigilante || player == Informer.informer || player == Revenger.revenger);
         }
 
         public static bool canBeErased(this PlayerControl player) {
@@ -300,6 +300,7 @@ namespace TheOtherRoles {
             else if (Solider.solider != null && target == Solider.solider && Solider.usedBulletProof == false)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)CustomRPC.SoliderLoseBulletproof, SendOption.Reliable, -1);
+                writer.Write((byte)0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.soliderLoseBulletproof();
                 return MurderAttemptResult.BlankKill;
