@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
+using Epic.OnlineServices.Presence;
 using UnityEngine;
 using TheOtherRoles.Objects;
 
@@ -61,6 +62,9 @@ namespace TheOtherRoles
             Lawyer.clearAndReload();
             Pursuer.clearAndReload();
             Witch.clearAndReload();
+            Vigilante.clearAndReload();
+            Informer.clearAndReload();
+            Revenger.clearAndReload();
         }
 
         public static class Jester {

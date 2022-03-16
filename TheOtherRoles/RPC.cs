@@ -117,6 +117,7 @@ namespace TheOtherRoles
         LawyerPromotesToPursuer,
         SetBlanked,
         VigilanteAndInformerDie,
+        VigilanteEliminateTarget,
         InformerSetTarget,
         BecomeRevenger
     }
@@ -335,6 +336,19 @@ namespace TheOtherRoles
                 source.MurderPlayer(target);
             }
         }
+        
+        public static void vigilanteEliminateTarget(byte sourceId, byte targetId, byte showAnimation) {
+            PlayerControl source = Helpers.playerById(sourceId);
+            PlayerControl target = Helpers.playerById(targetId);
+            if (source != null && target != null) {
+                if (showAnimation == 0) KillAnimationCoPerformKillPatch.hideNextAnimation = true;
+                Informer.targetElimated = true;
+                Vigilante.targetElimated = true;
+                Informer.target = null;
+                source.MurderPlayer(target);
+            }
+        }
+
 
         public static void uncheckedCmdReportDeadBody(byte sourceId, byte targetId) {
             PlayerControl source = Helpers.playerById(sourceId);
@@ -944,6 +958,12 @@ namespace TheOtherRoles
                     byte target = reader.ReadByte();
                     byte showAnimation = reader.ReadByte();
                     RPCProcedure.uncheckedMurderPlayer(source, target, showAnimation);
+                    break;
+                case (byte)CustomRPC.VigilanteEliminateTarget:
+                    byte vigilanteSource = reader.ReadByte();
+                    byte vigilanteTarget = reader.ReadByte();
+                    byte vigilanteShowAnimation = reader.ReadByte();
+                    RPCProcedure.vigilanteEliminateTarget(vigilanteSource, vigilanteTarget, vigilanteShowAnimation);
                     break;
                 case (byte)CustomRPC.UncheckedExilePlayer:
                     byte exileTarget = reader.ReadByte();

@@ -189,7 +189,7 @@ namespace TheOtherRoles
             string roleName;
             roleName = String.Join(" ", getRoleInfoForPlayer(p).Select(x => useColors ? Helpers.cs(x.color, x.name) : x.name).ToArray());
             if (Lawyer.target != null && p.PlayerId == Lawyer.target.PlayerId && PlayerControl.LocalPlayer != Lawyer.target) roleName += (useColors ? Helpers.cs(Pursuer.color, " §") : " §");
-            if (Informer.target != null && p.PlayerId == Informer.target.PlayerId && PlayerControl.LocalPlayer != Informer.target) roleName += (useColors ? Helpers.cs(Informer.color, " ✸") : " ✸");
+            if (Informer.target != null && p.PlayerId == Informer.target.PlayerId && PlayerControl.LocalPlayer != Informer.target) roleName += (useColors ? Helpers.cs(Informer.color, " X") : " X");
             return roleName;
         }
     }

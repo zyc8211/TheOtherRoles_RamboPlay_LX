@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Epic.OnlineServices.Presence;
 using static TheOtherRoles.TheOtherRoles;
 using static TheOtherRoles.GameHistory;
 using TheOtherRoles.Objects;
@@ -783,7 +784,7 @@ namespace TheOtherRoles.Patches {
                 Informer.target = null;
                 return;
             }
-            if (Informer.target == null || (Informer.target.Data.IsDead || Informer.target.Data.Disconnected))
+            if (Informer.target == null || Informer.target == Vigilante.vigilante || Informer.target == Informer.informer || (Informer.target.Data.IsDead || Informer.target.Data.Disconnected))
             {
                 var possibleTargets = new List<PlayerControl>();
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
