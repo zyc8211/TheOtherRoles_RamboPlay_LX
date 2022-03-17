@@ -346,6 +346,9 @@ namespace TheOtherRoles
                 Vigilante.targetElimated = true;
                 Informer.target = null;
                 source.MurderPlayer(target);
+                if(PlayerControl.LocalPlayer == Vigilante.vigilante || PlayerControl.LocalPlayer == Informer.informer) {
+                    new CustomMessage("已经杀死目标，活到最后以获得胜利！", 3.0f);
+                }
             }
         }
 
@@ -839,17 +842,16 @@ namespace TheOtherRoles
             if (Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead && !Vigilante.vigilante.Data.Disconnected && (Informer.informer == null || Informer.informer.Data.IsDead || Informer.informer.Data.Disconnected) && !Vigilante.targetElimated)
             {
                 Revenger.revenger = Vigilante.vigilante;
+                Vigilante.clearAndReload();
             }
             else if (Informer.informer != null && !Informer.informer.Data.IsDead && !Informer.informer.Data.Disconnected && (Vigilante.vigilante == null || Vigilante.vigilante.Data.IsDead || Vigilante.vigilante.Data.Disconnected) && !Informer.targetElimated)
             {
                 Revenger.revenger = Informer.informer;
-            }
-            
-            if (Revenger.revenger != null) 
-            {
-                Vigilante.clearAndReload();
                 Informer.clearAndReload();
             }
+
+            if (Revenger.revenger != null && PlayerControl.LocalPlayer == Revenger.revenger)
+                new CustomMessage("你的伙伴死了，杀死所有人以获得胜利!", 3.0f);
         }
         
         public static void guesserShoot(byte killerId, byte dyingTargetId, byte guessedTargetId, byte guessedRoleId) {

@@ -753,12 +753,14 @@ namespace TheOtherRoles.Patches {
 
         static void revengerSetTarget()
         {
+            if (Revenger.revenger == null || PlayerControl.LocalPlayer != Revenger.revenger || Revenger.revenger.Data.IsDead || Revenger.revenger.Data.Disconnected) return;
             Revenger.target = setTarget();
             setPlayerOutline(Revenger.target, Revenger.color);
         }
         
         static void vigilanteSetTarget()
         {
+            if (Vigilante.vigilante == null || PlayerControl.LocalPlayer != Vigilante.vigilante || Vigilante.vigilante.Data.IsDead || Vigilante.vigilante.Data.Disconnected) return;
             Vigilante.target = setTarget();
             setPlayerOutline(Vigilante.target, Vigilante.color);
         }
@@ -779,12 +781,12 @@ namespace TheOtherRoles.Patches {
 
         static void InformerTargetUpdate()
         {
-            if (Informer.targetElimated)
+            if (Informer.targetElimated || Informer.informer == null || Informer.informer.Data.IsDead || Informer.informer.Data.Disconnected)
             {
                 Informer.target = null;
                 return;
             }
-            if (Informer.target == null || Informer.target == Vigilante.vigilante || Informer.target == Informer.informer || (Informer.target.Data.IsDead || Informer.target.Data.Disconnected))
+            if (Informer.target == null || Informer.target == Vigilante.vigilante || Informer.target == Informer.informer || Informer.target == Mini.mini || (Informer.target.Data.IsDead || Informer.target.Data.Disconnected))
             {
                 var possibleTargets = new List<PlayerControl>();
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
