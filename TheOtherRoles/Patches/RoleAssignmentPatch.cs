@@ -148,7 +148,7 @@ namespace TheOtherRoles.Patches {
             }
             
             // Assign Vigilante and Informer
-            if (rnd.Next(1, 101) <= CustomOptionHolder.vigilanteSpawnRate.getSelection() * 10 && data.maxNeutralRoles >= 2 && data.crewmates.Count >= 2)
+            if (data.maxNeutralRoles >= 2 && data.crewmates.Count >= 2 && (rnd.Next(1, 101) <= CustomOptionHolder.vigilanteSpawnRate.getSelection() * 10))
             {
                 setRoleToRandomPlayer((byte)RoleId.Vigilante, data.crewmates);
                 setRoleToRandomPlayer((byte)RoleId.Informer, data.crewmates);
@@ -384,12 +384,12 @@ namespace TheOtherRoles.Patches {
                 }
             }
             // Set Informer Target
-            if (Informer.informer != null)
+            if (Informer.informer != null && Vigilante.vigilante != null)
             {
                 var possibleTargets = new List<PlayerControl>();
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                 {
-                    if(!p.Data.IsDead && !p.Data.Disconnected && Vigilante.vigilante != p && Informer.informer != p)
+                    if(!p.Data.IsDead && !p.Data.Disconnected && Vigilante.vigilante != p && Informer.informer != p && Mini.mini != p)
                         possibleTargets.Add(p);
                     if (possibleTargets.Count == 0) {
                         

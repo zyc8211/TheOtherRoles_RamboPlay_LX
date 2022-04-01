@@ -129,6 +129,9 @@ namespace TheOtherRoles.Patches {
                     setPlayerNameColor(Vigilante.vigilante, Vigilante.color);
                 }
             }
+            else if (Revenger.revenger != null && Revenger.revenger == PlayerControl.LocalPlayer) {
+                setPlayerNameColor(Revenger.revenger, Revenger.color);
+            }
             else if (Spy.spy != null && Spy.spy == PlayerControl.LocalPlayer) {
                 setPlayerNameColor(Spy.spy, Spy.color);
             } else if (SecurityGuard.securityGuard != null && SecurityGuard.securityGuard == PlayerControl.LocalPlayer) {
@@ -217,7 +220,7 @@ namespace TheOtherRoles.Patches {
             // Informer
             bool localIsInformer = Informer.informer != null && Informer.target != null && Informer.informer == PlayerControl.LocalPlayer;
             if (localIsInformer) {
-                string suffix = Helpers.cs(Informer.color, " ✸");
+                string suffix = Helpers.cs(Informer.color, " X");
                 Informer.target.nameText.text += suffix;
 
                 if (MeetingHud.Instance != null)
