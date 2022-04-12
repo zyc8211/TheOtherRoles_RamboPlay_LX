@@ -235,7 +235,6 @@ namespace TheOtherRoles {
         public static CustomOption dynamicMapEnableSkeld;
         public static CustomOption dynamicMapEnableMira;
         public static CustomOption dynamicMapEnablePolus;
-        public static CustomOption dynamicMapEnableDleks;
         public static CustomOption dynamicMapEnableAirShip;
 
 
@@ -466,6 +465,7 @@ namespace TheOtherRoles {
             mediumOneTimeUse = CustomOption.Create(363, "每个灵魂只可被提问一次", false, mediumSpawnRate);
 
             // Other options
+
             maxNumberOfMeetings = CustomOption.Create(3, "会议总数（市长会议除外）", 10, 0, 15, 1, null, true);
             blockSkippingInEmergencyMeetings = CustomOption.Create(4, "紧急会议中禁止跳过", false);
             noVoteIsSelfVote = CustomOption.Create(5, "不能给自己投票", false, blockSkippingInEmergencyMeetings);
@@ -477,7 +477,7 @@ namespace TheOtherRoles {
             dynamicMapEnableMira = CustomOption.Create(502, "Mira加入随机列表", true, dynamicMap, false);
             dynamicMapEnablePolus = CustomOption.Create(503, "Polus加入随机列表", true, dynamicMap, false);
             dynamicMapEnableAirShip = CustomOption.Create(504, "Airship加入随机列表", true, dynamicMap, false);
-            dynamicMapEnableDleks = CustomOption.Create(505, "镜像Skeld加入随机列表", false, dynamicMap, false);
+
 
             blockedRolePairings.Add((byte)RoleId.Vampire, new [] { (byte)RoleId.Warlock});
             blockedRolePairings.Add((byte)RoleId.Warlock, new [] { (byte)RoleId.Vampire});
