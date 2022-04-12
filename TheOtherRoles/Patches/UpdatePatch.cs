@@ -69,6 +69,8 @@ namespace TheOtherRoles.Patches {
                 setPlayerNameColor(Mayor.mayor, Mayor.color);
             else if (Solider.solider != null && Solider.solider == PlayerControl.LocalPlayer)
                 setPlayerNameColor(Solider.solider,Solider.color);
+            else if (Revenger.revenger != null && Revenger.revenger == PlayerControl.LocalPlayer)
+                setPlayerNameColor(Revenger.revenger,Revenger.color);
             else if (Engineer.engineer != null && Engineer.engineer == PlayerControl.LocalPlayer)
                 setPlayerNameColor(Engineer.engineer, Engineer.color);
             else if (Sheriff.sheriff != null && Sheriff.sheriff == PlayerControl.LocalPlayer) {
@@ -112,6 +114,23 @@ namespace TheOtherRoles.Patches {
                 if (Jackal.fakeSidekick != null) {
                     setPlayerNameColor(Jackal.fakeSidekick, Jackal.color);
                 }
+            }
+            else if (Vigilante.vigilante != null && Vigilante.vigilante == PlayerControl.LocalPlayer) {
+                // Vigilante can see his Informer
+                setPlayerNameColor(Vigilante.vigilante, Vigilante.color);
+                if (Informer.informer != null) {
+                    setPlayerNameColor(Informer.informer, Informer.color);
+                }
+            }
+            else if (Informer.informer != null && Informer.informer == PlayerControl.LocalPlayer) {
+                // Informer can see his Informer
+                setPlayerNameColor(Informer.informer, Informer.color);
+                if (Vigilante.vigilante != null) {
+                    setPlayerNameColor(Vigilante.vigilante, Vigilante.color);
+                }
+            }
+            else if (Revenger.revenger != null && Revenger.revenger == PlayerControl.LocalPlayer) {
+                setPlayerNameColor(Revenger.revenger, Revenger.color);
             }
             else if (Spy.spy != null && Spy.spy == PlayerControl.LocalPlayer) {
                 setPlayerNameColor(Spy.spy, Spy.color);
@@ -195,6 +214,18 @@ namespace TheOtherRoles.Patches {
                 if (MeetingHud.Instance != null)
                     foreach (PlayerVoteArea player in MeetingHud.Instance.playerStates)
                         if (player.TargetPlayerId == Lawyer.target.PlayerId)
+                            player.NameText.text += suffix;
+            }
+            
+            // Informer
+            bool localIsInformer = Informer.informer != null && Informer.target != null && Informer.informer == PlayerControl.LocalPlayer;
+            if (localIsInformer) {
+                string suffix = Helpers.cs(Informer.color, " X");
+                Informer.target.nameText.text += suffix;
+
+                if (MeetingHud.Instance != null)
+                    foreach (PlayerVoteArea player in MeetingHud.Instance.playerStates)
+                        if (player.TargetPlayerId == Informer.target.PlayerId)
                             player.NameText.text += suffix;
             }
 

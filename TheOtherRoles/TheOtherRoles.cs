@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
+using Epic.OnlineServices.Presence;
 using UnityEngine;
 using TheOtherRoles.Objects;
 
@@ -61,6 +62,9 @@ namespace TheOtherRoles
             Lawyer.clearAndReload();
             Pursuer.clearAndReload();
             Witch.clearAndReload();
+            Vigilante.clearAndReload();
+            Informer.clearAndReload();
+            Revenger.clearAndReload();
         }
 
         public static class Jester {
@@ -91,9 +95,11 @@ namespace TheOtherRoles
         public static class Solider {
             public static PlayerControl solider;
             public static PlayerControl target;
+            public static float bulletProofDisappearLatency = 5.0f;
             public static float cooldown = 15f;
             public static Color color = new Color32(105, 139, 34, byte.MaxValue);
             public static bool usedBulletProof = false;
+            public static bool isInLatency = false;
             public static bool usedGun = false;
             public static Color bulletproofColor = new Color32(255, 100, 100, byte.MaxValue);
 
@@ -102,7 +108,9 @@ namespace TheOtherRoles
                 target = null;
                 usedBulletProof = false;
                 usedGun = false;
+                isInLatency = false;
                 cooldown = 15f;
+                bulletProofDisappearLatency = CustomOptionHolder.bulletProofDisappearLatency.getFloat();
             }
         }
 
@@ -185,7 +193,7 @@ namespace TheOtherRoles
                 if (!formerSheriff) formerSheriff = sheriff;
                 sheriff = deputy;
                 currentTarget = null;
-                cooldown = CustomOptionHolder.jackalKillCooldown.getFloat();
+                cooldown = CustomOptionHolder.sheriffCooldown.getFloat();
             }
 
             public static void clearAndReload() {
@@ -1429,6 +1437,52 @@ namespace TheOtherRoles
             spellCastingDuration = CustomOptionHolder.witchSpellCastingDuration.getFloat();
             triggerBothCooldowns = CustomOptionHolder.witchTriggerBothCooldowns.getBool();
             witchVoteSavesTargets = CustomOptionHolder.witchVoteSavesTargets.getBool();
+        }
+    }
+
+    public static class Vigilante
+    {
+        public static PlayerControl vigilante;
+        public static Color color = Color.yellow;
+        public static PlayerControl target;
+        public static bool targetElimated = false;
+        
+        public static float cooldown = 30f;
+        
+        public static void clearAndReload() {
+            vigilante = null;
+            target = null;
+            targetElimated = false;
+            cooldown = CustomOptionHolder.vigilanteCooldown.getFloat();
+        }
+    }
+    
+    public static class Informer
+    {
+        public static PlayerControl informer;
+        public static Color color = Color.yellow;
+        public static PlayerControl target;
+        public static bool targetElimated = false;
+        public static void clearAndReload() {
+            informer = null;
+            target = null;
+            targetElimated = false;
+        }
+    }
+    
+    public static class Revenger
+    {
+        public static PlayerControl revenger;
+        public static PlayerControl target;
+        public static Color color = Color.yellow;
+
+        public static float cooldown = 30f;
+        
+        public static void clearAndReload()
+        {
+            revenger = null;
+            target = null;
+            cooldown = CustomOptionHolder.vigilanteCooldown.getFloat();
         }
     }
 }

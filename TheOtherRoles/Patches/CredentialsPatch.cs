@@ -10,14 +10,16 @@ namespace TheOtherRoles.Patches {
     [HarmonyPatch]
     public static class CredentialsPatch {
         public static string fullCredentials = 
-$@"<size=130%><color=#ff351f>TheOtherRoles</color></size> v{TheOtherRolesPlugin.Version.ToString()}
+$@"<size=130%><color=#ff351f>超多职业模组麒麟版</color></size> v{TheOtherRolesPlugin.Version.ToString()}
 <size=60%>Modded by <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>EndOfFile</color>
 <color=#FCCE03FF>Thunderstorm584</color> & <color=#FCCE03FF>Mallöris</color>
-Button design by <color=#FCCE03FF>Bavari</color></size>";
+Button design by <color=#FCCE03FF>Bavari</color>
+麒麟版由<color=#CC0000>AlerHuGhe$</color>开发</size>";
 
     public static string mainMenuCredentials = 
 $@"Modded by <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584</color>, <color=#FCCE03FF>EndOfFile</color> & <color=#FCCE03FF>Mallöris</color>
-Design by <color=#FCCE03FF>Bavari</color>";
+Design by <color=#FCCE03FF>Bavari</color>
+麒麟版由<color=#CC0000>AlerHuGhe$</color>开发";
 
         public static string contributorsCredentials = "<size=60%>GitHub Contributors: Alex2911, amsyarasyiq, gendelo3, MaximeGillot</size>";
 
@@ -58,7 +60,7 @@ Design by <color=#FCCE03FF>Bavari</color>";
             static void Postfix(PingTracker __instance){
                 __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
                 if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) {
-                    __instance.text.text = $"<size=130%><color=#ff351f>TheOtherRoles</color></size> v{TheOtherRolesPlugin.Version.ToString()}\n" + __instance.text.text;
+                    __instance.text.text = $"<size=130%><color=#ff351f>超多职业模组麒麟版</color></size> v{TheOtherRolesPlugin.Version.ToString()}\n" + __instance.text.text;
                     if (PlayerControl.LocalPlayer.Data.IsDead || (!(PlayerControl.LocalPlayer == null) && (PlayerControl.LocalPlayer == Lovers.lover1 || PlayerControl.LocalPlayer == Lovers.lover2))) {
                         __instance.transform.localPosition = new Vector3(3.45f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
                     } else {
@@ -72,8 +74,12 @@ Design by <color=#FCCE03FF>Bavari</color>";
         }
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
-        private static class LogoPatch
+        public static class LogoPatch
         {
+            public static SpriteRenderer renderer;
+            public static Sprite bannerSprite;
+            public static Sprite horseBannerSprite;
+            private static PingTracker instance;
             static void Postfix(PingTracker __instance) {
                 var amongUsLogo = GameObject.Find("bannerLogo_AmongUs");
                 if (amongUsLogo != null) {
@@ -83,8 +89,34 @@ Design by <color=#FCCE03FF>Bavari</color>";
 
                 var torLogo = new GameObject("bannerLogo_TOR");
                 torLogo.transform.position = Vector3.up;
-                var renderer = torLogo.AddComponent<SpriteRenderer>();
+                renderer = torLogo.AddComponent<SpriteRenderer>();
+                loadSprites();
                 renderer.sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Banner.png", 300f);
+
+                instance = __instance;
+                loadSprites();
+                renderer.sprite = MapOptions.enableHorseMode ? horseBannerSprite : bannerSprite;
+            }
+
+            public static void loadSprites() {
+                if (bannerSprite == null) bannerSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Banner.png", 300f);
+                if (horseBannerSprite == null) horseBannerSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.bannerTheHorseRoles.png", 300f);
+            }
+
+            public static void updateSprite() {
+                loadSprites();
+                if (renderer != null) {
+                    float fadeDuration = 1f;
+                    instance.StartCoroutine(Effects.Lerp(fadeDuration, new Action<float>((p) => {
+                        renderer.color = new Color(1, 1, 1, 1 - p);
+                        if (p == 1) {
+                            renderer.sprite = MapOptions.enableHorseMode ? horseBannerSprite : bannerSprite;
+                            instance.StartCoroutine(Effects.Lerp(fadeDuration, new Action<float>((p) => {
+                                renderer.color = new Color(1, 1, 1, p);
+                            })));
+                        }
+                    })));
+                }
             }
         }
     }

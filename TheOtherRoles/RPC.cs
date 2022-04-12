@@ -56,6 +56,9 @@ namespace TheOtherRoles
         Lawyer,
         Pursuer,
         Witch,
+        Vigilante,
+        Informer,
+        Revenger,
         Crewmate,
         Impostor
     }
@@ -113,6 +116,10 @@ namespace TheOtherRoles
         LawyerSetTarget,
         LawyerPromotesToPursuer,
         SetBlanked,
+        VigilanteAndInformerDie,
+        VigilanteEliminateTarget,
+        InformerSetTarget,
+        BecomeRevenger
     }
 
     public static class RPCProcedure {
@@ -284,6 +291,15 @@ namespace TheOtherRoles
                     case RoleId.Witch:
                         Witch.witch = player;
                         break;
+                    case RoleId.Vigilante:
+                        Vigilante.vigilante = player;
+                        break;
+                    case RoleId.Informer:
+                        Informer.informer = player;
+                        break;
+                    case RoleId.Revenger:
+                        Revenger.revenger = player;
+                        break;
                     }
                 }
         }
@@ -320,6 +336,22 @@ namespace TheOtherRoles
                 source.MurderPlayer(target);
             }
         }
+        
+        public static void vigilanteEliminateTarget(byte sourceId, byte targetId, byte showAnimation) {
+            PlayerControl source = Helpers.playerById(sourceId);
+            PlayerControl target = Helpers.playerById(targetId);
+            if (source != null && target != null) {
+                if (showAnimation == 0) KillAnimationCoPerformKillPatch.hideNextAnimation = true;
+                Informer.targetElimated = true;
+                Vigilante.targetElimated = true;
+                Informer.target = null;
+                source.MurderPlayer(target);
+                if(PlayerControl.LocalPlayer == Vigilante.vigilante || PlayerControl.LocalPlayer == Informer.informer) {
+                    new CustomMessage("已经杀死目标，活到最后以获得胜利！", 3.0f);
+                }
+            }
+        }
+
 
         public static void uncheckedCmdReportDeadBody(byte sourceId, byte targetId) {
             PlayerControl source = Helpers.playerById(sourceId);
@@ -363,6 +395,7 @@ namespace TheOtherRoles
             }
             HudManager.Instance.FullScreen.color = new Color(0f, 0.5f, 0.8f, 0.3f);
             HudManager.Instance.FullScreen.enabled = true;
+            HudManager.Instance.FullScreen.gameObject.SetActive(true);
             HudManager.Instance.StartCoroutine(Effects.Lerp(TimeMaster.rewindTime / 2, new Action<float>((p) => {
                 if (p == 1f) HudManager.Instance.FullScreen.enabled = false;
             })));
@@ -385,10 +418,17 @@ namespace TheOtherRoles
             })));
         }
 
-        public static void soliderLoseBulletproof()
+        public static void soliderLoseBulletproof(byte inMeeting = 0)
         {
             Solider.usedBulletProof = true;
+            Solider.isInLatency = true;
             Solider.usedGun = false;
+
+            if (inMeeting != 0)
+            {
+                Solider.bulletProofDisappearLatency = 0.0f;
+                Solider.isInLatency = false;
+            }
         }
         
         public static void soliderLoseGun()
@@ -409,21 +449,7 @@ namespace TheOtherRoles
             bool isShieldedAndShow = Medic.shielded == PlayerControl.LocalPlayer && Medic.showAttemptToShielded;
             bool isMedicAndShow = Medic.medic == PlayerControl.LocalPlayer && Medic.showAttemptToMedic;
 
-            if ((isShieldedAndShow || isMedicAndShow) && HudManager.Instance?.FullScreen != null) {
-                HudManager.Instance.FullScreen.enabled = true;
-                HudManager.Instance.StartCoroutine(Effects.Lerp(0.5f, new Action<float>((p) => {
-                    var renderer = HudManager.Instance.FullScreen;
-                    Color c = Palette.ImpostorRed;
-                    if (p < 0.5) {
-                        if (renderer != null)
-                            renderer.color = new Color(c.r, c.g, c.b, Mathf.Clamp01(p * 2 * 0.75f));
-                    } else {
-                        if (renderer != null)
-                            renderer.color = new Color(c.r, c.g, c.b, Mathf.Clamp01((1-p) * 2 * 0.75f));
-                    }
-                    if (p == 1f && renderer != null) renderer.enabled = false;
-                })));
-            }
+            if (isShieldedAndShow || isMedicAndShow) Helpers.showFlash(Palette.ImpostorRed, duration: 0.5f);
         }
 
         public static void shifterShift(byte targetId) {
@@ -435,7 +461,7 @@ namespace TheOtherRoles
             Shifter.clearAndReload();
 
             // Suicide (exile) when impostor or impostor variants
-            if (player.Data.Role.IsImpostor || player == Jackal.jackal || player == Sidekick.sidekick || Jackal.formerJackals.Contains(player) || player == Jester.jester || player == Arsonist.arsonist || player == Vulture.vulture || player == Lawyer.lawyer) {
+            if (player.Data.Role.IsImpostor || player == Jackal.jackal || player == Sidekick.sidekick || Jackal.formerJackals.Contains(player) || player == Jester.jester || player == Arsonist.arsonist || player == Vulture.vulture || player == Lawyer.lawyer || player == Revenger.revenger || player == Vigilante.vigilante || player == Informer.informer) {
                 oldShifter.Exiled();
                 return;
             }
@@ -641,6 +667,9 @@ namespace TheOtherRoles
             // Other roles
             if (player == Jester.jester) Jester.clearAndReload();
             if (player == Arsonist.arsonist) Arsonist.clearAndReload();
+            if (player == Vigilante.vigilante) Vigilante.clearAndReload();
+            if (player == Informer.informer) Informer.clearAndReload();
+            if (player == Revenger.revenger) Revenger.clearAndReload();
             if (Guesser.isGuesser(player.PlayerId)) Guesser.clear(player.PlayerId);
             if (!ignoreLovers && (player == Lovers.lover1 || player == Lovers.lover2)) { // The whole Lover couple is being erased
                 Lovers.clearAndReload(); 
@@ -776,7 +805,42 @@ namespace TheOtherRoles
                     if (playerInfo != null) playerInfo.text = "";
             }
         }
+        
+        public static void vigilanteAndInformerDie() 
+        {
+            if (Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead &&
+                !Vigilante.vigilante.Data.Disconnected)
+            {
+                uncheckedMurderPlayer(Vigilante.vigilante.Data.PlayerId, Vigilante.vigilante.Data.PlayerId, Byte.MaxValue);
+            }
 
+            if (Informer.informer != null && !Informer.informer.Data.IsDead && !Informer.informer.Data.Disconnected)
+            {
+                uncheckedMurderPlayer(Vigilante.vigilante.Data.PlayerId, Informer.informer.Data.PlayerId, Byte.MaxValue);
+            }
+        }
+        
+        public static void informerSetTarget(byte playerId) {
+            Informer.target = Helpers.playerById(playerId);
+        }
+        public static void becomeRevenger()
+        {
+            if (Vigilante.vigilante == null && Informer.informer == null) return;
+            if (Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead && !Vigilante.vigilante.Data.Disconnected && (Informer.informer == null || Informer.informer.Data.IsDead || Informer.informer.Data.Disconnected) && !Vigilante.targetElimated)
+            {
+                Revenger.revenger = Vigilante.vigilante;
+                Vigilante.clearAndReload();
+            }
+            else if (Informer.informer != null && !Informer.informer.Data.IsDead && !Informer.informer.Data.Disconnected && (Vigilante.vigilante == null || Vigilante.vigilante.Data.IsDead || Vigilante.vigilante.Data.Disconnected) && !Informer.targetElimated)
+            {
+                Revenger.revenger = Informer.informer;
+                Informer.clearAndReload();
+            }
+
+            if (Revenger.revenger != null && PlayerControl.LocalPlayer == Revenger.revenger)
+                new CustomMessage("你的伙伴死了，杀死所有人以获得胜利!", 3.0f);
+        }
+        
         public static void guesserShoot(byte killerId, byte dyingTargetId, byte guessedTargetId, byte guessedRoleId) {
             PlayerControl dyingTarget = Helpers.playerById(dyingTargetId);
             if (dyingTarget == null ) return;
@@ -884,6 +948,12 @@ namespace TheOtherRoles
                     byte showAnimation = reader.ReadByte();
                     RPCProcedure.uncheckedMurderPlayer(source, target, showAnimation);
                     break;
+                case (byte)CustomRPC.VigilanteEliminateTarget:
+                    byte vigilanteSource = reader.ReadByte();
+                    byte vigilanteTarget = reader.ReadByte();
+                    byte vigilanteShowAnimation = reader.ReadByte();
+                    RPCProcedure.vigilanteEliminateTarget(vigilanteSource, vigilanteTarget, vigilanteShowAnimation);
+                    break;
                 case (byte)CustomRPC.UncheckedExilePlayer:
                     byte exileTarget = reader.ReadByte();
                     RPCProcedure.uncheckedExilePlayer(exileTarget);
@@ -916,7 +986,8 @@ namespace TheOtherRoles
                     RPCProcedure.timeMasterShield();
                     break;
                 case (byte)CustomRPC.SoliderLoseBulletproof:
-                    RPCProcedure.soliderLoseBulletproof();
+                    byte inMeeting = reader.ReadByte();
+                    RPCProcedure.soliderLoseBulletproof(inMeeting);
                     break;
                 case (byte)CustomRPC.SoliderLoseGun:
                     RPCProcedure.soliderLoseGun();
@@ -1009,6 +1080,15 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.LawyerPromotesToPursuer:
                     RPCProcedure.lawyerPromotesToPursuer();
+                    break;
+                case (byte)CustomRPC.VigilanteAndInformerDie:
+                    RPCProcedure.vigilanteAndInformerDie();
+                    break;
+                case (byte)CustomRPC.InformerSetTarget:
+                    RPCProcedure.informerSetTarget(reader.ReadByte());
+                    break;
+                case (byte)CustomRPC.BecomeRevenger:
+                    RPCProcedure.becomeRevenger();
                     break;
                 case (byte)CustomRPC.SetBlanked:
                     var pid = reader.ReadByte();

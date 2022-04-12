@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Epic.OnlineServices.Presence;
 using static TheOtherRoles.TheOtherRoles;
 using static TheOtherRoles.GameHistory;
 using TheOtherRoles.Objects;
@@ -48,17 +49,17 @@ namespace TheOtherRoles.Patches {
         }
 
         static void setPlayerOutline(PlayerControl target, Color color) {
-            if (target == null || target.myRend == null) return;
+            if (target == null || target.MyRend == null) return;
 
-            target.myRend.material.SetFloat("_Outline", 1f);
-            target.myRend.material.SetColor("_OutlineColor", color);
+            target.MyRend.material.SetFloat("_Outline", 1f);
+            target.MyRend.material.SetColor("_OutlineColor", color);
         }
 
         // Update functions
 
         static void setBasePlayerOutlines() {
             foreach (PlayerControl target in PlayerControl.AllPlayerControls) {
-                if (target == null || target.myRend == null) continue;
+                if (target == null || target.MyRend == null) continue;
 
                 bool isMorphedMorphling = target == Morphling.morphling && Morphling.morphTarget != null && Morphling.morphTimer > 0f;
                 bool hasVisibleShield = false;
@@ -69,17 +70,16 @@ namespace TheOtherRoles.Patches {
                 }
 
                 if (hasVisibleShield) {
-                    target.myRend.material.SetFloat("_Outline", 1f);
-                    target.myRend.material.SetColor("_OutlineColor", Medic.shieldedColor);
+                    target.MyRend.material.SetFloat("_Outline", 1f);
+                    target.MyRend.material.SetColor("_OutlineColor", Medic.shieldedColor);
                 }
-                else if(PlayerControl.LocalPlayer == Solider.solider && target == Solider.solider && !Solider.usedBulletProof)
-                {
-                    TheOtherRolesPlugin.Logger.LogMessage("Solider.usedBulletProof:"+Solider.usedBulletProof);
+                else if(PlayerControl.LocalPlayer == Solider.solider && target == Solider.solider && (!Solider.usedBulletProof || Solider.usedBulletProof && Solider.isInLatency))
+                { 
                     target.myRend.material.SetFloat("_Outline",1f);
                     target.myRend.material.SetColor("_OutlineColor", Solider.bulletproofColor);
                 }
                 else {
-                    target.myRend.material.SetFloat("_Outline", 0f);
+                    target.MyRend.material.SetFloat("_Outline", 0f);
                 }
             }
         }
@@ -741,13 +741,82 @@ namespace TheOtherRoles.Patches {
             }
         }
 
-        public static void soliderSetTarget()
+        static void soliderSetTarget()
         {
             if (Solider.solider == null || PlayerControl.LocalPlayer != Solider.solider || Solider.solider.Data.IsDead) return;
-            if (Solider.usedBulletProof && Solider.usedGun == false)
+            if (Solider.usedBulletProof && !Solider.isInLatency && Solider.usedGun == false)
             {
                 Solider.target = setTarget();
                 setPlayerOutline(Solider.target, Solider.color);
+            }
+        }
+
+        static void revengerSetTarget()
+        {
+            if (Revenger.revenger == null || PlayerControl.LocalPlayer != Revenger.revenger || Revenger.revenger.Data.IsDead || Revenger.revenger.Data.Disconnected) return;
+            Revenger.target = setTarget();
+            setPlayerOutline(Revenger.target, Revenger.color);
+        }
+        
+        static void vigilanteSetTarget()
+        {
+            if (Vigilante.vigilante == null || PlayerControl.LocalPlayer != Vigilante.vigilante || Vigilante.vigilante.Data.IsDead || Vigilante.vigilante.Data.Disconnected) return;
+            Vigilante.target = setTarget();
+            setPlayerOutline(Vigilante.target, Vigilante.color);
+        }
+
+        static void vigilanteAndInformerStateCheck()
+        {
+            if ((Vigilante.vigilante != PlayerControl.LocalPlayer || Vigilante.vigilante == null) && 
+                (Informer.informer != PlayerControl.LocalPlayer || Informer.informer == null)) return;
+            
+            if ((Vigilante.vigilante != null && !Vigilante.vigilante.Data.IsDead && !Vigilante.vigilante.Data.Disconnected && (Informer.informer == null || Informer.informer.Data.IsDead || Informer.informer.Data.Disconnected) && !Vigilante.targetElimated) || 
+                (Informer.informer != null && !Informer.informer.Data.IsDead && !Informer.informer.Data.Disconnected && (Vigilante.vigilante == null || Vigilante.vigilante.Data.IsDead || Vigilante.vigilante.Data.Disconnected) && !Informer.targetElimated))
+            {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.BecomeRevenger, Hazel.SendOption.Reliable, -1);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPCProcedure.becomeRevenger();
+            }
+        }
+
+        static void InformerTargetUpdate()
+        {
+            if (Informer.targetElimated || Informer.informer == null || Informer.informer.Data.IsDead || Informer.informer.Data.Disconnected)
+            {
+                Informer.target = null;
+                return;
+            }
+            if (Informer.target == null || Informer.target == Vigilante.vigilante || Informer.target == Informer.informer || Informer.target == Mini.mini || (Informer.target.Data.IsDead || Informer.target.Data.Disconnected))
+            {
+                var possibleTargets = new List<PlayerControl>();
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if(!p.Data.IsDead && !p.Data.Disconnected && Vigilante.vigilante != p && Informer.informer != p)
+                        possibleTargets.Add(p);
+                    if (possibleTargets.Count == 0) {
+                        
+                    } else {
+                        var target = possibleTargets[TheOtherRoles.rnd.Next(0, possibleTargets.Count)];
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.InformerSetTarget, Hazel.SendOption.Reliable, -1);
+                        writer.Write(target.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPCProcedure.informerSetTarget(target.PlayerId);
+                    }
+                }
+            }
+        }
+
+        static void soliderUpdate()
+        {
+            if (Solider.solider != null && PlayerControl.LocalPlayer == Solider.solider && !Solider.solider.Data.IsDead)
+            {
+                if (Solider.isInLatency)
+                    Solider.bulletProofDisappearLatency -= Time.fixedDeltaTime;
+
+                if (Solider.bulletProofDisappearLatency <= 0f)
+                {
+                    Solider.isInLatency = false;
+                }
             }
         }
 
@@ -846,6 +915,13 @@ namespace TheOtherRoles.Patches {
                 lawyerUpdate();
                 //Solider
                 soliderSetTarget();
+                soliderUpdate();
+                //Vigilante
+                vigilanteSetTarget();
+                vigilanteAndInformerStateCheck();
+                InformerTargetUpdate();
+                //Revenger
+                revengerSetTarget();
                 // Pursuer
                 pursuerSetTarget();
                 // Witch
@@ -981,25 +1057,14 @@ namespace TheOtherRoles.Patches {
 
             // Warlock Button Sync
             if (Warlock.warlock != null && PlayerControl.LocalPlayer == Warlock.warlock && __instance == Warlock.warlock && HudManagerStartPatch.warlockCurseButton != null) {
-                if(Warlock.warlock.killTimer > HudManagerStartPatch.warlockCurseButton.Timer) {
+                if (Warlock.warlock.killTimer > HudManagerStartPatch.warlockCurseButton.Timer) {
                     HudManagerStartPatch.warlockCurseButton.Timer = Warlock.warlock.killTimer;
                 }
             }
 
             // Seer show flash and add dead player position
             if (Seer.seer != null && PlayerControl.LocalPlayer == Seer.seer && !Seer.seer.Data.IsDead && Seer.seer != target && Seer.mode <= 1) {
-                HudManager.Instance.FullScreen.enabled = true;
-                HudManager.Instance.StartCoroutine(Effects.Lerp(1f, new Action<float>((p) => {
-                    var renderer = HudManager.Instance.FullScreen;
-                    if (p < 0.5) {
-                        if (renderer != null)
-                            renderer.color = new Color(42f / 255f, 187f / 255f, 245f / 255f, Mathf.Clamp01(p * 2 * 0.75f));
-                    } else {
-                        if (renderer != null)
-                            renderer.color = new Color(42f / 255f, 187f / 255f, 245f / 255f, Mathf.Clamp01((1-p) * 2 * 0.75f));
-                    }
-                    if (p == 1f && renderer != null) renderer.enabled = false;
-                })));
+                Helpers.showFlash(new Color(42f / 255f, 187f / 255f, 245f / 255f));
             }
             if (Seer.deadBodyPositions != null) Seer.deadBodyPositions.Add(target.transform.position);
 
@@ -1029,19 +1094,7 @@ namespace TheOtherRoles.Patches {
 
             // Show flash on bait kill to the killer if enabled
             if (Bait.bait != null && target == Bait.bait && Bait.showKillFlash && __instance == PlayerControl.LocalPlayer) {
-                HudManager.Instance.FullScreen.enabled = true;
-                HudManager.Instance.StartCoroutine(Effects.Lerp(1f, new Action<float>((p) => {
-                    var renderer = HudManager.Instance.FullScreen;
-                    if (p < 0.5) {
-                        if (renderer != null)
-                            renderer.color = new Color(204f / 255f, 102f / 255f, 0f / 255f, Mathf.Clamp01(p * 2 * 0.75f));
-                    }
-                    else {
-                        if (renderer != null)
-                            renderer.color = new Color(204f / 255f, 102f / 255f, 0f / 255f, Mathf.Clamp01((1 - p) * 2 * 0.75f));
-                    }
-                    if (p == 1f && renderer != null) renderer.enabled = false;
-                })));
+                Helpers.showFlash(new Color(204f / 255f, 102f / 255f, 0f / 255f));
             }
         }
     }
@@ -1063,7 +1116,7 @@ namespace TheOtherRoles.Patches {
 
     [HarmonyPatch(typeof(KillAnimation), nameof(KillAnimation.CoPerformKill))]
     class KillAnimationCoPerformKillPatch {
-        public static bool hideNextAnimation = true;
+        public static bool hideNextAnimation = false;
         public static void Prefix(KillAnimation __instance, [HarmonyArgument(0)]ref PlayerControl source, [HarmonyArgument(1)]ref PlayerControl target) {
             if (hideNextAnimation)
                 source = target;
@@ -1075,7 +1128,7 @@ namespace TheOtherRoles.Patches {
     class KillAnimationSetMovementPatch {
         private static int? colorId = null;
         public static void Prefix(PlayerControl source, bool canMove) {
-            Color color = source.myRend.material.GetColor("_BodyColor");
+            Color color = source.MyRend.material.GetColor("_BodyColor");
             if (color != null && Morphling.morphling != null && source.Data.PlayerId == Morphling.morphling.PlayerId) {
                 var index = Palette.PlayerColors.IndexOf(color);
                 if (index != -1) colorId = index;

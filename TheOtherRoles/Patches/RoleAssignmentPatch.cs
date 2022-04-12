@@ -5,6 +5,7 @@ using System.Linq;
 using UnhollowerBaseLib;
 using UnityEngine;
 using System;
+using Rewired;
 using static TheOtherRoles.TheOtherRoles;
 
 namespace TheOtherRoles.Patches {
@@ -145,6 +146,14 @@ namespace TheOtherRoles.Patches {
                     }
                 }
             }
+            
+            // Assign Vigilante and Informer
+            if (data.maxNeutralRoles >= 2 && data.crewmates.Count >= 2 && (rnd.Next(1, 101) <= CustomOptionHolder.vigilanteSpawnRate.getSelection() * 10))
+            {
+                setRoleToRandomPlayer((byte)RoleId.Vigilante, data.crewmates);
+                setRoleToRandomPlayer((byte)RoleId.Informer, data.crewmates);
+                data.maxNeutralRoles -= 2;
+            }
 
             // Assign Mafia
             if (data.impostors.Count >= 3 && data.maxImpostorRoles >= 3 && (rnd.Next(1, 101) <= CustomOptionHolder.mafiaSpawnRate.getSelection() * 10)) {
@@ -170,7 +179,6 @@ namespace TheOtherRoles.Patches {
                 CustomOptionHolder.guesserSpawnBothRate.getSelection() == 0) {
                     if (isEvilGuesser) data.impSettings.Add((byte)RoleId.EvilGuesser, CustomOptionHolder.guesserSpawnRate.getSelection());
                     else data.crewSettings.Add((byte)RoleId.NiceGuesser, CustomOptionHolder.guesserSpawnRate.getSelection());
-
             }
 
             // Assign Sheriff
@@ -178,8 +186,7 @@ namespace TheOtherRoles.Patches {
                 CustomOptionHolder.sheriffSpawnRate.getSelection() == 10) ||
                 CustomOptionHolder.deputySpawnRate.getSelection() == 0) 
                     data.crewSettings.Add((byte)RoleId.Sheriff, CustomOptionHolder.sheriffSpawnRate.getSelection());
-
-
+            
             crewValues = data.crewSettings.Values.ToList().Sum();
             impValues = data.impSettings.Values.ToList().Sum();
         }
@@ -240,14 +247,13 @@ namespace TheOtherRoles.Patches {
             bool guesserFlag = CustomOptionHolder.guesserSpawnBothRate.getSelection() > 0 
                 && CustomOptionHolder.guesserSpawnRate.getSelection() > 0;
             bool sheriffFlag = CustomOptionHolder.deputySpawnRate.getSelection() > 0 
-                && CustomOptionHolder.sheriffSpawnRate.getSelection() > 0
-                && Sheriff.sheriff == null;
+                && CustomOptionHolder.sheriffSpawnRate.getSelection() > 0;
 
             if (!guesserFlag && !sheriffFlag) return; // assignDependentRoles is not needed
 
             int crew = data.crewmates.Count < data.maxCrewmateRoles ? data.crewmates.Count : data.maxCrewmateRoles; // Max number of crew loops
             int imp = data.impostors.Count < data.maxImpostorRoles ? data.impostors.Count : data.maxImpostorRoles; // Max number of imp loops
-            int crewSteps = crew / data.crewSettings.Keys.Count(); // Avarage crewvalues deducted after each loop
+            int crewSteps = crew / data.crewSettings.Keys.Count(); // Avarage crewvalues deducted after each loop 
             int impSteps = imp / data.impSettings.Keys.Count(); // Avarage impvalues deducted after each loop
 
             // set to false if needed, otherwise we can skip the loop
@@ -374,6 +380,25 @@ namespace TheOtherRoles.Patches {
                     writer.Write(target.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPCProcedure.lawyerSetTarget(target.PlayerId);
+                }
+            }
+            // Set Informer Target
+            if (Informer.informer != null && Vigilante.vigilante != null)
+            {
+                var possibleTargets = new List<PlayerControl>();
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if(!p.Data.IsDead && !p.Data.Disconnected && Vigilante.vigilante != p && Informer.informer != p && Mini.mini != p)
+                        possibleTargets.Add(p);
+                    if (possibleTargets.Count == 0) {
+                        
+                    } else {
+                        var target = possibleTargets[TheOtherRoles.rnd.Next(0, possibleTargets.Count)];
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.InformerSetTarget, Hazel.SendOption.Reliable, -1);
+                        writer.Write(target.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPCProcedure.informerSetTarget(target.PlayerId);
+                    }
                 }
             }
         }
