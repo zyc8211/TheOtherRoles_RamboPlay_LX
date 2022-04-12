@@ -401,7 +401,7 @@ namespace TheOtherRoles.Modules {
                 string jsonPath = Path.GetDirectoryName(Application.dataPath) + @"\CustomHats.json";
                 string json = File.ReadAllText(jsonPath);
                 JToken jobj = JObject.Parse(json)["hats"];
-                if (!jobj.HasValues) return HttpStatusCode.ExpectationFailed;
+                if (!jobj.HasValues) return ;
 
                 List<CustomHatOnline> hatdatas = new List<CustomHatOnline>();
 
