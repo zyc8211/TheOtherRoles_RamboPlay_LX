@@ -238,7 +238,6 @@ namespace TheOtherRoles {
         public static CustomOption dynamicMapEnableSkeld;
         public static CustomOption dynamicMapEnableMira;
         public static CustomOption dynamicMapEnablePolus;
-        public static CustomOption dynamicMapEnableDleks;
         public static CustomOption dynamicMapEnableAirShip;
 
         public static CustomOption vigilanteSpawnRate;
@@ -276,7 +275,7 @@ namespace TheOtherRoles {
             morphlingCooldown = CustomOption.Create(21, "化形技能冷却", 30f, 10f, 60f, 2.5f, morphlingSpawnRate);
             morphlingDuration = CustomOption.Create(22, "化形持续时长", 10f, 1f, 20f, 0.5f, morphlingSpawnRate);
 
-            camouflagerSpawnRate = CustomOption.Create(30, cs(Camouflager.color, "伪装者生成概率"), rates, null, true);
+            camouflagerSpawnRate = CustomOption.Create(30, cs(Camouflager.color, "内鬼生成概率"), rates, null, true);
             camouflagerCooldown = CustomOption.Create(31, "伪装技能冷却", 30f, 10f, 60f, 2.5f, camouflagerSpawnRate);
             camouflagerDuration = CustomOption.Create(32, "伪装持续时长", 10f, 1f, 20f, 0.5f, camouflagerSpawnRate);
 
@@ -477,6 +476,7 @@ namespace TheOtherRoles {
             vigilanteCooldown = CustomOption.Create(901, "义警击杀冷却", 30f, 10f, 60f, 2.5f, vigilanteSpawnRate);
             
             // Other options
+
             maxNumberOfMeetings = CustomOption.Create(3, "会议总数（市长会议除外）", 10, 0, 15, 1, null, true);
             blockSkippingInEmergencyMeetings = CustomOption.Create(4, "紧急会议中禁止跳过", false);
             noVoteIsSelfVote = CustomOption.Create(5, "不能给自己投票", false, blockSkippingInEmergencyMeetings);
@@ -488,7 +488,7 @@ namespace TheOtherRoles {
             dynamicMapEnableMira = CustomOption.Create(502, "Mira加入随机列表", true, dynamicMap, false);
             dynamicMapEnablePolus = CustomOption.Create(503, "Polus加入随机列表", true, dynamicMap, false);
             dynamicMapEnableAirShip = CustomOption.Create(504, "Airship加入随机列表", true, dynamicMap, false);
-            dynamicMapEnableDleks = CustomOption.Create(505, "镜像Skeld加入随机列表", false, dynamicMap, false);
+
 
             blockedRolePairings.Add((byte)RoleId.Vampire, new [] { (byte)RoleId.Warlock});
             blockedRolePairings.Add((byte)RoleId.Warlock, new [] { (byte)RoleId.Vampire});
