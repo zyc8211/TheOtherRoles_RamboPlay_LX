@@ -306,8 +306,8 @@ namespace TheOtherRoles {
             neutralRolesCountMax = CustomOption.Create(303,Types.General, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "最大中立数量"), 0f, 0f, 15f, 1f);
             impostorRolesCountMin = CustomOption.Create(304,Types.General, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "最小内鬼数量"), 0f, 0f, 3f, 1f);
             impostorRolesCountMax = CustomOption.Create(305,Types.General, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "最大内鬼数量"), 0f, 0f, 3f, 1f);
-            modifiersCountMin = CustomOption.Create(306, Types.General, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Minimum Modifiers"), 0f, 0f, 15f, 1f);
-            modifiersCountMax = CustomOption.Create(307, Types.General, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Maximum Modifiers"), 0f, 0f, 15f, 1f);
+            modifiersCountMin = CustomOption.Create(306, Types.General, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "最小额外角色数量"), 0f, 0f, 15f, 1f);
+            modifiersCountMax = CustomOption.Create(307, Types.General, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "最大额外角色数量"), 0f, 0f, 15f, 1f);
 
             mafiaSpawnRate = CustomOption.Create(10,Types.Impostor, cs(Janitor.color, "黑手党生成概率"), rates, null, true);
             janitorCooldown = CustomOption.Create(11,Types.Impostor, "清洁工冷却", 30f, 10f, 60f, 2.5f, mafiaSpawnRate);
