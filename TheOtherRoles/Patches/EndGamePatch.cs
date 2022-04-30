@@ -33,7 +33,6 @@ namespace TheOtherRoles.Patches {
         VultureWin,
         LawyerSoloWin,
         AdditionalLawyerBonusWin,
-        AdditionalLawyerStolenWin,
         AdditionalAlivePursuerWin
     }
 
@@ -100,6 +99,8 @@ namespace TheOtherRoles.Patches {
             bool teamJackalWin = gameOverReason == (GameOverReason)CustomGameOverReason.TeamJackalWin && ((Jackal.jackal != null && !Jackal.jackal.Data.IsDead) || (Sidekick.sidekick != null && !Sidekick.sidekick.Data.IsDead));
             bool vultureWin = Vulture.vulture != null && gameOverReason == (GameOverReason)CustomGameOverReason.VultureWin;
             bool lawyerSoloWin = Lawyer.lawyer != null && gameOverReason == (GameOverReason)CustomGameOverReason.LawyerSoloWin;
+
+            bool isPursurerLose = jesterWin || arsonistWin || miniLose || vultureWin || teamJackalWin;
 
             // Mini lose
             if (miniLose) {
@@ -181,7 +182,7 @@ namespace TheOtherRoles.Patches {
             }
 
             // Lawyer solo win 
-            else if (lawyerSoloWin) {
+            else if (lawyerSoloWin && !Pursuer.notAckedExiled) {
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 WinningPlayerData wpd = new WinningPlayerData(Lawyer.lawyer.Data);
                 TempData.winners.Add(wpd);
@@ -189,7 +190,7 @@ namespace TheOtherRoles.Patches {
             }
 
             // Possible Additional winner: Lawyer
-            if (!lawyerSoloWin && Lawyer.lawyer != null && Lawyer.target != null && !Lawyer.target.Data.IsDead) {
+            if (!lawyerSoloWin && Lawyer.lawyer != null && Lawyer.target != null && (!Lawyer.target.Data.IsDead || Lawyer.target == Jester.jester) && !Pursuer.notAckedExiled) {
                 WinningPlayerData winningClient = null;
                 foreach (WinningPlayerData winner in TempData.winners) {
                     if (winner.PlayerName == Lawyer.target.Data.PlayerName)
@@ -198,17 +199,12 @@ namespace TheOtherRoles.Patches {
                 if (winningClient != null) { // The Lawyer wins if the client is winning (and alive, but if he wasn't the Lawyer shouldn't exist anymore)
                     if (!TempData.winners.ToArray().Any(x => x.PlayerName == Lawyer.lawyer.Data.PlayerName))
                         TempData.winners.Add(new WinningPlayerData(Lawyer.lawyer.Data));
-                    if (!Lawyer.lawyer.Data.IsDead) { // The Lawyer steals the clients win
-                        TempData.winners.Remove(winningClient);
-                        AdditionalTempData.additionalWinConditions.Add(WinCondition.AdditionalLawyerStolenWin);
-                    } else { // The Lawyer wins together with the client
-                        AdditionalTempData.additionalWinConditions.Add(WinCondition.AdditionalLawyerBonusWin);
-                    }
+                    AdditionalTempData.additionalWinConditions.Add(WinCondition.AdditionalLawyerBonusWin); // The Lawyer wins together with the client
                 } 
             }
 
             // Possible Additional winner: Pursuer
-            if (Pursuer.pursuer != null && !Pursuer.pursuer.Data.IsDead && !Pursuer.notAckedExiled) {
+            if (Pursuer.pursuer != null && !Pursuer.pursuer.Data.IsDead && !Pursuer.notAckedExiled && !isPursurerLose && !TempData.winners.ToArray().Any(x => x.IsImpostor)) {
                 if (!TempData.winners.ToArray().Any(x => x.PlayerName == Pursuer.pursuer.Data.PlayerName))
                     TempData.winners.Add(new WinningPlayerData(Pursuer.pursuer.Data));
                 AdditionalTempData.additionalWinConditions.Add(WinCondition.AdditionalAlivePursuerWin);
@@ -275,45 +271,43 @@ namespace TheOtherRoles.Patches {
             textRenderer.text = "";
 
             if (AdditionalTempData.winCondition == WinCondition.JesterWin) {
-                textRenderer.text = "小丑胜利";
+                textRenderer.text = "你们都是小丑";
                 textRenderer.color = Jester.color;
             }
             else if (AdditionalTempData.winCondition == WinCondition.ArsonistWin) {
-                textRenderer.text = "纵火犯胜利";
+                textRenderer.text = "让世界熊熊燃烧";
                 textRenderer.color = Arsonist.color;
             }
             else if (AdditionalTempData.winCondition == WinCondition.VultureWin) {
-                textRenderer.text = "秃鹫胜利";
+                textRenderer.text = "吃 吃 吃！";
                 textRenderer.color = Vulture.color;
             }
             else if (AdditionalTempData.winCondition == WinCondition.LawyerSoloWin) {
-                textRenderer.text = "律师胜利";
+                textRenderer.text = "異議あり! ";
                 textRenderer.color = Lawyer.color;
             }
             else if (AdditionalTempData.winCondition == WinCondition.LoversTeamWin) {
-                textRenderer.text = "恋人与船员胜利";
+                textRenderer.text = "爱情助力船员胜利";
                 textRenderer.color = Lovers.color;
                 __instance.BackgroundBar.material.SetColor("_Color", Lovers.color);
             } 
             else if (AdditionalTempData.winCondition == WinCondition.LoversSoloWin) {
-                textRenderer.text = "恋人胜利";
+                textRenderer.text = "真爱不朽";
                 textRenderer.color = Lovers.color;
                 __instance.BackgroundBar.material.SetColor("_Color", Lovers.color);
             }
             else if (AdditionalTempData.winCondition == WinCondition.JackalWin) {
-                textRenderer.text = "豺狼团队胜利";
+                textRenderer.text = "如狼似虎";
                 textRenderer.color = Jackal.color;
             }
             else if (AdditionalTempData.winCondition == WinCondition.MiniLose) {
-                textRenderer.text = "迷你船员死亡";
+                textRenderer.text = "你们怎么可以伤害小孩";
                 textRenderer.color = Mini.color;
             }
 
             foreach (WinCondition cond in AdditionalTempData.additionalWinConditions) {
-                if (cond == WinCondition.AdditionalLawyerStolenWin) {
-                    textRenderer.text += $"\n{Helpers.cs(Lawyer.color, "律师从客户那里窃取了胜利")}";
-                } else if (cond == WinCondition.AdditionalLawyerBonusWin) {
-                    textRenderer.text += $"\n{Helpers.cs(Lawyer.color, "律师与客户一同胜利")}";
+                if (cond == WinCondition.AdditionalLawyerBonusWin) {
+                    textRenderer.text += $"\n{Helpers.cs(Lawyer.color, "律师和客户一同胜利")}";
                 } else if (cond == WinCondition.AdditionalAlivePursuerWin) {
                     textRenderer.text += $"\n{Helpers.cs(Pursuer.color, "起诉人活了下来")}";
                 }
@@ -326,7 +320,7 @@ namespace TheOtherRoles.Patches {
                 roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
 
                 var roleSummaryText = new StringBuilder();
-                roleSummaryText.AppendLine("游戏结束时的玩家及其角色:");
+                roleSummaryText.AppendLine("玩家和角色列表:");
                 foreach(var data in AdditionalTempData.playerRoles) {
                     var roles = string.Join(" ", data.Roles.Select(x => Helpers.cs(x.color, x.name)));
                     var taskInfo = data.TasksTotal > 0 ? $" - <color=#FAD934FF>({data.TasksCompleted}/{data.TasksTotal})</color>" : "";
