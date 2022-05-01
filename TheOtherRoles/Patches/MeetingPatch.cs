@@ -230,13 +230,13 @@ namespace TheOtherRoles.Patches {
                 } else {
                     selections[i] = true;
                     renderer.color = Color.yellow;
-                    swapperConfirmButtonLabel.text = Helpers.cs(Color.yellow, "Confirm Swap");
+                    swapperConfirmButtonLabel.text = Helpers.cs(Color.yellow, "确认换票");
                 }
             } else if (selectedCount == 2) {
                 if (selections[i]) {
                     renderer.color = Color.red;
                     selections[i] = false;
-                    swapperConfirmButtonLabel.text = Helpers.cs(Color.red, "Confirm Swap");
+                    swapperConfirmButtonLabel.text = Helpers.cs(Color.red, "确认换票");
                 }
             }
         }
@@ -269,7 +269,7 @@ namespace TheOtherRoles.Patches {
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                 RPCProcedure.swapperSwap((byte)firstPlayer.TargetPlayerId, (byte)secondPlayer.TargetPlayerId);
-                swapperConfirmButtonLabel.text = Helpers.cs(Color.green, "Swapping!");
+                swapperConfirmButtonLabel.text = Helpers.cs(Color.green, "换票中!");
                 Swapper.charges--;
                 swapperChargesText.text = $"Swaps: {Swapper.charges}";
             }
