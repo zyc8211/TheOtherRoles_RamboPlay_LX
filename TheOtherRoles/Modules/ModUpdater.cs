@@ -145,8 +145,8 @@ namespace TheOtherRoles.Modules {
                 int diff = TheOtherRolesPlugin.Version.CompareTo(ver);
                 if (diff < 0) { // Update required
                     hasUpdate = true;
-                    announcement = $@"<size=150%>A new <color=#FC0303>THE OTHER ROLES</color>
-update to v{ver} is available</size>
+                    announcement = $@"<size=150%>有新的 <color=#FC0303>超多职业模组</color>
+v{ver} 的更新可用</size>
 
 {announcement}";
 
@@ -165,7 +165,7 @@ update to v{ver} is available</size>
                         }
                     }
                 }  else {
-                    announcement = $@"<size=150%><color=#FC0303>THE OTHER ROLES</color> Version {ver}:</size>
+                    announcement = $@"<size=150%><color=#FC0303>超多职业模组</color> 版本 {ver}:</size>
 
 {announcement}";
                 }
@@ -198,13 +198,13 @@ update to v{ver} is available</size>
                         responseStream.CopyTo(fileStream); 
                     }
                 }
-                showPopup("The Other Roles\nupdated successfully\nPlease restart the game.");
+                showPopup("超多职业模组\n更新成功\n请重启游戏.");
                 return true;
             } catch (System.Exception ex) {
                 TheOtherRolesPlugin.Instance.Log.LogError(ex.ToString());
                 System.Console.WriteLine(ex);
             }
-            showPopup("Update wasn't successful\nTry again later,\nor update manually.");
+            showPopup("更新不成功\n请稍后再试,\n或尝试手动更新.");
             return false;
         }
         private static void showPopup(string message) {
