@@ -513,40 +513,40 @@ namespace TheOtherRoles {
             mediumOneTimeUse = CustomOption.Create(363,Types.Crewmate, "每个灵魂只可被提问一次", false, mediumSpawnRate);
             
             // Modifier
-            modifierBloody = CustomOption.Create(1000, Types.Modifier, cs(Color.yellow, "血语者生成概率"), rates, null, true);
-            modifierBloodyQuantity = CustomOption.Create(1001, Types.Modifier, cs(Color.yellow, "血语者数量"), ratesModifier, modifierBloody);
+            modifierBloody = CustomOption.Create(1000, Types.Modifier, cs(Color.yellow, "血淋淋的生成概率"), rates, null, true);
+            modifierBloodyQuantity = CustomOption.Create(1001, Types.Modifier, cs(Color.yellow, "血淋淋的数量"), ratesModifier, modifierBloody);
             modifierBloodyDuration = CustomOption.Create(1002, Types.Modifier, "血迹持续时长", 10f, 3f, 60f, 1f, modifierBloody);
 
-            modifierAntiTeleport = CustomOption.Create(1010, Types.Modifier, cs(Color.yellow, "停滞生成概率"), rates, null, true);
-            modifierAntiTeleportQuantity = CustomOption.Create(1011, Types.Modifier, cs(Color.yellow, "停滞数量"), ratesModifier, modifierAntiTeleport);
+            modifierAntiTeleport = CustomOption.Create(1010, Types.Modifier, cs(Color.yellow, "停滞的生成概率"), rates, null, true);
+            modifierAntiTeleportQuantity = CustomOption.Create(1011, Types.Modifier, cs(Color.yellow, "停滞的数量"), ratesModifier, modifierAntiTeleport);
 
-            modifierTieBreaker = CustomOption.Create(1020, Types.Modifier, cs(Color.yellow, "裁判官生成概率"), rates, null, true);
+            modifierTieBreaker = CustomOption.Create(1020, Types.Modifier, cs(Color.yellow, "裁决的生成概率"), rates, null, true);
 
-            modifierBait = CustomOption.Create(1030, Types.Modifier, cs(Color.yellow, "诱饵生成概率"), rates, null, true);
-            modifierBaitQuantity = CustomOption.Create(1031, Types.Modifier, cs(Color.yellow, "诱饵数量"), ratesModifier, modifierBait);
-            modifierBaitReportDelayMin = CustomOption.Create(1032, Types.Modifier, "诱饵延迟报告最低时长", 0f, 0f, 10f, 1f, modifierBait);
-            modifierBaitReportDelayMax = CustomOption.Create(1033, Types.Modifier, "诱饵延迟报告最大时长", 0f, 0f, 10f, 1f, modifierBait);
+            modifierBait = CustomOption.Create(1030, Types.Modifier, cs(Color.yellow, "诱饵的生成概率"), rates, null, true);
+            modifierBaitQuantity = CustomOption.Create(1031, Types.Modifier, cs(Color.yellow, "诱饵的数量"), ratesModifier, modifierBait);
+            modifierBaitReportDelayMin = CustomOption.Create(1032, Types.Modifier, "诱饵的延迟报告最低时长", 0f, 0f, 10f, 1f, modifierBait);
+            modifierBaitReportDelayMax = CustomOption.Create(1033, Types.Modifier, "诱饵的延迟报告最大时长", 0f, 0f, 10f, 1f, modifierBait);
             modifierBaitShowKillFlash = CustomOption.Create(1034, Types.Modifier, "是否用闪光警告杀人者", true, modifierBait);
 
-            modifierLover = CustomOption.Create(1040, Types.Modifier, cs(Color.yellow, "恋人生成概率"), rates, null, true);
+            modifierLover = CustomOption.Create(1040, Types.Modifier, cs(Color.yellow, "热恋的生成概率"), rates, null, true);
             modifierLoverImpLoverRate = CustomOption.Create(1041, Types.Modifier, "有一个恋人是内鬼的概率", rates, modifierLover);
             modifierLoverBothDie = CustomOption.Create(1042, Types.Modifier, "恋人共死", true, modifierLover);
             modifierLoverEnableChat = CustomOption.Create(1043, Types.Modifier, "允许恋人私聊", true, modifierLover);
 
-            modifierSunglasses = CustomOption.Create(1050, Types.Modifier, cs(Color.yellow, "瞎子生成概率"), rates, null, true);
-            modifierSunglassesQuantity = CustomOption.Create(1051, Types.Modifier, cs(Color.yellow, "瞎子数量"), ratesModifier, modifierSunglasses);
-            modifierSunglassesVision = CustomOption.Create(1052, Types.Modifier, "瞎子的视野范围", new string[] { "-10%", "-20%", "-30%", "-40%", "-50%" }, modifierSunglasses);
+            modifierSunglasses = CustomOption.Create(1050, Types.Modifier, cs(Color.yellow, "目盲的生成概率"), rates, null, true);
+            modifierSunglassesQuantity = CustomOption.Create(1051, Types.Modifier, cs(Color.yellow, "目盲的数量"), ratesModifier, modifierSunglasses);
+            modifierSunglassesVision = CustomOption.Create(1052, Types.Modifier, "目盲的视野范围", new string[] { "-10%", "-20%", "-30%", "-40%", "-50%" }, modifierSunglasses);
 
-            modifierMini = CustomOption.Create(1061, Types.Modifier, cs(Color.yellow, "迷你船员生成概率"), rates, null, true);
-            modifierMiniGrowingUpDuration = CustomOption.Create(1062, Types.Modifier, "迷你船员长大时间", 400f, 100f, 1500f, 100f, modifierMini);
+            modifierMini = CustomOption.Create(1061, Types.Modifier, cs(Color.yellow, "迷你的生成概率"), rates, null, true);
+            modifierMiniGrowingUpDuration = CustomOption.Create(1062, Types.Modifier, "迷你的长大时间", 400f, 100f, 1500f, 100f, modifierMini);
 
-            modifierVip = CustomOption.Create(1070, Types.Modifier, cs(Color.yellow, "VIP生成概率"), rates, null, true);
-            modifierVipQuantity = CustomOption.Create(1071, Types.Modifier, cs(Color.yellow, "VIP数量"), ratesModifier, modifierVip);
-            modifierVipShowColor = CustomOption.Create(1072, Types.Modifier, "显示VIP的队伍颜色", true, modifierVip);
+            modifierVip = CustomOption.Create(1070, Types.Modifier, cs(Color.yellow, "尊贵的生成概率"), rates, null, true);
+            modifierVipQuantity = CustomOption.Create(1071, Types.Modifier, cs(Color.yellow, "尊贵的数量"), ratesModifier, modifierVip);
+            modifierVipShowColor = CustomOption.Create(1072, Types.Modifier, "显示尊贵的队伍颜色", true, modifierVip);
 
-            modifierInvert = CustomOption.Create(1080, Types.Modifier, cs(Color.yellow, "脑瘫生成概率"), rates, null, true);
-            modifierInvertQuantity = CustomOption.Create(1081, Types.Modifier, cs(Color.yellow, "脑瘫数量"), ratesModifier, modifierInvert);
-            modifierInvertDuration = CustomOption.Create(1082, Types.Modifier, "脑瘫持续几轮会议", 3f, 1f, 15f, 1f, modifierInvert);
+            modifierInvert = CustomOption.Create(1080, Types.Modifier, cs(Color.yellow, "颠倒的生成概率"), rates, null, true);
+            modifierInvertQuantity = CustomOption.Create(1081, Types.Modifier, cs(Color.yellow, "颠倒的数量"), ratesModifier, modifierInvert);
+            modifierInvertDuration = CustomOption.Create(1082, Types.Modifier, "颠倒的持续几轮会议", 3f, 1f, 15f, 1f, modifierInvert);
 
             // Other options
 

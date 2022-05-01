@@ -71,15 +71,15 @@ namespace TheOtherRoles
         
 
         // Modifier
-        public static RoleInfo bloody = new RoleInfo("血语者", Color.yellow, "杀死你的人将会留下血迹", "杀死你的人将会留下血迹", RoleId.Bloody, false, true);
-        public static RoleInfo antiTeleport = new RoleInfo("停滞", Color.yellow, "你不会被传送", "你不会被传送", RoleId.AntiTeleport, false, true);
-        public static RoleInfo tiebreaker = new RoleInfo("裁判官", Color.yellow, "由你裁定平票", "打破僵局", RoleId.Tiebreaker, false, true);
-        public static RoleInfo bait = new RoleInfo("诱饵", Color.yellow, "引诱你的敌人", "引诱你的敌人", RoleId.Bait, false, true);
-        public static RoleInfo sunglasses = new RoleInfo("瞎子", Color.yellow, "你瞎了", "你的视野范围缩小了", RoleId.Sunglasses, false, true);
-        public static RoleInfo lover = new RoleInfo("恋人", Lovers.color, $"你们相爱了", $"你们相爱了", RoleId.Lover, false, true);
-        public static RoleInfo mini = new RoleInfo("迷你船员", Color.yellow, "在你长大前没人可以杀死你", "没人可以伤害你", RoleId.Mini, false, true);
-        public static RoleInfo vip = new RoleInfo("VIP", Color.yellow, "你是VIP", "所有人都会知道你死了", RoleId.Vip, false, true);
-        public static RoleInfo invert = new RoleInfo("脑瘫", Color.yellow, "你的操作是反向的", "你的移动是反向的", RoleId.Invert, false, true);
+        public static RoleInfo bloody = new RoleInfo("血淋淋的", Color.yellow, "杀死你的人将会留下血迹", "杀死你的人将会留下血迹", RoleId.Bloody, false, true);
+        public static RoleInfo antiTeleport = new RoleInfo("停滞的", Color.yellow, "你不会被传送", "你不会被传送", RoleId.AntiTeleport, false, true);
+        public static RoleInfo tiebreaker = new RoleInfo("裁决的", Color.yellow, "由你裁定平票", "打破僵局", RoleId.Tiebreaker, false, true);
+        public static RoleInfo bait = new RoleInfo("诱饵的", Color.yellow, "引诱你的敌人", "引诱你的敌人", RoleId.Bait, false, true);
+        public static RoleInfo sunglasses = new RoleInfo("目盲的", Color.yellow, "你瞎了", "你的视野范围缩小了", RoleId.Sunglasses, false, true);
+        public static RoleInfo lover = new RoleInfo("热恋的", Lovers.color, $"你们相爱了", $"你们相爱了", RoleId.Lover, false, true);
+        public static RoleInfo mini = new RoleInfo("迷你的", Color.yellow, "在你长大前没人可以杀死你", "没人可以伤害你", RoleId.Mini, false, true);
+        public static RoleInfo vip = new RoleInfo("尊贵的", Color.yellow, "你是尊贵的", "所有人都会知道你死了", RoleId.Vip, false, true);
+        public static RoleInfo invert = new RoleInfo("颠倒的", Color.yellow, "你的操作是反向的", "你的移动是反向的", RoleId.Invert, false, true);
 
 
         public static List<RoleInfo> allRoleInfos = new List<RoleInfo>() {

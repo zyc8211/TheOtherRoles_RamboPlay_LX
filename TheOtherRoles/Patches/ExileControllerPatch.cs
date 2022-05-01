@@ -232,7 +232,7 @@ namespace TheOtherRoles.Patches {
                     if (id == StringNames.ImpostorsRemainP || id == StringNames.ImpostorsRemainS) {
                         if (Jester.jester != null && player.PlayerId == Jester.jester.PlayerId) __result = "";
                     }
-                    if (Tiebreaker.isTiebreak) __result += " (裁判官)";
+                    if (Tiebreaker.isTiebreak) __result += " (裁决的)";
                     Tiebreaker.isTiebreak = false;
                 }
             } catch {
