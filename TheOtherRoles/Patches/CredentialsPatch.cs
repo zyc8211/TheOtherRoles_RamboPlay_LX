@@ -21,8 +21,7 @@ $@"本Mod由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584
 
         public static string contributorsCredentials =
 $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy</color> 
-原项目Github     贡献鸣谢: Gendelo3, Alex2911, amsyarasyiq, MaximeGillot, Psynomit
-中文版项目Github  贡献鸣谢：AlerHuGhe$</size>";
+原项目Github     贡献鸣谢: Gendelo3, Alex2911, amsyarasyiq, MaximeGillot, Psynomit</size>";
 
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
         private static class VersionShowerPatch
