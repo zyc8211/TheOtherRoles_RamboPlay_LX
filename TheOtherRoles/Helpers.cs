@@ -125,7 +125,7 @@ namespace TheOtherRoles {
                 if (roleInfo.name == "豺狼") {
                     var getSidekickText = Jackal.canCreateSidekick ? "并且招募走狗" : "";
                     task.Text = cs(roleInfo.color, $"{roleInfo.name}: 杀死所有人{getSidekickText}");  
-                } else if (roleInfo.name == "脑瘫") {
+                } else if (roleInfo.name == "颠倒的") {
                     task.Text = cs(roleInfo.color, $"{roleInfo.name}: {roleInfo.shortDescription} ({Invert.meetings})");
                 } else {
                     task.Text = cs(roleInfo.color, $"{roleInfo.name}: {roleInfo.shortDescription}");  
