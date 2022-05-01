@@ -271,7 +271,7 @@ namespace TheOtherRoles.Patches {
                 RPCProcedure.swapperSwap((byte)firstPlayer.TargetPlayerId, (byte)secondPlayer.TargetPlayerId);
                 swapperConfirmButtonLabel.text = Helpers.cs(Color.green, "换票中!");
                 Swapper.charges--;
-                swapperChargesText.text = $"Swaps: {Swapper.charges}";
+                swapperChargesText.text = $"剩余换票次数: {Swapper.charges}";
             }
         }
 
@@ -537,8 +537,8 @@ namespace TheOtherRoles.Patches {
                 if (Portalmaker.portalmaker != null && PlayerControl.LocalPlayer == Portalmaker.portalmaker && !PlayerControl.LocalPlayer.Data.IsDead) {
                     foreach (var entry in Portal.teleportedPlayers) {
                         float timeBeforeMeeting = ((float)(DateTime.UtcNow - entry.time).TotalMilliseconds) / 1000;
-                        string msg = Portalmaker.logShowsTime ? $"{(int)timeBeforeMeeting}s ago: " : "";
-                        msg = msg + $"{entry.name} used the teleporter";
+                        string msg = Portalmaker.logShowsTime ? $"{(int)timeBeforeMeeting}秒 以前: " : "";
+                        msg = msg + $"{entry.name} 使用了传送门";
                         DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{msg}");
                     }
                 }
