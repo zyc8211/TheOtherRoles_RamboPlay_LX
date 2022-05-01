@@ -13,13 +13,11 @@ namespace TheOtherRoles.Patches {
 $@"<size=130%><color=#ff351f>超多职业模组</color></size> v{TheOtherRolesPlugin.Version.ToString()}
 <size=60%>由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>EndOfFile</color>
 <color=#FCCE03FF>Thunderstorm584</color> & <color=#FCCE03FF>Mallöris</color> 制作
-由 <color=#FCCE03FF>Bavari</color> 设计
-由 <color=#990000>AlerHuGhe$</color> 汉化</size>";
+由 <color=#FCCE03FF>Bavari</color> 设计    由 <color=#990000>AlerHuGhe$</color> 汉化</size>";
 
     public static string mainMenuCredentials = 
 $@"本Mod由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584</color>, <color=#FCCE03FF>EndOfFile</color> & <color=#FCCE03FF>Mallöris</color> 制作
-由 <color=#FCCE03FF>Bavari</color> 设计
-由 <color=#990000>AlerHuGhe$</color> 汉化";
+由 <color=#FCCE03FF>Bavari</color> 设计    由 <color=#990000>AlerHuGhe$</color> 汉化";
 
         public static string contributorsCredentials =
 $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy</color> 
