@@ -363,18 +363,22 @@ namespace TheOtherRoles.Modules {
 
     public class CustomHatLoader {
         public static bool running = false;
+        private const string REPO = "https://gitee.com/KarasumaChitose/TheOtherHats/raw/master";
 
         public static List<CustomHatOnline> hatdetails = new List<CustomHatOnline>();
+        private static Task hatFetchTask = null;
         public static void LaunchHatFetcher() {
             if (running)
                 return;
             running = true;
-            LaunchHatFetcherAsync();
+            hatFetchTask = LaunchHatFetcherAsync();
         }
 
-        private static void LaunchHatFetcherAsync() {
+        private static async Task LaunchHatFetcherAsync() {
             try {
-                FetchHats();
+                HttpStatusCode status = await FetchHats();
+                if (status != HttpStatusCode.OK)
+                    System.Console.WriteLine("Custom Hats could not be loaded\n");
             } catch (System.Exception e) {
                 System.Console.WriteLine("Unable to fetch hats\n" + e.Message);
             }
@@ -392,16 +396,23 @@ namespace TheOtherRoles.Modules {
             return res;
         }
 
-        public static void FetchHats() {
+        public static async Task<HttpStatusCode> FetchHats() {
             HttpClient http = new HttpClient();
             http.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue{ NoCache = true };
+            var response = await http.GetAsync(new System.Uri($"{REPO}/CustomHats.json"), HttpCompletionOption.ResponseContentRead).ConfigureAwait(false);
             try {
-                string jsonPath = Path.GetDirectoryName(Application.dataPath) + @"\CustomHats.json";
-                string json = File.ReadAllText(jsonPath);
+                if (response.StatusCode != HttpStatusCode.OK) return response.StatusCode;
+                if (response.Content == null) {
+                    System.Console.WriteLine("Server returned no data: " + response.StatusCode.ToString());
+                    return HttpStatusCode.ExpectationFailed;
+                }
+                string json = await response.Content.ReadAsStringAsync();
+                TheOtherRolesPlugin.Logger.LogMessage(json);
                 JToken jobj = JObject.Parse(json)["hats"];
-                if (!jobj.HasValues) return;
-                
+                if (!jobj.HasValues) return HttpStatusCode.ExpectationFailed;
+
                 List<CustomHatOnline> hatdatas = new List<CustomHatOnline>();
+
                 for (JToken current = jobj.First; current != null; current = current.Next) {
                     if (current.HasValues) {
                         CustomHatOnline info = new CustomHatOnline();
@@ -410,10 +421,15 @@ namespace TheOtherRoles.Modules {
                         info.resource = sanitizeResourcePath(current["resource"]?.ToString());
                         if (info.resource == null || info.name == null) // required
                             continue;
+                        info.reshasha = current["reshasha"]?.ToString();
                         info.backresource = sanitizeResourcePath(current["backresource"]?.ToString());
+                        info.reshashb = current["reshashb"]?.ToString();
                         info.climbresource = sanitizeResourcePath(current["climbresource"]?.ToString());
+                        info.reshashc = current["reshashc"]?.ToString();
                         info.flipresource = sanitizeResourcePath(current["flipresource"]?.ToString());
+                        info.reshashf = current["reshashf"]?.ToString();
                         info.backflipresource = sanitizeResourcePath(current["backflipresource"]?.ToString());
+                        info.reshashbf = current["reshashbf"]?.ToString();
 
                         info.author = current["author"]?.ToString();
                         info.package = current["package"]?.ToString();
@@ -425,44 +441,52 @@ namespace TheOtherRoles.Modules {
                     }
                 }
 
-                List<string> markedNotExist = new List<string>();
+                List<string> markedfordownload = new List<string>();
 
                 string filePath = Path.GetDirectoryName(Application.dataPath) + @"\TheOtherHats\";
-                for (int i = 0; i < hatdatas.Count; i++)
-                {
-                    CustomHatOnline data = hatdatas[i];
-                    markedNotExist.Clear();
+                MD5 md5 = MD5.Create();
+                foreach (CustomHatOnline data in hatdatas) {
+    	            if (doesResourceRequireDownload(filePath + data.resource, data.reshasha, md5))
+                        markedfordownload.Add(data.resource);
+    	            if (data.backresource != null && doesResourceRequireDownload(filePath + data.backresource, data.reshashb, md5))
+                        markedfordownload.Add(data.backresource);
+    	            if (data.climbresource != null && doesResourceRequireDownload(filePath + data.climbresource, data.reshashc, md5))
+                        markedfordownload.Add(data.climbresource);
+    	            if (data.flipresource != null && doesResourceRequireDownload(filePath + data.flipresource, data.reshashf, md5))
+                        markedfordownload.Add(data.flipresource);
+    	            if (data.backflipresource != null && doesResourceRequireDownload(filePath + data.backflipresource, data.reshashbf, md5))
+                        markedfordownload.Add(data.backflipresource);
+                }
+                
+                foreach(var file in markedfordownload) {
                     
-                    if (!doesResourceExist(filePath + data.resource))
-                        markedNotExist.Add(data.resource);
-                    if (data.backresource != null && !doesResourceExist(filePath + data.backresource))
-                        markedNotExist.Add(data.backresource);
-                    if (data.climbresource != null && !doesResourceExist(filePath + data.climbresource))
-                        markedNotExist.Add(data.climbresource);
-                    if (data.flipresource != null && !doesResourceExist(filePath + data.flipresource))
-                        markedNotExist.Add(data.flipresource);
-                    if (data.backflipresource != null && !doesResourceExist(filePath + data.backflipresource))
-                        markedNotExist.Add(data.backflipresource);
-
-                    if (markedNotExist.Count != 0)
-                    {
-                        TheOtherRolesPlugin.Logger.LogMessage(data.name + " Removed!");
-                        hatdatas.RemoveAt(i);
+                    var hatFileResponse = await http.GetAsync($"{REPO}/hats/{file}", HttpCompletionOption.ResponseContentRead);
+                    if (hatFileResponse.StatusCode != HttpStatusCode.OK) continue;
+                    using (var responseStream = await hatFileResponse.Content.ReadAsStreamAsync()) {
+                        using (var fileStream = File.Create($"{filePath}\\{file}")) {
+                            responseStream.CopyTo(fileStream);
+                        }
                     }
                 }
+
                 hatdetails = hatdatas;
             } catch (System.Exception ex) {
                 TheOtherRolesPlugin.Instance.Log.LogError(ex.ToString());
                 System.Console.WriteLine(ex);
             }
+            return HttpStatusCode.OK;
         }
 
-        private static bool doesResourceExist(string respath) {
-            if (!File.Exists(respath)) 
-                return false;
-            return true;
+        private static bool doesResourceRequireDownload(string respath, string reshash, MD5 md5) {
+            if (reshash == null || !File.Exists(respath)) 
+                return true;
+
+            using (var stream = File.OpenRead(respath)) {
+                var hash = System.BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
+                return !reshash.Equals(hash);
+            }
         }
-        
+
         public class CustomHatOnline : CustomHats.CustomHat { 
             public string reshasha { get; set;}
             public string reshashb { get; set;}
