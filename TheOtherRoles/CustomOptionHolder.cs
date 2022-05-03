@@ -316,7 +316,7 @@ namespace TheOtherRoles {
             morphlingCooldown = CustomOption.Create(21,Types.Impostor, "化形技能冷却", 30f, 10f, 60f, 2.5f, morphlingSpawnRate);
             morphlingDuration = CustomOption.Create(22,Types.Impostor, "化形持续时长", 10f, 1f, 20f, 0.5f, morphlingSpawnRate);
 
-            camouflagerSpawnRate = CustomOption.Create(30,Types.Impostor, cs(Camouflager.color, "内鬼生成概率"), rates, null, true);
+            camouflagerSpawnRate = CustomOption.Create(30,Types.Impostor, cs(Camouflager.color, "伪装者生成概率"), rates, null, true);
             camouflagerCooldown = CustomOption.Create(31,Types.Impostor, "伪装技能冷却", 30f, 10f, 60f, 2.5f, camouflagerSpawnRate);
             camouflagerDuration = CustomOption.Create(32,Types.Impostor, "伪装持续时长", 10f, 1f, 20f, 0.5f, camouflagerSpawnRate);
 
@@ -411,11 +411,12 @@ namespace TheOtherRoles {
             mayorSpawnRate = CustomOption.Create(80,Types.Crewmate, cs(Mayor.color, "市长生成概率"), rates, null, true);
             mayorCanSeeVoteColors = CustomOption.Create(81,Types.Crewmate, "市长可见投票颜色", false, mayorSpawnRate);
             mayorTasksNeededToSeeVoteColors = CustomOption.Create(82, Types.Crewmate, "要可见投票颜色需要完成的任务数", 5f, 0f, 20f, 1f, mayorCanSeeVoteColors);
+            mayorMeetingButton = CustomOption.Create(83, Types.Crewmate, "远程拍桌按钮", true, mayorSpawnRate);
+            
             engineerSpawnRate = CustomOption.Create(90,Types.Crewmate, cs(Engineer.color, "工程师生成概率"), rates, null, true);
             engineerNumberOfFixes = CustomOption.Create(91,Types.Crewmate, "工程师可维修破坏次数", 1f, 1f, 3f, 1f, engineerSpawnRate);
             engineerHighlightForImpostors = CustomOption.Create(92,Types.Crewmate, "内鬼能看见工程师在管道中", true, engineerSpawnRate);
             engineerHighlightForTeamJackal = CustomOption.Create(93,Types.Crewmate, "豺狼和走狗能看到工程师在管道中 ", true, engineerSpawnRate);
-            mayorMeetingButton = CustomOption.Create(83, Types.Crewmate, "Mobile Emergency Button", true, mayorSpawnRate);
 
             sheriffSpawnRate = CustomOption.Create(100,Types.Crewmate, cs(Sheriff.color, "警长生成概率"), rates, null, true);
             sheriffCooldown = CustomOption.Create(101,Types.Crewmate, "警长击杀冷却", 30f, 10f, 60f, 2.5f, sheriffSpawnRate);
