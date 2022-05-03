@@ -103,6 +103,7 @@ namespace TheOtherRoles {
         public static CustomOption mayorSpawnRate;
         public static CustomOption mayorCanSeeVoteColors;
         public static CustomOption mayorTasksNeededToSeeVoteColors;
+        public static CustomOption mayorMeetingButton;
 
         public static CustomOption portalmakerSpawnRate;
         public static CustomOption portalmakerCooldown;
@@ -224,8 +225,6 @@ namespace TheOtherRoles {
 
         public static CustomOption lawyerSpawnRate;
         public static CustomOption lawyerTargetCanBeJester;
-        public static CustomOption lawyerWinsAfterMeetings;
-        public static CustomOption lawyerNeededMeetings;
         public static CustomOption lawyerVision;
         public static CustomOption lawyerKnowsRole;
         public static CustomOption pursuerCooldown;
@@ -278,6 +277,7 @@ namespace TheOtherRoles {
         public static CustomOption dynamicMapEnableMira;
         public static CustomOption dynamicMapEnablePolus;
         public static CustomOption dynamicMapEnableAirShip;
+        public static CustomOption dynamicMapEnableSubmerged;
 
 
         internal static Dictionary<byte, byte[]> blockedRolePairings = new Dictionary<byte, byte[]>();
@@ -400,8 +400,6 @@ namespace TheOtherRoles {
 
             lawyerSpawnRate = CustomOption.Create(350,Types.Neutral, cs(Lawyer.color, "律师生成概率"), rates, null, true);
             lawyerTargetCanBeJester = CustomOption.Create(351,Types.Neutral, "律师的客户可以是小丑", true, lawyerSpawnRate);
-            lawyerWinsAfterMeetings = CustomOption.Create(352,Types.Neutral, "律师在会议后胜利", false, lawyerSpawnRate);
-            lawyerNeededMeetings = CustomOption.Create(353,Types.Neutral, "律师胜利所需的会议数", 5f, 1f, 15f, 1f, lawyerWinsAfterMeetings);
             lawyerVision = CustomOption.Create(354,Types.Neutral, "律师视野", 1f, 0.25f, 3f, 0.25f, lawyerSpawnRate);
             lawyerKnowsRole = CustomOption.Create(355,Types.Neutral, "律师知道客户角色", false, lawyerSpawnRate);
             pursuerCooldown = CustomOption.Create(356,Types.Neutral, "起诉人空包弹冷却", 30f, 5f, 60f, 2.5f, lawyerSpawnRate);
@@ -413,11 +411,11 @@ namespace TheOtherRoles {
             mayorSpawnRate = CustomOption.Create(80,Types.Crewmate, cs(Mayor.color, "市长生成概率"), rates, null, true);
             mayorCanSeeVoteColors = CustomOption.Create(81,Types.Crewmate, "市长可见投票颜色", false, mayorSpawnRate);
             mayorTasksNeededToSeeVoteColors = CustomOption.Create(82, Types.Crewmate, "要可见投票颜色需要完成的任务数", 5f, 0f, 20f, 1f, mayorCanSeeVoteColors);
-
             engineerSpawnRate = CustomOption.Create(90,Types.Crewmate, cs(Engineer.color, "工程师生成概率"), rates, null, true);
             engineerNumberOfFixes = CustomOption.Create(91,Types.Crewmate, "工程师可维修破坏次数", 1f, 1f, 3f, 1f, engineerSpawnRate);
             engineerHighlightForImpostors = CustomOption.Create(92,Types.Crewmate, "内鬼能看见工程师在管道中", true, engineerSpawnRate);
             engineerHighlightForTeamJackal = CustomOption.Create(93,Types.Crewmate, "豺狼和走狗能看到工程师在管道中 ", true, engineerSpawnRate);
+            mayorMeetingButton = CustomOption.Create(83, Types.Crewmate, "Mobile Emergency Button", true, mayorSpawnRate);
 
             sheriffSpawnRate = CustomOption.Create(100,Types.Crewmate, cs(Sheriff.color, "警长生成概率"), rates, null, true);
             sheriffCooldown = CustomOption.Create(101,Types.Crewmate, "警长击杀冷却", 30f, 10f, 60f, 2.5f, sheriffSpawnRate);
@@ -563,6 +561,8 @@ namespace TheOtherRoles {
             dynamicMapEnablePolus = CustomOption.Create(503,Types.General, "Polus加入随机列表", true, dynamicMap, false);
             dynamicMapEnableAirShip = CustomOption.Create(504,Types.General, "Airship加入随机列表", true, dynamicMap, false);
             
+            dynamicMapEnableSubmerged = CustomOption.Create(505, Types.General, "Submerged加入随即列表", true, dynamicMap, false);
+
             blockedRolePairings.Add((byte)RoleId.Vampire, new [] { (byte)RoleId.Warlock});
             blockedRolePairings.Add((byte)RoleId.Warlock, new [] { (byte)RoleId.Vampire});
             blockedRolePairings.Add((byte)RoleId.Spy, new [] { (byte)RoleId.Mini});
