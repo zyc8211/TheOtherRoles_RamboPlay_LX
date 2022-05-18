@@ -1,3 +1,4 @@
+
 using HarmonyLib;
 using UnityEngine;
 using System.IO;
@@ -8,9 +9,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-using Newtonsoft.Json.Linq;
 using TheOtherRoles.Utilities;
-using Logger = BepInEx.Logging.Logger;
+using Newtonsoft.Json.Linq;
 
 namespace TheOtherRoles.Modules {
     [HarmonyPatch]
