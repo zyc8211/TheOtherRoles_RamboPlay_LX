@@ -1,9 +1,6 @@
 ﻿using HarmonyLib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TheOtherRoles.Utilities;
 using UnityEngine;
 
 namespace TheOtherRoles.Patches {
@@ -21,7 +18,7 @@ $@"本Mod由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584
 
         public static string contributorsCredentials =
 $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy</color> 
-原项目Github     贡献鸣谢: Gendelo3, Alex2911, amsyarasyiq, MaximeGillot, Psynomit</size>";
+原项目Github     贡献鸣谢: Gendelo, Alex2911, amsyarasyiq, MaximeGillot, Psynomit, probablyadnf</size>";
 
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
         private static class VersionShowerPatch
@@ -41,9 +38,9 @@ $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy</color>
         }
 
         [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
-        private static class PingTrackerPatch
+        internal static class PingTrackerPatch
         {
-            private static GameObject modStamp;
+            public static GameObject modStamp;
             static void Prefix(PingTracker __instance) {
                 if (modStamp == null) {
                     modStamp = new GameObject("ModStamp");
@@ -54,7 +51,7 @@ $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy</color>
                     modStamp.transform.localScale *= 0.6f;
                 }
                 float offset = (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) ? 0.75f : 0f;
-                modStamp.transform.position = HudManager.Instance.MapButton.transform.position + Vector3.down * offset;
+                modStamp.transform.position = FastDestroyableSingleton<HudManager>.Instance.MapButton.transform.position + Vector3.down * offset;
             }
 
             static void Postfix(PingTracker __instance){

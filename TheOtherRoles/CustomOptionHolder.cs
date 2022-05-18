@@ -1,12 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using BepInEx.Configuration;
-using System;
-using System.Linq;
-using HarmonyLib;
-using Hazel;
-using System.Reflection;
-using System.Text;
 using static TheOtherRoles.TheOtherRoles;
 using Types = TheOtherRoles.CustomOption.CustomOptionType;
 
@@ -96,6 +89,7 @@ namespace TheOtherRoles {
         public static CustomOption ninjaKnowsTargetLocation;
         public static CustomOption ninjaTraceTime;
         public static CustomOption ninjaTraceColorTime;
+        public static CustomOption ninjaInvisibleDuration;
 
         public static CustomOption shifterSpawnRate;
         public static CustomOption shifterShiftsModifiers;
@@ -361,6 +355,8 @@ namespace TheOtherRoles {
             ninjaKnowsTargetLocation = CustomOption.Create(382, Types.Impostor, "忍者可知目标位置", true, ninjaSpawnRate);
             ninjaTraceTime = CustomOption.Create(383, Types.Impostor, "追踪时长", 5f, 1f, 20f, 0.5f, ninjaSpawnRate);
             ninjaTraceColorTime = CustomOption.Create(384, Types.Impostor, "追踪颜色淡化前时长", 2f, 0f, 20f, 0.5f, ninjaSpawnRate);
+			ninjaInvisibleDuration = CustomOption.Create(385, Types.Impostor, "忍者隐身时长", 3f, 0f, 20f, 1f, ninjaSpawnRate);
+
 
             guesserSpawnRate = CustomOption.Create(310,Types.Neutral, cs(Guesser.color, "赌怪生成概率"), rates, null, true);
             guesserIsImpGuesserRate = CustomOption.Create(311,Types.Neutral, "邪恶赌怪生成概率", rates, guesserSpawnRate);
