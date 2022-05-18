@@ -1499,7 +1499,10 @@ namespace TheOtherRoles
                    writer.Write(Byte.MaxValue);
                    AmongUsClient.Instance.FinishRpcImmediately(writer);
                },
-               () => { return Mayor.mayor != null && Mayor.mayor == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead ;},
+               () =>
+               {
+                   return Mayor.mayor != null && Mayor.mayor == PlayerControl.LocalPlayer &&
+                          !PlayerControl.LocalPlayer.Data.IsDead && Mayor.meetingButton;},
                () => {
                    mayorMeetingButton.actionButton.OverrideText("Emergency");
                    bool sabotageActive = false;
