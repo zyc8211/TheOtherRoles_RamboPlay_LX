@@ -3,9 +3,9 @@ using System.Collections;
 using System.Linq.Expressions;
 using Il2CppSystem.Collections.Generic;
 
-namespace TheOtherRoles.Utilities;
-
-public static class EnumerationHelpers
+namespace TheOtherRoles.Utilities
+{
+    public static class EnumerationHelpers
 { 
     public static System.Collections.Generic.IEnumerable<T> GetFastEnumerator<T>(this List<T> list) where T : Il2CppSystem.Object => new Il2CppListEnumerable<T>(list);
 }
@@ -82,3 +82,5 @@ public unsafe class Il2CppListEnumerable<T> : System.Collections.Generic.IEnumer
     {
     }
 }
+}
+
