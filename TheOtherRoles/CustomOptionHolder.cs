@@ -98,6 +98,7 @@ namespace TheOtherRoles {
         public static CustomOption mayorCanSeeVoteColors;
         public static CustomOption mayorTasksNeededToSeeVoteColors;
         public static CustomOption mayorMeetingButton;
+        public static CustomOption mayorMaxRemoteMeetings;
 
         public static CustomOption portalmakerSpawnRate;
         public static CustomOption portalmakerCooldown;
@@ -408,6 +409,7 @@ namespace TheOtherRoles {
             mayorCanSeeVoteColors = CustomOption.Create(81,Types.Crewmate, "市长可见投票颜色", false, mayorSpawnRate);
             mayorTasksNeededToSeeVoteColors = CustomOption.Create(82, Types.Crewmate, "要可见投票颜色需要完成的任务数", 5f, 0f, 20f, 1f, mayorCanSeeVoteColors);
             mayorMeetingButton = CustomOption.Create(83, Types.Crewmate, "远程拍桌按钮", true, mayorSpawnRate);
+            mayorMaxRemoteMeetings = CustomOption.Create(84, Types.Crewmate, "远程拍桌次数", 1f, 1f, 5f, 1f, mayorMeetingButton);
             
             engineerSpawnRate = CustomOption.Create(90,Types.Crewmate, cs(Engineer.color, "工程师生成概率"), rates, null, true);
             engineerNumberOfFixes = CustomOption.Create(91,Types.Crewmate, "工程师可维修破坏次数", 1f, 1f, 3f, 1f, engineerSpawnRate);
