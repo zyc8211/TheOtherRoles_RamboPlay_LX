@@ -1501,7 +1501,10 @@ namespace TheOtherRoles
                    AmongUsClient.Instance.FinishRpcImmediately(writer);
                    mayorMeetingButton.Timer = 1f;
                },
-               () => { return Mayor.mayor != null && Mayor.mayor == PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead ;},
+               () =>
+               {
+                   return Mayor.mayor != null && Mayor.mayor == PlayerControl.LocalPlayer &&
+                          !PlayerControl.LocalPlayer.Data.IsDead && Mayor.meetingButton;},
                () => {
                    mayorMeetingButton.actionButton.OverrideText("Emergency ("+ Mayor.remoteMeetingsLeft + ")");
                    bool sabotageActive = false;
