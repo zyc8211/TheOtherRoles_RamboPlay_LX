@@ -22,4 +22,9 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: TheOtherRoles.dll
-          path: output/TheOtherRoles.dll
+          path: output/without-submerged/TheOtherRoles.dll
+      
+      - uses: actions/upload-artifact@v2
+        with:
+          name: TheOtherRoles_Submerged.dll
+          path: output/with-submerged/TheOtherRoles.dll
