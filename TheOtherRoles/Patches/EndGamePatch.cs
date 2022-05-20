@@ -1,4 +1,4 @@
-  
+
 using HarmonyLib;
 using static TheOtherRoles.TheOtherRoles;
 using System.Collections.Generic;
@@ -108,7 +108,7 @@ namespace TheOtherRoles.Patches {
                 WinningPlayerData wpd = new WinningPlayerData(Mini.mini.Data);
                 wpd.IsYou = false; // If "no one is the Mini", it will display the Mini, but also show defeat to everyone
                 TempData.winners.Add(wpd);
-                AdditionalTempData.winCondition = WinCondition.MiniLose;  
+                AdditionalTempData.winCondition = WinCondition.MiniLose;
             }
 
             // Jester win
@@ -159,29 +159,29 @@ namespace TheOtherRoles.Patches {
                     TempData.winners.Add(new WinningPlayerData(Lovers.lover2.Data));
                 }
             }
-            
+
             // Jackal win condition (should be implemented using a proper GameOverReason in the future)
             else if (teamJackalWin) {
                 // Jackal wins if nobody except jackal is alive
                 AdditionalTempData.winCondition = WinCondition.JackalWin;
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 WinningPlayerData wpd = new WinningPlayerData(Jackal.jackal.Data);
-                wpd.IsImpostor = false; 
+                wpd.IsImpostor = false;
                 TempData.winners.Add(wpd);
                 // If there is a sidekick. The sidekick also wins
                 if (Sidekick.sidekick != null) {
                     WinningPlayerData wpdSidekick = new WinningPlayerData(Sidekick.sidekick.Data);
-                    wpdSidekick.IsImpostor = false; 
+                    wpdSidekick.IsImpostor = false;
                     TempData.winners.Add(wpdSidekick);
                 }
                 foreach(var player in Jackal.formerJackals) {
                     WinningPlayerData wpdFormerJackal = new WinningPlayerData(player.Data);
-                    wpdFormerJackal.IsImpostor = false; 
+                    wpdFormerJackal.IsImpostor = false;
                     TempData.winners.Add(wpdFormerJackal);
                 }
             }
 
-            // Lawyer solo win 
+            // Lawyer solo win
             else if (lawyerSoloWin && !Pursuer.notAckedExiled) {
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 WinningPlayerData wpd = new WinningPlayerData(Lawyer.lawyer.Data);
@@ -200,7 +200,7 @@ namespace TheOtherRoles.Patches {
                     if (!TempData.winners.ToArray().Any(x => x.PlayerName == Lawyer.lawyer.Data.PlayerName))
                         TempData.winners.Add(new WinningPlayerData(Lawyer.lawyer.Data));
                     AdditionalTempData.additionalWinConditions.Add(WinCondition.AdditionalLawyerBonusWin); // The Lawyer wins together with the client
-                } 
+                }
             }
 
             // Possible Additional winner: Pursuer
@@ -258,7 +258,7 @@ namespace TheOtherRoles.Patches {
 
                 foreach(var data in AdditionalTempData.playerRoles) {
                     if (data.PlayerName != winningPlayerData2.PlayerName) continue;
-                    var roles = 
+                    var roles =
                     poolablePlayer.NameText.text += $"\n{string.Join("\n", data.Roles.Select(x => Helpers.cs(x.color, x.name)))}";
                 }
             }
@@ -271,7 +271,7 @@ namespace TheOtherRoles.Patches {
             textRenderer.text = "";
 
             if (AdditionalTempData.winCondition == WinCondition.JesterWin) {
-                textRenderer.text = "你们都是小丑";
+                textRenderer.text = "听我说谢谢你";
                 textRenderer.color = Jester.color;
             }
             else if (AdditionalTempData.winCondition == WinCondition.ArsonistWin) {
@@ -290,7 +290,7 @@ namespace TheOtherRoles.Patches {
                 textRenderer.text = "爱情助力船员胜利";
                 textRenderer.color = Lovers.color;
                 __instance.BackgroundBar.material.SetColor("_Color", Lovers.color);
-            } 
+            }
             else if (AdditionalTempData.winCondition == WinCondition.LoversSoloWin) {
                 textRenderer.text = "真爱不朽";
                 textRenderer.color = Lovers.color;
@@ -316,7 +316,7 @@ namespace TheOtherRoles.Patches {
             if (MapOptions.showRoleSummary) {
                 var position = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
                 GameObject roleSummary = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
-                roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -14f); 
+                roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -14f);
                 roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
 
                 var roleSummaryText = new StringBuilder();
@@ -332,7 +332,7 @@ namespace TheOtherRoles.Patches {
                 roleSummaryTextMesh.fontSizeMin = 1.5f;
                 roleSummaryTextMesh.fontSizeMax = 1.5f;
                 roleSummaryTextMesh.fontSize = 1.5f;
-                
+
                 var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
                 roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
                 roleSummaryTextMesh.text = roleSummaryText.ToString();
@@ -341,7 +341,7 @@ namespace TheOtherRoles.Patches {
         }
     }
 
-    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))] 
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
     class CheckEndCriteriaPatch {
         public static bool Prefix(ShipStatus __instance) {
             if (!GameData.Instance) return false;
@@ -397,7 +397,7 @@ namespace TheOtherRoles.Patches {
             }
             return false;
         }
-        
+
         private static bool CheckAndEndGameForLawyerMeetingWin(ShipStatus __instance) {
             if (Lawyer.triggerLawyerWin) {
                 __instance.enabled = false;

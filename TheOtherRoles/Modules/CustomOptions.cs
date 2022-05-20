@@ -86,7 +86,7 @@ namespace TheOtherRoles {
 
         public static void ShareOptionSelections() {
             if (PlayerControl.AllPlayerControls.Count <= 1 || AmongUsClient.Instance?.AmHost == false && PlayerControl.LocalPlayer == null) return;
-            
+
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShareOptions, Hazel.SendOption.Reliable);
             messageWriter.WritePacked((uint)CustomOption.options.Count);
             foreach (CustomOption option in CustomOption.options) {
@@ -152,7 +152,7 @@ namespace TheOtherRoles {
                 return;
             }
             if (GameObject.Find("ModifierSettings") != null) {
-                GameObject.Find("ModifierSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("额外角色设置");
+                GameObject.Find("ModifierSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("额外职业设置");
                 return;
             }
 
@@ -161,7 +161,7 @@ namespace TheOtherRoles {
             if (template == null) return;
             var gameSettings = GameObject.Find("Game Settings");
             var gameSettingMenu = UnityEngine.Object.FindObjectsOfType<GameSettingMenu>().FirstOrDefault();
-            
+
             var torSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
             var torMenu = torSettings.transform.FindChild("GameGroup").FindChild("SliderInner").GetComponent<GameOptionsMenu>();
             torSettings.name = "TORSettings";
@@ -241,7 +241,7 @@ namespace TheOtherRoles {
                     modifierTabHighlight.enabled = false;
                     if (copiedIndex == 0) {
                         gameSettingMenu.RegularGameSettings.SetActive(true);
-                        gameSettingMenu.GameSettingsHightlight.enabled = true;  
+                        gameSettingMenu.GameSettingsHightlight.enabled = true;
                     } else if (copiedIndex == 1) {
                         gameSettingMenu.RolesSettings.gameObject.SetActive(true);
                         gameSettingMenu.RolesSettingsHightlight.enabled = true;
@@ -266,7 +266,7 @@ namespace TheOtherRoles {
 
             foreach (OptionBehaviour option in torMenu.GetComponentsInChildren<OptionBehaviour>())
                 UnityEngine.Object.Destroy(option.gameObject);
-            List<OptionBehaviour> torOptions = new List<OptionBehaviour>();          
+            List<OptionBehaviour> torOptions = new List<OptionBehaviour>();
 
             foreach (OptionBehaviour option in impostorMenu.GetComponentsInChildren<OptionBehaviour>())
                 UnityEngine.Object.Destroy(option.gameObject);
@@ -341,7 +341,7 @@ namespace TheOtherRoles {
             __instance.TitleText.text = option.name;
             __instance.Value = __instance.oldValue = option.selection;
             __instance.ValueText.text = option.selections[option.selection].ToString();
-            
+
             return false;
         }
     }
@@ -385,7 +385,7 @@ namespace TheOtherRoles {
     {
         private static float timer = 1f;
         public static void Postfix(GameOptionsMenu __instance) {
-            // Return Menu Update if in normal among us settings 
+            // Return Menu Update if in normal among us settings
             var gameSettingMenu = UnityEngine.Object.FindObjectsOfType<GameSettingMenu>().FirstOrDefault();
             if (gameSettingMenu.RegularGameSettings.active || gameSettingMenu.RolesSettings.gameObject.active) return;
 
@@ -454,7 +454,7 @@ namespace TheOtherRoles {
         }
     }
 
-    [HarmonyPatch] 
+    [HarmonyPatch]
     class GameOptionsDataPatch
     {
         private static IEnumerable<MethodBase> TargetMethods() {
@@ -483,7 +483,7 @@ namespace TheOtherRoles {
             foreach (CustomOption option in options) {
                 if (option.parent != null) {
                     bool isIrrelevant = option.parent.getSelection() == 0 || (option.parent.parent != null && option.parent.parent.getSelection() == 0);
-                    
+
                     Color c = isIrrelevant ? Color.grey : Color.white;  // No use for now
                     if (isIrrelevant) continue;
                     sb.AppendLine(Helpers.cs(c, $"{option.name}: {option.selections[option.selection].ToString()}"));
@@ -510,7 +510,7 @@ namespace TheOtherRoles {
                         var optionValue = (min == max) ? $"{max}" : $"{min} - {max}";
                         sb.AppendLine($"{optionName}: {optionValue}");
                     } else if (option == CustomOptionHolder.modifiersCountMin) {
-                        var optionName = CustomOptionHolder.cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "额外角色");
+                        var optionName = CustomOptionHolder.cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "额外职业");
                         var min = CustomOptionHolder.modifiersCountMin.getSelection();
                         var max = CustomOptionHolder.modifiersCountMax.getSelection();
                         if (min > max) min = max;
@@ -520,7 +520,7 @@ namespace TheOtherRoles {
                         continue;
                     } else {
                         sb.AppendLine($"\n{option.name}: {option.selections[option.selection].ToString()}");
-                    }                    
+                    }
                 }
             }
             return sb.ToString();
@@ -529,7 +529,7 @@ namespace TheOtherRoles {
         private static void Postfix(ref string __result)
         {
             int counter = TheOtherRolesPlugin.optionsPage;
-            string hudString = counter != 0 ? Helpers.cs(DateTime.Now.Second % 2 == 0 ? Color.white : Color.red, "(Use scroll wheel if necessary)\n\n") : "";
+            string hudString = counter != 0 ? Helpers.cs(DateTime.Now.Second % 2 == 0 ? Color.white : Color.red, "可以使用鼠标滚轮调整\n") : "";
 
             switch (counter) {
                 case 0:
@@ -551,7 +551,7 @@ namespace TheOtherRoles {
                     hudString += "第六页 : 船员角色设置 \n" + buildOptionsOfType(CustomOption.CustomOptionType.Crewmate, false);
                     break;
                 case 6:
-                    hudString += "第七页 : 额外角色设置 \n" + buildOptionsOfType(CustomOption.CustomOptionType.Modifier, false);
+                    hudString += "第七页 : 额外职业设置 \n" + buildOptionsOfType(CustomOption.CustomOptionType.Modifier, false);
                     break;
             }
 
@@ -599,11 +599,11 @@ namespace TheOtherRoles {
         }
     }
 
-    
+
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class GameSettingsScalePatch {
         public static void Prefix(HudManager __instance) {
-            if (__instance.GameSettings != null) __instance.GameSettings.fontSize = 1.2f; 
+            if (__instance.GameSettings != null) __instance.GameSettings.fontSize = 1.2f;
         }
     }
 
@@ -635,7 +635,7 @@ namespace TheOtherRoles {
                 LastPosition = new Vector3(MinX, MinY);
                 lastAspect = aspect;
                 setLastPosition = true;
-                if (Scroller != null) Scroller.ContentXBounds = new FloatRange(MinX, MinX);                
+                if (Scroller != null) Scroller.ContentXBounds = new FloatRange(MinX, MinX);
             }
 
             CreateScroller(__instance);

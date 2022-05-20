@@ -53,7 +53,7 @@ namespace TheOtherRoles {
         }
 
         public static Texture2D loadTextureFromDisk(string path) {
-            try {          
+            try {
                 if (File.Exists(path))     {
                     Texture2D texture = new Texture2D(2, 2, TextureFormat.ARGB32, true);
                     var byteTexture = Il2CppSystem.IO.File.ReadAllBytes(path);
@@ -73,7 +73,7 @@ namespace TheOtherRoles {
                     return player;
             return null;
         }
-        
+
         public static Dictionary<byte, PlayerControl> allPlayersById()
         {
             Dictionary<byte, PlayerControl> res = new Dictionary<byte, PlayerControl>();
@@ -93,25 +93,25 @@ namespace TheOtherRoles {
         }
 
         public static void refreshRoleDescription(PlayerControl player) {
-            List<RoleInfo> infos = RoleInfo.getRoleInfoForPlayer(player); 
-            List<string> taskTexts = new(infos.Count); 
+            List<RoleInfo> infos = RoleInfo.getRoleInfoForPlayer(player);
+            List<string> taskTexts = new(infos.Count);
 
             foreach (var roleInfo in infos)
             {
                 taskTexts.Add(getRoleString(roleInfo));
             }
-            
+
             var toRemove = new List<PlayerTask>();
-            foreach (PlayerTask t in player.myTasks.GetFastEnumerator()) 
+            foreach (PlayerTask t in player.myTasks.GetFastEnumerator())
             {
                 var textTask = t.TryCast<ImportantTextTask>();
                 if (textTask == null) continue;
-                
+
                 var currentText = textTask.Text;
-                
+
                 if (taskTexts.Contains(currentText)) taskTexts.Remove(currentText); // TextTask for this RoleInfo does not have to be added, as it already exists
                 else toRemove.Add(t); // TextTask does not have a corresponding RoleInfo and will hence be deleted
-            }   
+            }
 
             foreach (PlayerTask t in toRemove) {
                 t.OnRemove();
@@ -130,20 +130,20 @@ namespace TheOtherRoles {
 
         internal static string getRoleString(RoleInfo roleInfo)
         {
-            if (roleInfo.name == "豺狼") 
+            if (roleInfo.name == "豺狼")
             {
-                var getSidekickText = Jackal.canCreateSidekick ? " 并且招募走狗" : "";
-                return cs(roleInfo.color, $"{roleInfo.name}: 杀死所有人{getSidekickText}");  
+                var getSidekickText = Jackal.canCreateSidekick ? " 并且招募跟班" : "";
+                return cs(roleInfo.color, $"{roleInfo.name}: 杀死所有人{getSidekickText}");
             }
 
-            if (roleInfo.name == "Invert") 
+            if (roleInfo.name == "醉鬼的")
             {
                 return cs(roleInfo.color, $"{roleInfo.name}: {roleInfo.shortDescription} ({Invert.meetings})");
             }
-            
+
             return cs(roleInfo.color, $"{roleInfo.name}: {roleInfo.shortDescription}");
         }
-        
+
         public static bool isLighterColor(int colorId) {
             return CustomColors.lighterColors.Contains(colorId);
         }
@@ -170,7 +170,7 @@ namespace TheOtherRoles {
                 UnityEngine.Object.Destroy(playerTask.gameObject);
             }
             player.myTasks.Clear();
-            
+
             if (player.Data != null && player.Data.Tasks != null)
                 player.Data.Tasks.Clear();
         }
@@ -189,7 +189,7 @@ namespace TheOtherRoles {
         public static string cs(Color c, string s) {
             return string.Format("<color=#{0:X2}{1:X2}{2:X2}{3:X2}>{4}</color>", ToByte(c.r), ToByte(c.g), ToByte(c.b), ToByte(c.a), s);
         }
- 
+
         private static byte ToByte(float f) {
             f = Mathf.Clamp01(f);
             return (byte)(f * 255);
@@ -215,7 +215,7 @@ namespace TheOtherRoles {
 
         public static bool hidePlayerName(PlayerControl source, PlayerControl target) {
             if (Camouflager.camouflageTimer > 0f) return true; // No names are visible
-            else if (Ninja.isInvisble && Ninja.ninja == target) return true; 
+            else if (Ninja.isInvisble && Ninja.ninja == target) return true;
             else if (!MapOptions.hidePlayerNames) return false; // All names are visible
             else if (source == null || target == null) return true;
             else if (source == target) return false; // Player sees his own name
@@ -339,7 +339,7 @@ namespace TheOtherRoles {
 
             // Block Time Master with time shield kill
             else if (TimeMaster.shieldActive && TimeMaster.timeMaster != null && TimeMaster.timeMaster == target) {
-                if (!blockRewind) { // Only rewind the attempt was not called because a meeting startet 
+                if (!blockRewind) { // Only rewind the attempt was not called because a meeting startet
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)CustomRPC.TimeMasterRewindTime, Hazel.SendOption.Reliable, -1);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPCProcedure.timeMasterRewindTime();
@@ -362,9 +362,9 @@ namespace TheOtherRoles {
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.uncheckedMurderPlayer(killer.PlayerId, target.PlayerId, showAnimation ? Byte.MaxValue : (byte)0);
             }
-            return murder;            
+            return murder;
         }
-    
+
         public static void shareGameVersion() {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionHandshake, Hazel.SendOption.Reliable, -1);
             writer.Write((byte)TheOtherRolesPlugin.Version.Major);
@@ -381,10 +381,10 @@ namespace TheOtherRoles {
             List<PlayerControl> team = new List<PlayerControl>();
             foreach(PlayerControl p in PlayerControl.AllPlayerControls.GetFastEnumerator()) {
                 if (player.Data.Role.IsImpostor && p.Data.Role.IsImpostor && player.PlayerId != p.PlayerId && team.All(x => x.PlayerId != p.PlayerId)) team.Add(p);
-                else if (player == Jackal.jackal && p == Sidekick.sidekick) team.Add(p); 
+                else if (player == Jackal.jackal && p == Sidekick.sidekick) team.Add(p);
                 else if (player == Sidekick.sidekick && p == Jackal.jackal) team.Add(p);
             }
-            
+
             return team;
         }
 
@@ -404,7 +404,7 @@ namespace TheOtherRoles {
             HudManagerStartPatch.zoomOutButton.PositionOffset = HudManagerStartPatch.zoomOutStatus ? new Vector3(0f, 3f, 0) : new Vector3(0.4f, 2.8f, 0);
             ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height); // This will move button positions to the correct position.
         }
-        
+
         public static object TryCast(this Il2CppObjectBase self, Type type)
         {
             return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type).Invoke(self, Array.Empty<object>());

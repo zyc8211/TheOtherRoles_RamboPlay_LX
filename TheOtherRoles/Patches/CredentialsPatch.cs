@@ -6,19 +6,14 @@ using UnityEngine;
 namespace TheOtherRoles.Patches {
     [HarmonyPatch]
     public static class CredentialsPatch {
-        public static string fullCredentials = 
-$@"<size=130%><color=#ff351f>超多职业模组</color></size> v{TheOtherRolesPlugin.Version.ToString()}
-<size=60%>由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>EndOfFile</color>
-<color=#FCCE03FF>Thunderstorm584</color> & <color=#FCCE03FF>Mallöris</color> 制作
-由 <color=#FCCE03FF>Bavari</color> 设计    由 <color=#990000>AlerHuGhe$</color> 汉化</size>";
+        public static string fullCredentials =
+$@"<size=130%><color=#ff351f>TOR超多职业</color></size> v{TheOtherRolesPlugin.Version.ToString()}";
 
-    public static string mainMenuCredentials = 
-$@"本Mod由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584</color>, <color=#FCCE03FF>EndOfFile</color> & <color=#FCCE03FF>Mallöris</color> 制作
-由 <color=#FCCE03FF>Bavari</color> 设计    由 <color=#990000>AlerHuGhe$</color> 汉化";
+    public static string mainMenuCredentials =
+$@"本Mod由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584</color>, <color=#FCCE03FF>EndOfFile</color> & <color=#FCCE03FF>Mallöris</color> 制作";
 
         public static string contributorsCredentials =
-$@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy</color> 
-原项目Github     贡献鸣谢: Gendelo, Alex2911, amsyarasyiq, MaximeGillot, Psynomit, probablyadnf</size>";
+$@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy</color></size>";
 
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
         private static class VersionShowerPatch
@@ -57,7 +52,7 @@ $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy</color>
             static void Postfix(PingTracker __instance){
                 __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
                 if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) {
-                    __instance.text.text = $"<size=130%><color=#ff351f>超多职业模组</color></size> v{TheOtherRolesPlugin.Version.ToString()}\n" + __instance.text.text;
+                    __instance.text.text = $"<size=130%><color=#ff351f>TOR超多职业</color></size> v{TheOtherRolesPlugin.Version.ToString()}\n" + __instance.text.text;
                     if (PlayerControl.LocalPlayer.Data.IsDead || (!(PlayerControl.LocalPlayer == null) && (PlayerControl.LocalPlayer == Lovers.lover1 || PlayerControl.LocalPlayer == Lovers.lover2))) {
                         __instance.transform.localPosition = new Vector3(3.45f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
                     } else {
