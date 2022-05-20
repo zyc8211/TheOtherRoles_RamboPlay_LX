@@ -23,9 +23,4 @@
         <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="1.0.2" />
 		    <PackageReference Include="BepInEx.AutoPlugin" Version="1.0.1" />
     </ItemGroup>
-
-    <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
-        <Message Text="Second occurrence" />
-        <Copy SourceFiles="$(ProjectDir)\bin\$(Configuration)\netstandard2.1\TheOtherRoles.dll" DestinationFolder="$(AmongUsLatest)/BepInEx/plugins/" />
-    </Target>
 </Project>
