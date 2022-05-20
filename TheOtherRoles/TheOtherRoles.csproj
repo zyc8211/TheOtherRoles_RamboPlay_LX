@@ -17,7 +17,7 @@
         <EmbeddedResource Include="Resources\**" />
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition="!$(DefineConstants.Contains('SUBMERGED'))">
       <Compile Remove="Resources\ThirdParty\**" />
       <EmbeddedResource Remove="Resources\ThirdParty\**" />
       <None Remove="Resources\ThirdParty\**" />
