@@ -7,13 +7,13 @@ namespace TheOtherRoles.Patches {
     [HarmonyPatch]
     public static class CredentialsPatch {
         public static string fullCredentials =
-$@"<size=130%><color=#ff351f>超多职业原版</color></size> {TheOtherRolesPlugin.Version.ToString()} <color=#FCCE03FF>兰博玩</color>";
+$@"<size=130%><color=#ff351f>超多职业原版</color></size> {TheOtherRolesPlugin.Version.ToString()} <color=#FCCE03FF>兰博玩</color>\n<size=130%><color=#ff351f>本地帽子装饰版</color></size>";
 
     public static string mainMenuCredentials =
 $@"本Mod由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584</color>, <color=#FCCE03FF>EndOfFile</color> & <color=#FCCE03FF>Mallöris</color> 制作";
 
         public static string contributorsCredentials =
-$@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy</color></size>";
+$@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy 感谢 四个憨批汉化组</color></size>";
 
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
         private static class VersionShowerPatch
