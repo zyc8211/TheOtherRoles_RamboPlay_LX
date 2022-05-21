@@ -511,7 +511,7 @@ namespace TheOtherRoles {
 
             // Modifier
             modifierBloody = CustomOption.Create(1000, Types.Modifier, cs(Color.yellow, "血语者"), rates, null, true);
-            modifierBloodyQuantity = CustomOption.Create(1001, Types.Modifier, cs(Color.yellow, "血迹的数量"), ratesModifier, modifierBloody);
+            modifierBloodyQuantity = CustomOption.Create(1001, Types.Modifier, cs(Color.yellow, "血语者数量"), ratesModifier, modifierBloody);
             modifierBloodyDuration = CustomOption.Create(1002, Types.Modifier, "血迹持续时长", 10f, 3f, 60f, 1f, modifierBloody);
 
             modifierAntiTeleport = CustomOption.Create(1010, Types.Modifier, cs(Color.yellow, "通信兵"), rates, null, true);
@@ -520,7 +520,7 @@ namespace TheOtherRoles {
             modifierTieBreaker = CustomOption.Create(1020, Types.Modifier, cs(Color.yellow, "破平者"), rates, null, true);
 
             modifierBait = CustomOption.Create(1030, Types.Modifier, cs(Color.yellow, "诱饵"), rates, null, true);
-            modifierBaitQuantity = CustomOption.Create(1031, Types.Modifier, cs(Color.yellow, "诱饵的数量"), ratesModifier, modifierBait);
+            modifierBaitQuantity = CustomOption.Create(1031, Types.Modifier, cs(Color.yellow, "诱饵数量"), ratesModifier, modifierBait);
             modifierBaitReportDelayMin = CustomOption.Create(1032, Types.Modifier, "诱饵的延迟报告最低时长", 0f, 0f, 10f, 1f, modifierBait);
             modifierBaitReportDelayMax = CustomOption.Create(1033, Types.Modifier, "诱饵的延迟报告最大时长", 0f, 0f, 10f, 1f, modifierBait);
             modifierBaitShowKillFlash = CustomOption.Create(1034, Types.Modifier, "是否用闪光警告杀人者", true, modifierBait);
@@ -531,18 +531,18 @@ namespace TheOtherRoles {
             modifierLoverEnableChat = CustomOption.Create(1043, Types.Modifier, "允许恋人文字私聊", true, modifierLover);
 
             modifierSunglasses = CustomOption.Create(1050, Types.Modifier, cs(Color.yellow, "弱视"), rates, null, true);
-            modifierSunglassesQuantity = CustomOption.Create(1051, Types.Modifier, cs(Color.yellow, "弱视的数量"), ratesModifier, modifierSunglasses);
+            modifierSunglassesQuantity = CustomOption.Create(1051, Types.Modifier, cs(Color.yellow, "弱视数量"), ratesModifier, modifierSunglasses);
             modifierSunglassesVision = CustomOption.Create(1052, Types.Modifier, "弱视的视野范围", new string[] { "-10%", "-20%", "-30%", "-40%", "-50%" }, modifierSunglasses);
 
             modifierMini = CustomOption.Create(1061, Types.Modifier, cs(Color.yellow, "迷你船员"), rates, null, true);
             modifierMiniGrowingUpDuration = CustomOption.Create(1062, Types.Modifier, "迷你船员长大时间", 400f, 100f, 1500f, 100f, modifierMini);
 
             modifierVip = CustomOption.Create(1070, Types.Modifier, cs(Color.yellow, "网红"), rates, null, true);
-            modifierVipQuantity = CustomOption.Create(1071, Types.Modifier, cs(Color.yellow, "网红的数量"), ratesModifier, modifierVip);
+            modifierVipQuantity = CustomOption.Create(1071, Types.Modifier, cs(Color.yellow, "网红数量"), ratesModifier, modifierVip);
             modifierVipShowColor = CustomOption.Create(1072, Types.Modifier, "显示网红的队伍颜色", true, modifierVip);
 
             modifierInvert = CustomOption.Create(1080, Types.Modifier, cs(Color.yellow, "醉鬼"), rates, null, true);
-            modifierInvertQuantity = CustomOption.Create(1081, Types.Modifier, cs(Color.yellow, "醉鬼的数量"), ratesModifier, modifierInvert);
+            modifierInvertQuantity = CustomOption.Create(1081, Types.Modifier, cs(Color.yellow, "醉鬼数量"), ratesModifier, modifierInvert);
             modifierInvertDuration = CustomOption.Create(1082, Types.Modifier, "醉鬼持续几轮会议", 3f, 1f, 15f, 1f, modifierInvert);
 
             // Other options
