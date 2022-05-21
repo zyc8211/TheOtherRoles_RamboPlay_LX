@@ -35,7 +35,7 @@ $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy 感谢 四个憨批汉化�
         [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
         internal static class PingTrackerPatch
         {
-            public static GameObject modStamp;
+//            public static GameObject modStamp;
 //            static void Prefix(PingTracker __instance) {
 //                if (modStamp == null) {
 //                    modStamp = new GameObject("ModStamp");
