@@ -646,7 +646,7 @@ namespace TheOtherRoles {
 
             var rows = __instance.GameSettings.text.Count(c => c == '\n');
             float LobbyTextRowHeight = 0.06F;
-            var maxY = Mathf.Max(MinY, rows * LobbyTextRowHeight + (rows - 38) * LobbyTextRowHeight);
+            var maxY = Mathf.Max(MinY, rows * LobbyTextRowHeight + (rows - 28) * LobbyTextRowHeight);
 
             Scroller.ContentYBounds = new FloatRange(MinY, maxY);
 
