@@ -477,7 +477,7 @@ namespace TheOtherRoles {
             trackerCorpsesTrackingCooldown = CustomOption.Create(204,Types.Crewmate, "追踪尸体冷却", 30f, 5f, 120f, 5f, trackerCanTrackCorpses);
             trackerCorpsesTrackingDuration = CustomOption.Create(205,Types.Crewmate, "追踪尸体持续时长", 5f, 2.5f, 30f, 2.5f, trackerCanTrackCorpses);
 
-            snitchSpawnRate = CustomOption.Create(210,Types.Crewmate, cs(Snitch.color, "密探生成概率"), rates, null, true);
+            snitchSpawnRate = CustomOption.Create(210,Types.Crewmate, cs(Snitch.color, "密探"), rates, null, true);
             snitchLeftTasksForReveal = CustomOption.Create(211,Types.Crewmate, "密探还剩多少任务时会暴露", 1f, 0f, 5f, 1f, snitchSpawnRate);
             snitchIncludeTeamJackal = CustomOption.Create(212,Types.Crewmate, "是否可追踪豺狼阵营", false, snitchSpawnRate);
             snitchTeamJackalUseDifferentArrowColor = CustomOption.Create(213,Types.Crewmate, "使用不同颜色的箭头来表示豺狼阵营", true, snitchIncludeTeamJackal);
