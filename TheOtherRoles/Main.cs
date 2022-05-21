@@ -93,10 +93,10 @@ namespace TheOtherRoles
             SubmergedCompatibility.Initialize();
             AddComponent<ModUpdateBehaviour>();
         }
-        public static Sprite GetModStamp() {
-            if (ModStamp) return ModStamp;
-            return ModStamp = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.ModStamp.png", 150f);
-        }
+//        public static Sprite GetModStamp() {
+//            if (ModStamp) return ModStamp;
+//            return ModStamp = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.ModStamp.png", 150f);
+//        }
     }
 
     // Deactivate bans, since I always leave my local testing game and ban myself
