@@ -7,7 +7,7 @@ namespace TheOtherRoles.Patches {
     [HarmonyPatch]
     public static class CredentialsPatch {
         public static string fullCredentials =
-$@"<size=130%><color=#ff351f>超多职业原版</color></size> v{TheOtherRolesPlugin.Version.ToString()}";
+$@"<size=130%><color=#ff351f>超多职业原版</color></size> {TheOtherRolesPlugin.Version.ToString()} <color=#FCCE03FF>兰博玩</color>";
 
     public static string mainMenuCredentials =
 $@"本Mod由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584</color>, <color=#FCCE03FF>EndOfFile</color> & <color=#FCCE03FF>Mallöris</color> 制作";
