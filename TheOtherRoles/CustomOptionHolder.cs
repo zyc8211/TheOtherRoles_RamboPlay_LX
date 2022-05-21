@@ -325,16 +325,16 @@ namespace TheOtherRoles {
             eraserCanEraseAnyone = CustomOption.Create(232,Types.Impostor, "抹除者可抹除任何角色", false, eraserSpawnRate);
 
             tricksterSpawnRate = CustomOption.Create(250,Types.Impostor, cs(Trickster.color, "骗术师"), rates, null, true);
-            tricksterPlaceBoxCooldown = CustomOption.Create(251,Types.Impostor, "诡计盒冷却", 10f, 2.5f, 30f, 2.5f, tricksterSpawnRate);
-            tricksterLightsOutCooldown = CustomOption.Create(252,Types.Impostor, "骗术师关灯冷却时间", 30f, 10f, 60f, 5f, tricksterSpawnRate);
-            tricksterLightsOutDuration = CustomOption.Create(253,Types.Impostor, "骗术师关灯持续时间", 15f, 5f, 60f, 2.5f, tricksterSpawnRate);
+            tricksterPlaceBoxCooldown = CustomOption.Create(251,Types.Impostor, "骗术盒冷却", 10f, 2.5f, 30f, 2.5f, tricksterSpawnRate);
+            tricksterLightsOutCooldown = CustomOption.Create(252,Types.Impostor, "强制熄灯冷却时间", 30f, 10f, 60f, 5f, tricksterSpawnRate);
+            tricksterLightsOutDuration = CustomOption.Create(253,Types.Impostor, "强制熄灯持续时间", 15f, 5f, 60f, 2.5f, tricksterSpawnRate);
 
             cleanerSpawnRate = CustomOption.Create(260,Types.Impostor, cs(Cleaner.color, "清理者"), rates, null, true);
             cleanerCooldown = CustomOption.Create(261,Types.Impostor, "清理技能冷却", 30f, 10f, 60f, 2.5f, cleanerSpawnRate);
 
             warlockSpawnRate = CustomOption.Create(270,Types.Impostor, cs(Cleaner.color, "术士"), rates, null, true);
             warlockCooldown = CustomOption.Create(271,Types.Impostor, "下咒技能冷却", 30f, 10f, 60f, 2.5f, warlockSpawnRate);
-            warlockRootTime = CustomOption.Create(272,Types.Impostor, "下咒需要定身时长", 5f, 0f, 15f, 1f, warlockSpawnRate);
+            warlockRootTime = CustomOption.Create(272,Types.Impostor, "咒杀后定身时长", 5f, 0f, 15f, 1f, warlockSpawnRate);
 
             bountyHunterSpawnRate = CustomOption.Create(320,Types.Impostor, cs(BountyHunter.color, "赏金猎人"), rates, null, true);
             bountyHunterBountyDuration = CustomOption.Create(321,Types.Impostor, "赏金目标改变间隔时长",  60f, 10f, 180f, 10f, bountyHunterSpawnRate);
@@ -347,9 +347,9 @@ namespace TheOtherRoles {
             witchCooldown = CustomOption.Create(371,Types.Impostor, "女巫施咒冷却", 30f, 10f, 120f, 5f, witchSpawnRate);
             witchAdditionalCooldown = CustomOption.Create(372,Types.Impostor, "女巫额外冷却", 10f, 0f, 60f, 5f, witchSpawnRate);
             witchCanSpellAnyone = CustomOption.Create(373,Types.Impostor, "女巫可对任何人施咒", false, witchSpawnRate);
-            witchSpellCastingDuration = CustomOption.Create(374,Types.Impostor, "施咒持续时间", 1f, 0f, 10f, 1f, witchSpawnRate);
+            witchSpellCastingDuration = CustomOption.Create(374,Types.Impostor, "施咒所需时间", 1f, 0f, 10f, 1f, witchSpawnRate);
             witchTriggerBothCooldowns = CustomOption.Create(375,Types.Impostor, "施咒与击杀共用冷却", true, witchSpawnRate);
-            witchVoteSavesTargets = CustomOption.Create(376,Types.Impostor, "将女巫投出可拯救被施咒人", true, witchSpawnRate);
+            witchVoteSavesTargets = CustomOption.Create(376,Types.Impostor, "投出女巫可拯救被施咒者", true, witchSpawnRate);
 
             ninjaSpawnRate = CustomOption.Create(380, Types.Impostor, cs(Ninja.color, "忍者"), rates, null, true);
             ninjaCooldown = CustomOption.Create(381, Types.Impostor, "忍者标记冷却", 30f, 10f, 120f, 5f, ninjaSpawnRate);
@@ -360,10 +360,10 @@ namespace TheOtherRoles {
 
 
             guesserSpawnRate = CustomOption.Create(310,Types.Neutral, cs(Guesser.color, "赌怪"), rates, null, true);
-            guesserIsImpGuesserRate = CustomOption.Create(311,Types.Neutral, "邪恶赌怪生成概率", rates, guesserSpawnRate);
-            guesserNumberOfShots = CustomOption.Create(312,Types.Neutral, "赌怪可赌次数", 2f, 1f, 15f, 1f, guesserSpawnRate);
-            guesserHasMultipleShotsPerMeeting = CustomOption.Create(313,Types.Neutral, "可在一轮会议中多次使用技能", false, guesserSpawnRate);
-            guesserShowInfoInGhostChat = CustomOption.Create(314,Types.Neutral, "猜测结果在幽灵聊天中可见", true, guesserSpawnRate);
+            guesserIsImpGuesserRate = CustomOption.Create(311,Types.Neutral, "赌怪为内鬼的概率", rates, guesserSpawnRate);
+            guesserNumberOfShots = CustomOption.Create(312,Types.Neutral, "赌怪可猜测次数", 2f, 1f, 15f, 1f, guesserSpawnRate);
+            guesserHasMultipleShotsPerMeeting = CustomOption.Create(313,Types.Neutral, "在一次会议中连续猜测", false, guesserSpawnRate);
+            guesserShowInfoInGhostChat = CustomOption.Create(314,Types.Neutral, "猜测结果在死亡聊天中可见", true, guesserSpawnRate);
             guesserKillsThroughShield  = CustomOption.Create(315,Types.Neutral, "赌怪无视医生护盾", true, guesserSpawnRate);
             guesserEvilCanKillSpy  = CustomOption.Create(316,Types.Neutral, "邪恶赌怪可猜测间谍", true, guesserSpawnRate);
             guesserSpawnBothRate = CustomOption.Create(317,Types.Neutral, "正义和邪恶赌怪同时生成概率", rates, guesserSpawnRate);
@@ -390,8 +390,8 @@ namespace TheOtherRoles {
             jackalAndSidekickHaveImpostorVision = CustomOption.Create(430,Types.Neutral, "豺狼和跟班拥有内鬼视野", false, jackalSpawnRate);
 
             vultureSpawnRate = CustomOption.Create(340,Types.Neutral, cs(Vulture.color, "秃鹫"), rates, null, true);
-            vultureCooldown = CustomOption.Create(341,Types.Neutral, "秃鹫技能冷却", 15f, 10f, 60f, 2.5f, vultureSpawnRate);
-            vultureNumberToWin = CustomOption.Create(342,Types.Neutral, "胜利食用的尸体数量", 4f, 1f, 10f, 1f, vultureSpawnRate);
+            vultureCooldown = CustomOption.Create(341,Types.Neutral, "吞噬技能冷却", 15f, 10f, 60f, 2.5f, vultureSpawnRate);
+            vultureNumberToWin = CustomOption.Create(342,Types.Neutral, "胜利需食用的尸体数量", 4f, 1f, 10f, 1f, vultureSpawnRate);
             vultureCanUseVents = CustomOption.Create(343,Types.Neutral, "秃鹫可使用管道", true, vultureSpawnRate);
             vultureShowArrows = CustomOption.Create(344,Types.Neutral, "显示箭头指向尸体", true, vultureSpawnRate);
 
@@ -403,16 +403,16 @@ namespace TheOtherRoles {
             pursuerBlanksNumber = CustomOption.Create(357,Types.Neutral, "起诉人空包弹数量", 5f, 1f, 20f, 1f, lawyerSpawnRate);
 
             shifterSpawnRate = CustomOption.Create(70,Types.Crewmate, cs(Shifter.color, "交换师"), rates, null, true);
-            shifterShiftsModifiers = CustomOption.Create(71,Types.Crewmate, "交换能力增强(可交换医生护盾和恋人)", false, shifterSpawnRate);
+            shifterShiftsModifiers = CustomOption.Create(71,Types.Crewmate, "交换师可以交换附加职业", false, shifterSpawnRate);
 
             mayorSpawnRate = CustomOption.Create(80,Types.Crewmate, cs(Mayor.color, "市长"), rates, null, true);
             mayorCanSeeVoteColors = CustomOption.Create(81,Types.Crewmate, "市长可见投票角色", false, mayorSpawnRate);
             mayorTasksNeededToSeeVoteColors = CustomOption.Create(82, Types.Crewmate, "看见投票角色需要完成的任务数", 5f, 0f, 20f, 1f, mayorCanSeeVoteColors);
-            mayorMeetingButton = CustomOption.Create(83, Types.Crewmate, "拥有立即开会技能", true, mayorSpawnRate);
-            mayorMaxRemoteMeetings = CustomOption.Create(84, Types.Crewmate, "立即开会次数", 1f, 1f, 5f, 1f, mayorMeetingButton);
+            mayorMeetingButton = CustomOption.Create(83, Types.Crewmate, "随身紧急按钮", true, mayorSpawnRate);
+            mayorMaxRemoteMeetings = CustomOption.Create(84, Types.Crewmate, "远程开会次数", 1f, 1f, 5f, 1f, mayorMeetingButton);
 
             engineerSpawnRate = CustomOption.Create(90,Types.Crewmate, cs(Engineer.color, "工程师"), rates, null, true);
-            engineerNumberOfFixes = CustomOption.Create(91,Types.Crewmate, "工程师可维修破坏次数", 1f, 1f, 3f, 1f, engineerSpawnRate);
+            engineerNumberOfFixes = CustomOption.Create(91,Types.Crewmate, "可维修破坏次数", 1f, 1f, 3f, 1f, engineerSpawnRate);
             engineerHighlightForImpostors = CustomOption.Create(92,Types.Crewmate, "内鬼能看见工程师在管道中", true, engineerSpawnRate);
             engineerHighlightForTeamJackal = CustomOption.Create(93,Types.Crewmate, "豺狼和跟班能看到工程师在管道中 ", true, engineerSpawnRate);
 
@@ -535,11 +535,11 @@ namespace TheOtherRoles {
             modifierSunglassesVision = CustomOption.Create(1052, Types.Modifier, "弱视的视野范围", new string[] { "-10%", "-20%", "-30%", "-40%", "-50%" }, modifierSunglasses);
 
             modifierMini = CustomOption.Create(1061, Types.Modifier, cs(Color.yellow, "迷你船员"), rates, null, true);
-            modifierMiniGrowingUpDuration = CustomOption.Create(1062, Types.Modifier, "迷你船员长大时间", 400f, 100f, 1500f, 100f, modifierMini);
+            modifierMiniGrowingUpDuration = CustomOption.Create(1062, Types.Modifier, "迷你船员长大所需时间", 400f, 100f, 1500f, 100f, modifierMini);
 
             modifierVip = CustomOption.Create(1070, Types.Modifier, cs(Color.yellow, "网红"), rates, null, true);
             modifierVipQuantity = CustomOption.Create(1071, Types.Modifier, cs(Color.yellow, "网红数量"), ratesModifier, modifierVip);
-            modifierVipShowColor = CustomOption.Create(1072, Types.Modifier, "显示网红的队伍颜色", true, modifierVip);
+            modifierVipShowColor = CustomOption.Create(1072, Types.Modifier, "网红死亡时闪光所属阵营颜色", true, modifierVip);
 
             modifierInvert = CustomOption.Create(1080, Types.Modifier, cs(Color.yellow, "醉鬼"), rates, null, true);
             modifierInvertQuantity = CustomOption.Create(1081, Types.Modifier, cs(Color.yellow, "醉鬼数量"), ratesModifier, modifierInvert);
@@ -549,10 +549,10 @@ namespace TheOtherRoles {
 
             maxNumberOfMeetings = CustomOption.Create(3,Types.General, "会议总数（市长会议除外）", 10, 0, 15, 1, null, true);
             blockSkippingInEmergencyMeetings = CustomOption.Create(4,Types.General, "紧急会议中禁止跳过", false);
-            noVoteIsSelfVote = CustomOption.Create(5,Types.General, "不能给自己投票", false, blockSkippingInEmergencyMeetings);
-            hidePlayerNames = CustomOption.Create(6,Types.General, "隐藏玩家姓名", false);
+            noVoteIsSelfVote = CustomOption.Create(5,Types.General, "不投票等于投自己", false, blockSkippingInEmergencyMeetings);
+            hidePlayerNames = CustomOption.Create(6,Types.General, "隐藏玩家昵称", false);
             allowParallelMedBayScans = CustomOption.Create(7,Types.General, "允许同时进行扫描任务", false);
-            shieldFirstKill = CustomOption.Create(8, Types.General, "上轮首刀保护", false);
+            shieldFirstKill = CustomOption.Create(8, Types.General, "首位死亡玩家可在下局游戏获得一个护盾", false);
 
             dynamicMap = CustomOption.Create(500,Types.General, "随机地图启用", false, null, false);
             dynamicMapEnableSkeld = CustomOption.Create(501,Types.General, "Skeld加入随机列表", true, dynamicMap, false);
