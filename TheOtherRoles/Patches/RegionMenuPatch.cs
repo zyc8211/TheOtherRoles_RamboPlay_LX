@@ -38,6 +38,7 @@ namespace TheOtherRoles.Patches {
         private static TextBoxTMP portField;
 
         public static void Postfix(RegionMenu __instance) {
+            if (!TheOtherRolesPlugin.EnableCustomRegion.Value) return;
             if (!__instance.TryCast<RegionMenu>()) return;
             var template = FastDestroyableSingleton<JoinGameButton>.Instance;
             var joinGameButtons = GameObject.FindObjectsOfType<JoinGameButton>();
