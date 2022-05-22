@@ -54,8 +54,8 @@ namespace TheOtherRoles
         public static RoleInfo snitch = new RoleInfo("密探", Snitch.color, "完成所有任务可找出<color=#FF1919FF>内鬼</color>", "完成所有任务", RoleId.Snitch);
         public static RoleInfo jackal = new RoleInfo("豺狼", Jackal.color, "杀死所有的船员和<color=#FF1919FF>内鬼</color>来获得胜利", "杀掉所有人", RoleId.Jackal, true);
         public static RoleInfo sidekick = new RoleInfo("跟班", Sidekick.color, "帮助豺狼杀掉所有人", "帮助豺狼杀掉所有人", RoleId.Sidekick, true);
-        public static RoleInfo spy = new RoleInfo("间谍", Spy.color, "迷惑<color=#FF1919FF>内鬼</color>", "迷惑内鬼", RoleId.Spy);
-        public static RoleInfo securityGuard = new RoleInfo("保安", SecurityGuard.color, "封锁管道，安放摄像头", "封锁管道，安放摄像头", RoleId.SecurityGuard);
+        public static RoleInfo spy = new RoleInfo("卧底", Spy.color, "迷惑<color=#FF1919FF>内鬼</color>", "迷惑内鬼", RoleId.Spy);
+        public static RoleInfo securityGuard = new RoleInfo("安保", SecurityGuard.color, "封锁管道，安放摄像头", "封锁管道，安放摄像头", RoleId.SecurityGuard);
         public static RoleInfo arsonist = new RoleInfo("纵火狂", Arsonist.color, "用火焰净化一切", "用火焰净化一切", RoleId.Arsonist, true);
         public static RoleInfo goodGuesser = new RoleInfo("正义的赌怪", Guesser.color, "生命就是豪赌", "生命就是豪赌", RoleId.NiceGuesser);
         public static RoleInfo badGuesser = new RoleInfo("邪恶的赌怪", Palette.ImpostorRed, "生命就是豪赌", "生命就是豪赌", RoleId.EvilGuesser);
@@ -66,7 +66,7 @@ namespace TheOtherRoles
         public static RoleInfo impostor = new RoleInfo("内鬼", Palette.ImpostorRed, Helpers.cs(Palette.ImpostorRed, "破坏或杀死所有人"), "破坏或杀死所有人", RoleId.Impostor);
         public static RoleInfo crewmate = new RoleInfo("船员", Color.white, "找到内鬼", "找到内鬼", RoleId.Crewmate);
         public static RoleInfo witch = new RoleInfo("女巫", Witch.color, "对你的敌人施咒", "对你的敌人施咒", RoleId.Witch);
-        public static RoleInfo ninja = new RoleInfo("忍者", Ninja.color, "出其不意暗杀敌人", "出其不意暗杀敌人", RoleId.Ninja);
+        public static RoleInfo ninja = new RoleInfo("暗杀者", Ninja.color, "出其不意暗杀敌人", "出其不意暗杀敌人", RoleId.Ninja);
 
 
         // Modifier
