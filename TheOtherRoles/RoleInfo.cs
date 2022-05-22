@@ -72,7 +72,7 @@ namespace TheOtherRoles
         // Modifier
         public static RoleInfo bloody = new RoleInfo("血语者", Color.yellow, "杀死你的人将会留下血迹", "杀死你的人将会留下血迹", RoleId.Bloody, false, true);
         public static RoleInfo antiTeleport = new RoleInfo("通信兵", Color.yellow, "可以远程开会", "可以远程开会", RoleId.AntiTeleport, false, true);
-        public static RoleInfo tiebreaker = new RoleInfo("破平着", Color.yellow, "平票时你的投票将算作两票", "打破平票", RoleId.Tiebreaker, false, true);
+        public static RoleInfo tiebreaker = new RoleInfo("破平者", Color.yellow, "平票时你的投票将算作两票", "打破平票", RoleId.Tiebreaker, false, true);
         public static RoleInfo bait = new RoleInfo("诱饵", Color.yellow, "杀死你的敌人将自己报告", "杀死你的敌人将自己报告", RoleId.Bait, false, true);
         public static RoleInfo sunglasses = new RoleInfo("弱视", Color.yellow, "你瞎了", "你的视野范围缩小了", RoleId.Sunglasses, false, true);
         public static RoleInfo lover = new RoleInfo("恋人", Lovers.color, $"你们相爱了", $"你们相爱了", RoleId.Lover, false, true);
