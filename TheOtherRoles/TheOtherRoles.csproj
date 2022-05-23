@@ -24,8 +24,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.553" />
+        <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.559" />
         <PackageReference Include="AmongUs.GameLibs.$(GamePlatform)" Version="$(GameVersion)" PrivateAssets="all" />
-        <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="1.0.2" />
+        <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="1.1.1" />
     </ItemGroup>
 </Project>
