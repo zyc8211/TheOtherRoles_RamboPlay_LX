@@ -1276,15 +1276,15 @@ namespace TheOtherRoles
                     string msg = "";
 
                     int randomNumber = TheOtherRoles.rnd.Next(4);
-                    string typeOfColor = Helpers.isLighterColor(Medium.target.killerIfExisting.Data.DefaultOutfit.ColorId) ? "lighter" : "darker";
+                    string typeOfColor = Helpers.isLighterColor(Medium.target.killerIfExisting.Data.DefaultOutfit.ColorId) ? "浅" : "深";
                     float timeSinceDeath = ((float)(Medium.meetingStartTime - Medium.target.timeOfDeath).TotalMilliseconds);
                     string name = " (" + Medium.target.player.Data.PlayerName + ")";
 
 
-                    if (randomNumber == 0) msg = "What is your role? My role is " + RoleInfo.GetRolesString(Medium.target.player, false) + name;
-                    else if (randomNumber == 1) msg = "What is your killer`s color type? My killer is a " + typeOfColor + " color" + name;
-                    else if (randomNumber == 2) msg = "When did you die? I have died " + Math.Round(timeSinceDeath / 1000) + "s before meeting started" + name;
-                    else msg = "What is your killer`s role? My killer is " + RoleInfo.GetRolesString(Medium.target.killerIfExisting, false, false) + name;
+                    if (randomNumber == 0) msg = "你是什么身份? 我的身份是 " + RoleInfo.GetRolesString(Medium.target.player, false) + name;
+                    else if (randomNumber == 1) msg = "杀死你的人的颜色是? 杀我的人是 " + typeOfColor + " 色的" + name;
+                    else if (randomNumber == 2) msg = "你死了多久了? 在上次会议开始时我已经死了 " + Math.Round(timeSinceDeath / 1000) + "秒了" + name;
+                    else msg = "杀死你的凶手的身份是? 凶手的身份是 " + RoleInfo.GetRolesString(Medium.target.killerIfExisting, false, false) + name;
 
                     FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(CachedPlayer.LocalPlayer.PlayerControl, $"{msg}");
 

@@ -47,11 +47,11 @@ namespace TheOtherRoles.Modules {
                         handled = true;
                         int col;
                         if (!Int32.TryParse(text.Substring(7), out col)) {
-                            __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, "Unable to parse color id\nUsage: /color {id}");
+                            __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, "无法解析颜色id\n请输入: /color {id}");
                         }
                         col = Math.Clamp(col, 0, Palette.PlayerColors.Length - 1);
                         CachedPlayer.LocalPlayer.PlayerControl.SetColor(col);
-                        __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, "Changed color succesfully");;
+                        __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, "改变颜色成功");;
                     } 
                 }
 

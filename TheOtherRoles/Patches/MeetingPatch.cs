@@ -228,13 +228,13 @@ namespace TheOtherRoles.Patches {
                 } else {
                     selections[i] = true;
                     renderer.color = Color.yellow;
-                    swapperConfirmButtonLabel.text = Helpers.cs(Color.yellow, "Confirm Swap");
+                    swapperConfirmButtonLabel.text = Helpers.cs(Color.yellow, "确认换票");
                 }
             } else if (selectedCount == 2) {
                 if (selections[i]) {
                     renderer.color = Color.red;
                     selections[i] = false;
-                    swapperConfirmButtonLabel.text = Helpers.cs(Color.red, "Confirm Swap");
+                    swapperConfirmButtonLabel.text = Helpers.cs(Color.red, "确认换票");
                 }
             }
         }
@@ -267,9 +267,9 @@ namespace TheOtherRoles.Patches {
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                 RPCProcedure.swapperSwap((byte)firstPlayer.TargetPlayerId, (byte)secondPlayer.TargetPlayerId);
-                swapperConfirmButtonLabel.text = Helpers.cs(Color.green, "Swapping!");
+                swapperConfirmButtonLabel.text = Helpers.cs(Color.green, "换票中!");
                 Swapper.charges--;
-                swapperChargesText.text = $"Swaps: {Swapper.charges}";
+                swapperChargesText.text = $"剩余换票次数: {Swapper.charges}";
             }
         }
 
@@ -429,7 +429,7 @@ namespace TheOtherRoles.Patches {
                 Transform infoTransform = __instance.playerStates[0].NameText.transform.parent.FindChild("Info");
                 TMPro.TextMeshPro meetingInfo = infoTransform != null ? infoTransform.GetComponent<TMPro.TextMeshPro>() : null;
                 swapperChargesText = UnityEngine.Object.Instantiate(__instance.playerStates[0].NameText, confirmSwapButtonParent);
-                swapperChargesText.text = $"Swaps: {Swapper.charges}";
+                swapperChargesText.text = $"剩余换票次数: {Swapper.charges}";
                 swapperChargesText.enableWordWrapping = false;
                 swapperChargesText.transform.localScale = Vector3.one * 1.7f;
                 swapperChargesText.transform.localPosition = new Vector3(-2.5f, 0f, 0f);
@@ -535,8 +535,8 @@ namespace TheOtherRoles.Patches {
                 if (Portalmaker.portalmaker != null && CachedPlayer.LocalPlayer.PlayerControl == Portalmaker.portalmaker && !CachedPlayer.LocalPlayer.Data.IsDead) {
                     foreach (var entry in Portal.teleportedPlayers) {
                         float timeBeforeMeeting = ((float)(DateTime.UtcNow - entry.time).TotalMilliseconds) / 1000;
-                        string msg = Portalmaker.logShowsTime ? $"{(int)timeBeforeMeeting}s ago: " : "";
-                        msg = msg + $"{entry.name} used the teleporter";
+                        string msg = Portalmaker.logShowsTime ? $"{(int)timeBeforeMeeting}秒前: " : "";
+                        msg = msg + $"{entry.name} 使用了传送门";
                         FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(CachedPlayer.LocalPlayer.PlayerControl, $"{msg}");
                     }
                 }
