@@ -63,7 +63,8 @@ namespace TheOtherRoles.Modules
             Instance = this;
             
             SceneManager.add_sceneLoaded((System.Action<Scene, LoadSceneMode>) (OnSceneLoaded));
-            this.StartCoroutine(CoCheckUpdates());
+            // 干掉更新
+            // this.StartCoroutine(CoCheckUpdates());
             
             foreach (var file in Directory.GetFiles(Paths.PluginPath, "*.old"))
             {
