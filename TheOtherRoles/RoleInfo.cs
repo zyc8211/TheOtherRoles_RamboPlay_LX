@@ -38,8 +38,8 @@ namespace TheOtherRoles
         public static RoleInfo janitor = new RoleInfo("清洁工", Janitor.color, "作为<color=#FF1919FF>黑手党</color>的成员，清理尸体", "清理尸体", RoleId.Janitor);
         public static RoleInfo morphling = new RoleInfo("化形者", Morphling.color, "夏 日 重 现", "变换外貌摆脱嫌疑", RoleId.Morphling);
         public static RoleInfo camouflager = new RoleInfo("隐蔽者", Camouflager.color, "我是谁？谁是我？", "在伪装下杀死船员", RoleId.Camouflager);
-        public static RoleInfo vampire = new RoleInfo("吸血鬼", Vampire.color, "吸血船员来杀死他们", "吸血船员来杀死他们", RoleId.Vampire);
-        public static RoleInfo eraser = new RoleInfo("抹除者", Eraser.color, "德古拉传人", "抹除他人的职业", RoleId.Eraser);
+        public static RoleInfo vampire = new RoleInfo("吸血鬼", Vampire.color, "德古拉传人", "吸血船员来杀死他们", RoleId.Vampire);
+        public static RoleInfo eraser = new RoleInfo("抹除者", Eraser.color, "滋溜！你没了", "抹除他人的职业", RoleId.Eraser);
         public static RoleInfo trickster = new RoleInfo("骗术师", Trickster.color, "惊不惊喜，意不意外？", "用你的骗术盒为其他玩家带来惊喜", RoleId.Trickster);
         public static RoleInfo cleaner = new RoleInfo("清理者", Cleaner.color, "藏好自己，做好清理", "做好尸体清理", RoleId.Cleaner);
         public static RoleInfo warlock = new RoleInfo("术士", Warlock.color, "那么代价是什么呢？", "诅咒并杀死所有人", RoleId.Warlock);
@@ -60,14 +60,14 @@ namespace TheOtherRoles
         public static RoleInfo arsonist = new RoleInfo("纵火狂", Arsonist.color, "用火焰净化一切", "给所有人涂油并点火获胜", RoleId.Arsonist, true);
         public static RoleInfo goodGuesser = new RoleInfo("正义的赌怪", Guesser.color, "生命就是豪赌", "在会议中可以猜测他人身份", RoleId.NiceGuesser);
         public static RoleInfo badGuesser = new RoleInfo("邪恶的赌怪", Palette.ImpostorRed, "生命就是豪赌", "在会议中可以猜测他人身份", RoleId.EvilGuesser);
-        public static RoleInfo vulture = new RoleInfo("秃鹫", Vulture.color, "吞噬尸体来获得胜利", "吞噬尸体", RoleId.Vulture, true);
+        public static RoleInfo vulture = new RoleInfo("秃鹫", Vulture.color, "逛吃 逛吃 逛吃", "吞噬一定数量尸体", RoleId.Vulture, true);
         public static RoleInfo medium = new RoleInfo("通灵师", Medium.color, "在死亡位置通灵获取信息", "通灵获取信息", RoleId.Medium);
         public static RoleInfo lawyer = new RoleInfo("律师", Lawyer.color, "为你的客户辩护", "为你的客户辩护", RoleId.Lawyer, true);
         public static RoleInfo pursuer = new RoleInfo("起诉人", Pursuer.color, "给内鬼塞空包弹，活下去", "给内鬼塞空包弹，活下去", RoleId.Pursuer);
         public static RoleInfo impostor = new RoleInfo("内鬼", Palette.ImpostorRed, Helpers.cs(Palette.ImpostorRed, "破坏或杀死所有人"), "破坏或杀死所有人", RoleId.Impostor);
         public static RoleInfo crewmate = new RoleInfo("船员", Color.white, "找到内鬼", "找到内鬼", RoleId.Crewmate);
         public static RoleInfo witch = new RoleInfo("女巫", Witch.color, "对你的敌人施咒", "对你的敌人施咒", RoleId.Witch);
-        public static RoleInfo ninja = new RoleInfo("暗杀者", Ninja.color, "出其不意暗杀敌人", "出其不意暗杀敌人", RoleId.Ninja);
+        public static RoleInfo ninja = new RoleInfo("暗杀者", Ninja.color, "注意你的身后", "出其不意暗杀敌人", RoleId.Ninja);
 
 
         // Modifier
