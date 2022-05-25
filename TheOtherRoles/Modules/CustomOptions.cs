@@ -85,7 +85,7 @@ namespace TheOtherRoles {
             }
         }
 
-        public static void ShareOptionSelections() {
+                public static void ShareOptionSelections() {
             if (CachedPlayer.AllPlayers.Count <= 1 || AmongUsClient.Instance!.AmHost == false && CachedPlayer.LocalPlayer.PlayerControl == null) return;
 
             var optionsList = new List<CustomOption>(CustomOption.options);

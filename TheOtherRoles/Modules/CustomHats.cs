@@ -14,6 +14,7 @@ using TheOtherRoles.Players;
 using TheOtherRoles.Utilities;
 
 
+
 namespace TheOtherRoles.Modules {
     [HarmonyPatch]
     public class CustomHats { 
