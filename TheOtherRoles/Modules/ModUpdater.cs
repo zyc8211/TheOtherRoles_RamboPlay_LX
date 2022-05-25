@@ -157,23 +157,24 @@ namespace TheOtherRoles.Modules
         [HideFromIl2Cpp]
         public static IEnumerator CoCheckUpdates()
         {
-            var torUpdateCheck = Task.Run(() => Instance.GetGithubUpdate("Eisbison", "TheOtherRoles"));
-            while (!torUpdateCheck.IsCompleted) yield return null;
-            Announcement.updateData = torUpdateCheck.Result;
-            if (torUpdateCheck.Result != null && torUpdateCheck.Result.IsNewer(Version.Parse(TheOtherRolesPlugin.VersionString)))
-            {
-                Instance.TORUpdate = torUpdateCheck.Result;
-            }
+            // 干掉检查更新
+            // var torUpdateCheck = Task.Run(() => Instance.GetGithubUpdate("Eisbison", "TheOtherRoles"));
+            // while (!torUpdateCheck.IsCompleted) yield return null;
+            // Announcement.updateData = torUpdateCheck.Result;
+            // if (torUpdateCheck.Result != null && torUpdateCheck.Result.IsNewer(Version.Parse(TheOtherRolesPlugin.VersionString)))
+            // {
+            //     Instance.TORUpdate = torUpdateCheck.Result;
+            // }
 
-            if (CheckForSubmergedUpdates)
-            {
-                var submergedUpdateCheck = Task.Run(() => Instance.GetGithubUpdate("SubmergedAmongUs", "Submerged"));
-                while (!submergedUpdateCheck.IsCompleted) yield return null;
-                if (submergedUpdateCheck.Result != null && (!SubmergedCompatibility.Loaded || submergedUpdateCheck.Result.IsNewer(SubmergedCompatibility.Version)))
-                {
-                    Instance.SubmergedUpdate = submergedUpdateCheck.Result;
-                }
-            }
+            // if (CheckForSubmergedUpdates)
+            // {
+            //     var submergedUpdateCheck = Task.Run(() => Instance.GetGithubUpdate("SubmergedAmongUs", "Submerged"));
+            //     while (!submergedUpdateCheck.IsCompleted) yield return null;
+            //     if (submergedUpdateCheck.Result != null && (!SubmergedCompatibility.Loaded || submergedUpdateCheck.Result.IsNewer(SubmergedCompatibility.Version)))
+            //     {
+            //         Instance.SubmergedUpdate = submergedUpdateCheck.Result;
+            //     }
+            // }
             
             Instance.OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
@@ -181,15 +182,17 @@ namespace TheOtherRoles.Modules
         [HideFromIl2Cpp]
         public async Task<UpdateData> GetGithubUpdate(string owner, string repo)
         {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("User-Agent", "TheOtherRoles Updater");
+            // 干掉更新公告
+            // var client = new HttpClient();
+            // client.DefaultRequestHeaders.Add("User-Agent", "TheOtherRoles Updater");
 
-            var req = await client.GetAsync($"https://api.github.com/repos/{owner}/{repo}/releases/latest", HttpCompletionOption.ResponseContentRead);
-            if (!req.IsSuccessStatusCode) return null;
+            // var req = await client.GetAsync($"https://api.github.com/repos/{owner}/{repo}/releases/latest", HttpCompletionOption.ResponseContentRead);
+            // if (!req.IsSuccessStatusCode) return null;
 
-            var dataString = await req.Content.ReadAsStringAsync();
-            JObject data = JObject.Parse(dataString);
-            return new UpdateData(data);
+            // var dataString = await req.Content.ReadAsStringAsync();
+            // JObject data = JObject.Parse(dataString);
+            // return new UpdateData(data);
+             return null;
         }
 
         private bool TryUpdateSubmergedInternally()
