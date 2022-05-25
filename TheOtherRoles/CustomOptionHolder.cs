@@ -373,7 +373,7 @@ namespace TheOtherRoles {
             jesterCanCallEmergency = CustomOption.Create(61,Types.Neutral, "小丑能召开紧急会议", true, jesterSpawnRate);
             jesterHasImpostorVision = CustomOption.Create(62,Types.Neutral, "小丑拥有内鬼视野", false, jesterSpawnRate);
 
-            arsonistSpawnRate = CustomOption.Create(290,Types.Neutral, cs(Arsonist.color, "纵火犯"), rates, null, true);
+            arsonistSpawnRate = CustomOption.Create(290,Types.Neutral, cs(Arsonist.color, "纵火狂"), rates, null, true);
             arsonistCooldown = CustomOption.Create(291,Types.Neutral, "浇油冷却", 12.5f, 2.5f, 60f, 2.5f, arsonistSpawnRate);
             arsonistDuration = CustomOption.Create(292,Types.Neutral, "浇油花费时长", 3f, 1f, 10f, 1f, arsonistSpawnRate);
 
@@ -406,7 +406,7 @@ namespace TheOtherRoles {
             shifterShiftsModifiers = CustomOption.Create(71,Types.Crewmate, "交换师可以交换附加职业", false, shifterSpawnRate);
 
             mayorSpawnRate = CustomOption.Create(80,Types.Crewmate, cs(Mayor.color, "市长"), rates, null, true);
-            mayorCanSeeVoteColors = CustomOption.Create(81,Types.Crewmate, "市长可见投票角色", false, mayorSpawnRate);
+            mayorCanSeeVoteColors = CustomOption.Create(81,Types.Crewmate, "市长可看见投票角色", false, mayorSpawnRate);
             mayorTasksNeededToSeeVoteColors = CustomOption.Create(82, Types.Crewmate, "看见投票角色需要完成的任务数", 5f, 0f, 20f, 1f, mayorCanSeeVoteColors);
             mayorMeetingButton = CustomOption.Create(83, Types.Crewmate, "随身紧急按钮", true, mayorSpawnRate);
             mayorMaxRemoteMeetings = CustomOption.Create(84, Types.Crewmate, "远程开会次数", 1f, 1f, 5f, 1f, mayorMeetingButton);
@@ -526,16 +526,16 @@ namespace TheOtherRoles {
             modifierBaitShowKillFlash = CustomOption.Create(1034, Types.Modifier, "是否用闪光警告杀人者", true, modifierBait);
 
             modifierLover = CustomOption.Create(1040, Types.Modifier, cs(Color.yellow, "恋人"), rates, null, true);
-            modifierLoverImpLoverRate = CustomOption.Create(1041, Types.Modifier, "恋人中有一个是内鬼的概率", rates, modifierLover);
-            modifierLoverBothDie = CustomOption.Create(1042, Types.Modifier, "恋人一起死亡", true, modifierLover);
+            modifierLoverImpLoverRate = CustomOption.Create(1041, Types.Modifier, "内鬼恋人的概率", rates, modifierLover);
+            modifierLoverBothDie = CustomOption.Create(1042, Types.Modifier, "恋人殉情", true, modifierLover);
             modifierLoverEnableChat = CustomOption.Create(1043, Types.Modifier, "允许恋人文字私聊", true, modifierLover);
 
             modifierSunglasses = CustomOption.Create(1050, Types.Modifier, cs(Color.yellow, "弱视"), rates, null, true);
             modifierSunglassesQuantity = CustomOption.Create(1051, Types.Modifier, cs(Color.yellow, "弱视数量"), ratesModifier, modifierSunglasses);
             modifierSunglassesVision = CustomOption.Create(1052, Types.Modifier, "弱视的视野范围", new string[] { "-10%", "-20%", "-30%", "-40%", "-50%" }, modifierSunglasses);
 
-            modifierMini = CustomOption.Create(1061, Types.Modifier, cs(Color.yellow, "迷你船员"), rates, null, true);
-            modifierMiniGrowingUpDuration = CustomOption.Create(1062, Types.Modifier, "迷你船员长大所需时间", 400f, 100f, 1500f, 100f, modifierMini);
+            modifierMini = CustomOption.Create(1061, Types.Modifier, cs(Color.yellow, "迷你人"), rates, null, true);
+            modifierMiniGrowingUpDuration = CustomOption.Create(1062, Types.Modifier, "迷你人长大所需时间", 400f, 100f, 1500f, 100f, modifierMini);
 
             modifierVip = CustomOption.Create(1070, Types.Modifier, cs(Color.yellow, "网红"), rates, null, true);
             modifierVipQuantity = CustomOption.Create(1071, Types.Modifier, cs(Color.yellow, "网红数量"), ratesModifier, modifierVip);
@@ -543,7 +543,7 @@ namespace TheOtherRoles {
 
             modifierInvert = CustomOption.Create(1080, Types.Modifier, cs(Color.yellow, "醉鬼"), rates, null, true);
             modifierInvertQuantity = CustomOption.Create(1081, Types.Modifier, cs(Color.yellow, "醉鬼数量"), ratesModifier, modifierInvert);
-            modifierInvertDuration = CustomOption.Create(1082, Types.Modifier, "醉鬼持续几轮会议", 3f, 1f, 15f, 1f, modifierInvert);
+            modifierInvertDuration = CustomOption.Create(1082, Types.Modifier, "醉鬼状态持续几轮会议", 3f, 1f, 15f, 1f, modifierInvert);
 
             // Other options
 
@@ -554,7 +554,7 @@ namespace TheOtherRoles {
             allowParallelMedBayScans = CustomOption.Create(7,Types.General, "允许同时进行扫描任务", false);
             shieldFirstKill = CustomOption.Create(8, Types.General, "首位死亡玩家可在下局游戏获得一个护盾", false);
 
-            dynamicMap = CustomOption.Create(500,Types.General, "开启随机地图模式", false, null, false);
+            dynamicMap = CustomOption.Create(500,Types.General, "随机地图模式", false, null, false);
             dynamicMapEnableSkeld = CustomOption.Create(501,Types.General, "Skeld加入随机列表", true, dynamicMap, false);
             dynamicMapEnableMira = CustomOption.Create(502,Types.General, "Mira加入随机列表", true, dynamicMap, false);
             dynamicMapEnablePolus = CustomOption.Create(503,Types.General, "Polus加入随机列表", true, dynamicMap, false);
