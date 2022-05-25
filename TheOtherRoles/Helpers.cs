@@ -137,7 +137,7 @@ namespace TheOtherRoles {
                 return cs(roleInfo.color, $"{roleInfo.name}: 杀死所有人{getSidekickText}");
             }
 
-            if (roleInfo.name == "醉鬼的")
+            if (roleInfo.name == "醉鬼")
             {
                 return cs(roleInfo.color, $"{roleInfo.name}: {roleInfo.shortDescription} ({Invert.meetings})");
             }
