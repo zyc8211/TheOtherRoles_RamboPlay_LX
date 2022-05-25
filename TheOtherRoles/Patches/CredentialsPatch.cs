@@ -36,19 +36,20 @@ $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy 感谢 四个憨批汉化�
         [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
         internal static class PingTrackerPatch
         {
-            public static GameObject modStamp;
-            static void Prefix(PingTracker __instance) {
-                if (modStamp == null) {
-                    modStamp = new GameObject("ModStamp");
-                    var rend = modStamp.AddComponent<SpriteRenderer>();
-                    rend.sprite = TheOtherRolesPlugin.GetModStamp();
-                    rend.color = new Color(1, 1, 1, 0.5f);
-                    modStamp.transform.parent = __instance.transform.parent;
-                    modStamp.transform.localScale *= SubmergedCompatibility.Loaded ? 0 : 0.6f;
-                }
-                float offset = (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) ? 0.75f : 0f;
-                modStamp.transform.position = FastDestroyableSingleton<HudManager>.Instance.MapButton.transform.position + Vector3.down * offset;
-            }
+            // ModStamp 还是没修好
+            // public static GameObject modStamp;
+            // static void Prefix(PingTracker __instance) {
+            //     if (modStamp == null) {
+            //         modStamp = new GameObject("ModStamp");
+            //         var rend = modStamp.AddComponent<SpriteRenderer>();
+            //         rend.sprite = TheOtherRolesPlugin.GetModStamp();
+            //         rend.color = new Color(1, 1, 1, 0.5f);
+            //         modStamp.transform.parent = __instance.transform.parent;
+            //         modStamp.transform.localScale *= SubmergedCompatibility.Loaded ? 0 : 0.6f;
+            //     }
+            //     float offset = (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) ? 0.75f : 0f;
+            //     modStamp.transform.position = FastDestroyableSingleton<HudManager>.Instance.MapButton.transform.position + Vector3.down * offset;
+            // }
 
             static void Postfix(PingTracker __instance){
                 __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
