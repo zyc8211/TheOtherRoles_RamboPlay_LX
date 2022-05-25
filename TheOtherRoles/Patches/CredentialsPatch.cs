@@ -61,7 +61,7 @@ $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy 感谢 四个憨批汉化�
                         __instance.transform.localPosition = new Vector3(4.2f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
                     }
                 } else {
-                    __instance.text.text = $"{fullCredentials}\n{__instance.text.text}";
+                    __instance.text.text = $"{fullCredentials}\n" + $"延迟：{AmongUsClient.Instance.Ping}毫秒\n";
                     __instance.transform.localPosition = new Vector3(3.5f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
                 }
             }
