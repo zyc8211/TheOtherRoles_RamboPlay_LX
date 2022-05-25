@@ -100,8 +100,8 @@ namespace TheOtherRoles.Modules
             ));
 
             var text = button.transform.GetChild(0).GetComponent<TMP_Text>();
-            string t = "GitHub";
-            if (TORUpdate is null && SubmergedUpdate is not null) t = SubmergedCompatibility.Loaded ? $"访问\nGitHub" : $"访问\GitHub";
+            string t = "Update";
+            if (TORUpdate is null && SubmergedUpdate is not null) t = SubmergedCompatibility.Loaded ? $"访问\nGitHub" : $"访问\nGitHub";
 
             StartCoroutine(Effects.Lerp(0.1f, (System.Action<float>)(p => text.SetText(t))));
 
