@@ -25,7 +25,7 @@ namespace TheOtherRoles.Modules
     public class ModUpdateBehaviour : MonoBehaviour
     {
         public static readonly bool CheckForSubmergedUpdates = true;
-        public static bool showPopUp = true;
+        public static bool showPopUp = false;
         public static bool updateInProgress = false;
 
         public static ModUpdateBehaviour Instance { get; private set; }
@@ -113,8 +113,8 @@ namespace TheOtherRoles.Modules
             var isSubmerged = TORUpdate == null;
             var announcement = $"<size=150%>A new <color=#FC0303>{(isSubmerged ? "Submerged" : "THE OTHER ROLES")}</color> update to {(isSubmerged ? SubmergedUpdate.Tag : TORUpdate.Tag)} is available</size>\n{(isSubmerged ? SubmergedUpdate.Content : TORUpdate.Content)}";
             var mgr = FindObjectOfType<MainMenuManager>(true);
-            if (isSubmerged && !SubmergedCompatibility.Loaded) showPopUp = false;
-            if (showPopUp) mgr.StartCoroutine(CoShowAnnouncement(announcement));
+            // if (isSubmerged && !SubmergedCompatibility.Loaded) showPopUp = false;  //干掉更新和弹窗
+            // if (showPopUp) mgr.StartCoroutine(CoShowAnnouncement(announcement));  // 干掉更新和弹窗
             showPopUp = false;
         }
         
