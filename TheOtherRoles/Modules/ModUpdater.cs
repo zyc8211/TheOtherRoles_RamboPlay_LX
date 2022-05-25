@@ -142,43 +142,44 @@ namespace TheOtherRoles.Modules
             popup.TextAreaTMP.text = download.Result ? $"{updateName}\nupdated successfully\nPlease restart the game." : "Update wasn't successful\nTry again later,\nor update manually.";
         }
 
-        [HideFromIl2Cpp]
-        public IEnumerator CoShowAnnouncement(string announcement)
-        {
-            var popUp = Instantiate(FindObjectOfType<AnnouncementPopUp>(true));
-            popUp.gameObject.SetActive(true);
-            yield return popUp.Init();
-            var last = SaveManager.LastAnnouncement;
-            last.Id = 1;
-            last.Text = announcement;
-            SelectableHyperLinkHelper.DestroyGOs(popUp.selectableHyperLinks, name);
-            popUp.AnnounceTextMeshPro.text = announcement;
-        }
+        // 干掉更新和弹出
+        // [HideFromIl2Cpp]
+        // public IEnumerator CoShowAnnouncement(string announcement)
+        // {
+        //     var popUp = Instantiate(FindObjectOfType<AnnouncementPopUp>(true));
+        //     popUp.gameObject.SetActive(true);
+        //     yield return popUp.Init();
+        //     var last = SaveManager.LastAnnouncement;
+        //     last.Id = 1;
+        //     last.Text = announcement;
+        //     SelectableHyperLinkHelper.DestroyGOs(popUp.selectableHyperLinks, name);
+        //     popUp.AnnounceTextMeshPro.text = announcement;
+        // }
 
-        [HideFromIl2Cpp]
-        public static IEnumerator CoCheckUpdates()
-        {
-            // 干掉检查更新
-            // var torUpdateCheck = Task.Run(() => Instance.GetGithubUpdate("Eisbison", "TheOtherRoles"));
-            // while (!torUpdateCheck.IsCompleted) yield return null;
-            // Announcement.updateData = torUpdateCheck.Result;
-            // if (torUpdateCheck.Result != null && torUpdateCheck.Result.IsNewer(Version.Parse(TheOtherRolesPlugin.VersionString)))
-            // {
-            //     Instance.TORUpdate = torUpdateCheck.Result;
-            // }
+        // [HideFromIl2Cpp]
+        // public static IEnumerator CoCheckUpdates()
+        // {
+        //     // 干掉检查更新
+        //     // var torUpdateCheck = Task.Run(() => Instance.GetGithubUpdate("Eisbison", "TheOtherRoles"));
+        //     // while (!torUpdateCheck.IsCompleted) yield return null;
+        //     // Announcement.updateData = torUpdateCheck.Result;
+        //     // if (torUpdateCheck.Result != null && torUpdateCheck.Result.IsNewer(Version.Parse(TheOtherRolesPlugin.VersionString)))
+        //     // {
+        //     //     Instance.TORUpdate = torUpdateCheck.Result;
+        //     // }
 
-            // if (CheckForSubmergedUpdates)
-            // {
-            //     var submergedUpdateCheck = Task.Run(() => Instance.GetGithubUpdate("SubmergedAmongUs", "Submerged"));
-            //     while (!submergedUpdateCheck.IsCompleted) yield return null;
-            //     if (submergedUpdateCheck.Result != null && (!SubmergedCompatibility.Loaded || submergedUpdateCheck.Result.IsNewer(SubmergedCompatibility.Version)))
-            //     {
-            //         Instance.SubmergedUpdate = submergedUpdateCheck.Result;
-            //     }
-            // }
+        //     // if (CheckForSubmergedUpdates)
+        //     // {
+        //     //     var submergedUpdateCheck = Task.Run(() => Instance.GetGithubUpdate("SubmergedAmongUs", "Submerged"));
+        //     //     while (!submergedUpdateCheck.IsCompleted) yield return null;
+        //     //     if (submergedUpdateCheck.Result != null && (!SubmergedCompatibility.Loaded || submergedUpdateCheck.Result.IsNewer(SubmergedCompatibility.Version)))
+        //     //     {
+        //     //         Instance.SubmergedUpdate = submergedUpdateCheck.Result;
+        //     //     }
+        //     // }
             
-            Instance.OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-        }
+        //     Instance.OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        // }
 
         [HideFromIl2Cpp]
         public async Task<UpdateData> GetGithubUpdate(string owner, string repo)
