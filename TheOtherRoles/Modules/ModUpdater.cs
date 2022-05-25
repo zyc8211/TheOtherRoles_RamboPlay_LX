@@ -92,19 +92,22 @@ namespace TheOtherRoles.Modules
             SpriteRenderer buttonSprite = button.GetComponent<SpriteRenderer>();
             passiveButton.OnClick = new Button.ButtonClickedEvent();
             passiveButton.OnClick.AddListener((Action) (() =>
-            {
-                this.StartCoroutine(CoUpdate());
-                button.SetActive(false);
-            }));
+            // {
+            //     this.StartCoroutine(CoUpdate());
+            //     button.SetActive(false);
+            // }
+                 Application.OpenURL("https://github.com/RamboPlayCom")
+            ));
 
             var text = button.transform.GetChild(0).GetComponent<TMP_Text>();
-            string t = "Update";
-            if (TORUpdate is null && SubmergedUpdate is not null) t = SubmergedCompatibility.Loaded ? $"Update\nSubmerged" : $"Download\nSubmerged";
+            string t = "GitHub";
+            if (TORUpdate is null && SubmergedUpdate is not null) t = SubmergedCompatibility.Loaded ? $"访问\nGitHub" : $"访问\GitHub";
 
             StartCoroutine(Effects.Lerp(0.1f, (System.Action<float>)(p => text.SetText(t))));
 
-            buttonSprite.color = text.color = Color.red;
-            passiveButton.OnMouseOut.AddListener((Action)(() => buttonSprite.color = text.color = Color.red));
+            Color githubColor = new Color32(37, 42, 47, byte.MaxValue);
+            buttonSprite.color = text.color = githubColor;
+            passiveButton.OnMouseOut.AddListener((Action)(() => buttonSprite.color = text.color = githubColor));
 
             var isSubmerged = TORUpdate == null;
             var announcement = $"<size=150%>A new <color=#FC0303>{(isSubmerged ? "Submerged" : "THE OTHER ROLES")}</color> update to {(isSubmerged ? SubmergedUpdate.Tag : TORUpdate.Tag)} is available</size>\n{(isSubmerged ? SubmergedUpdate.Content : TORUpdate.Content)}";
