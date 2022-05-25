@@ -99,11 +99,12 @@ namespace TheOtherRoles
             CustomColors.Load();
             Patches.FreeNamePatch.Initialize();
 
-            if (BepInExUpdater.UpdateRequired)
-            {
-                AddComponent<BepInExUpdater>();
-                return;
-            }
+            // 不使用自动更新来更新 BepInEx
+            // if (BepInExUpdater.UpdateRequired)
+            // {
+            //     AddComponent<BepInExUpdater>();
+            //     return;
+            // }
             
             SubmergedCompatibility.Initialize();
             AddComponent<ModUpdateBehaviour>();
