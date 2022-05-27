@@ -22,7 +22,7 @@ namespace TheOtherRoles.Patches {
         {
             public static void Postfix(AmongUsClient __instance)
             {
-                Logger.info($"玩家 ID:{__instance.ClientId} 变为房主", "Session");
+                TheOtherRolesPlugin.Logger.LogMessage("玩家 ID:{__instance.ClientId} 变为房主");
             }
         }
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
@@ -30,7 +30,7 @@ namespace TheOtherRoles.Patches {
         {
             public static void Postfix(AmongUsClient __instance)
             {
-                Logger.info($"玩家:{__instance.ClientId} 加入", "Session");
+                TheOtherRolesPlugin.Logger.LogMessage("玩家:{__instance.ClientId} 加入");
             }
         }
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.ExitGame))]
@@ -38,7 +38,7 @@ namespace TheOtherRoles.Patches {
         {
             public static void Prefix(AmongUsClient __instance)
             {
-                Logger.info($"玩家:{__instance.ClientId} 退出", "Session");
+               TheOtherRolesPlugin.Logger.LogMessage("玩家:{__instance.ClientId} 退出");
             }
         }
 
@@ -51,7 +51,7 @@ namespace TheOtherRoles.Patches {
                 {
                     Helpers.shareGameVersion();
                 }
-                Logger.info($"玩家 \"{client.PlayerName}(ID:{client.Id})\" 加入房间", "Session");
+               TheOtherRolesPlugin.Logger.LogMessage("玩家 \"{client.PlayerName}(ID:{client.Id})\" 加入房间");
             }
         }
 
@@ -60,7 +60,7 @@ namespace TheOtherRoles.Patches {
         {
             public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client, [HarmonyArgument(1)] DisconnectReasons reason)
             {
-                Logger.info($"玩家 \"{client.PlayerName}(ID:{client.Id})\" 离开房间 (原因: {reason})", "Session");
+                TheOtherRolesPlugin.Logger.LogMessage("玩家 \"{client.PlayerName}(ID:{client.Id})\" 离开房间 (原因: {reason})");
             }
         }
 
@@ -95,7 +95,7 @@ namespace TheOtherRoles.Patches {
                 if (CachedPlayer.LocalPlayer != null && !versionSent) {
                     versionSent = true;
                     Helpers.shareGameVersion();
-                    Logger.info($"玩家 \"{client.PlayerName}(ID:{client.Id})\" 发送版本号", "Session");
+                    TheOtherRolesPlugin.Logger.LogMessage("玩家 \"{client.PlayerName}(ID:{client.Id})\" 发送版本号");
                 }
 
                 // Host update with version handshake infos
