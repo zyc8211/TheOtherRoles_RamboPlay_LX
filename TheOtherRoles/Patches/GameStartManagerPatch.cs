@@ -116,15 +116,17 @@ namespace TheOtherRoles.Patches {
                             PlayerVersion PV = playerVersions[client.Id];
                             int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
                             if (diff > 0) {
-                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太旧了(v{playerVersions[client.Id].version.ToString()})\n</color>";
-                                TheOtherRolesPlugin.Logger.LogMessage($"{client.Character.Data.PlayerName}版本太旧了：{playerVersions[client.Id].version.ToString()}，{playerVersions[client.Id].guid.ToString()}");
-                                blockStart = true;
+                                // 屏蔽没模组不可开始游戏
+                                // message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太旧了(v{playerVersions[client.Id].version.ToString()})\n</color>";
+                                blockStart = false;
                             } else if (diff < 0) {
-                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太新了(v{playerVersions[client.Id].version.ToString()})\n</color>";
-                                blockStart = true;
+                                // 屏蔽没模组不可开始游戏
+                                // message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太新了(v{playerVersions[client.Id].version.ToString()})\n</color>";
+                                blockStart = false;
                             } else if (!PV.GuidMatches()) { // version presumably matches, check if Guid matches
-                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}使用了改版的模组v{playerVersions[client.Id].version.ToString()} <size=30%>({PV.guid.ToString()})</size>\n</color>";
-                                blockStart = true;
+                                // 屏蔽没模组不可开始游戏
+                                // message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}使用了改版的模组v{playerVersions[client.Id].version.ToString()} <size=30%>({PV.guid.ToString()})</size>\n</color>";
+                                // blockStart = false;
                             }
                         }
                     }
@@ -196,11 +198,12 @@ namespace TheOtherRoles.Patches {
                         //     break;
                         // }
                         
-                        PlayerVersion PV = playerVersions[client.Id];
-                        int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
-                        if (diff != 0 || !PV.GuidMatches()) {
-                            continueStart = false;
-                            break;
+                        // 干掉开始游戏的版本判断
+                        // PlayerVersion PV = playerVersions[client.Id];
+                        // int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
+                        // if (diff != 0 || !PV.GuidMatches()) {
+                        //     continueStart = false;
+                        //     break;
                         }
                     }
 
