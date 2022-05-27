@@ -109,9 +109,9 @@ namespace TheOtherRoles.Patches {
                             continue;
                         else if (!playerVersions.ContainsKey(client.Id))  {
                             // 屏蔽没模组不可开始游戏
-                            // blockStart = true;
+                            blockStart = false;
                             // message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本错误\n</color>";
-                            TheOtherRolesPlugin.Logger.LogMessage($"{client.Character.Data.PlayerName}版本错误：{playerVersions[client.Id].version.ToString()}，{playerVersions[client.Id].guid.ToString()}");
+                            //TheOtherRolesPlugin.Logger.LogMessage($"{client.Character.Data.PlayerName}版本错误：{playerVersions[client.Id].version.ToString()}，{playerVersions[client.Id].guid.ToString()}");
                         } else {
                             PlayerVersion PV = playerVersions[client.Id];
                             int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
