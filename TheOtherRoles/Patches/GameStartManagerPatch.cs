@@ -23,7 +23,7 @@ namespace TheOtherRoles.Patches {
         {
             public static void Postfix(AmongUsClient __instance)
             {
-                TheOtherRolesPlugin.Logger.LogMessage($"玩家 ID:{__instance.ClientId} 变为房主");
+                TheOtherRolesPlugin.Logger.LogMessage($"玩家 ID：\"{__instance.ClientId}\"变为房主");
             }
         }
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
@@ -31,7 +31,7 @@ namespace TheOtherRoles.Patches {
         {
             public static void Postfix(AmongUsClient __instance)
             {
-                TheOtherRolesPlugin.Logger.LogMessage($"玩家:{__instance.ClientId} 加入");
+                TheOtherRolesPlugin.Logger.LogMessage($"玩家 ID：\"{__instance.ClientId}\"进入，版本号：{playerVersions[client.Id].version.ToString()}，GUID：{playerVersions[client.Id]..guid.ToString()");
             }
         }
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.ExitGame))]
@@ -39,7 +39,7 @@ namespace TheOtherRoles.Patches {
         {
             public static void Prefix(AmongUsClient __instance)
             {
-               TheOtherRolesPlugin.Logger.LogMessage($"玩家:{__instance.ClientId} 退出");
+               TheOtherRolesPlugin.Logger.LogMessage($"玩家 ID：\"{__instance.ClientId}\"离开");
             }
         }
 
@@ -52,7 +52,7 @@ namespace TheOtherRoles.Patches {
                 {
                     Helpers.shareGameVersion();
                 }
-               TheOtherRolesPlugin.Logger.LogMessage($"玩家 \"{client.PlayerName}(ID:{client.Id})\" 加入房间");
+               TheOtherRolesPlugin.Logger.LogMessage($"玩家：\"{client.PlayerName}(ID:{client.Id})\"加入房间，版本号：{playerVersions[client.Id].version.ToString()}，GUID：{playerVersions[client.Id]..guid.ToString()");
             }
         }
 
@@ -61,7 +61,7 @@ namespace TheOtherRoles.Patches {
         {
             public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client, [HarmonyArgument(1)] DisconnectReasons reason)
             {
-                TheOtherRolesPlugin.Logger.LogMessage($"玩家 \"{client.PlayerName}(ID:{client.Id})\" 离开房间 (原因: {reason})");
+                TheOtherRolesPlugin.Logger.LogMessage($"玩家：\"{client.PlayerName}(ID:{client.Id})\"离开房间 (原因: {reason})");
             }
         }
 
@@ -114,13 +114,13 @@ namespace TheOtherRoles.Patches {
                             PlayerVersion PV = playerVersions[client.Id];
                             int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
                             if (diff > 0) {
-                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太旧了 (v{playerVersions[client.Id].version.ToString()})\n</color>";
+                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太旧了(v{playerVersions[client.Id].version.ToString()})\n</color>";
                                 blockStart = true;
                             } else if (diff < 0) {
-                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太新了 (v{playerVersions[client.Id].version.ToString()})\n</color>";
+                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太新了(v{playerVersions[client.Id].version.ToString()})\n</color>";
                                 blockStart = true;
                             } else if (!PV.GuidMatches()) { // version presumably matches, check if Guid matches
-                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}使用了改版的模组 v{playerVersions[client.Id].version.ToString()} <size=30%>({PV.guid.ToString()})</size>\n</color>";
+                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}使用了改版的模组v{playerVersions[client.Id].version.ToString()} <size=30%>({PV.guid.ToString()})</size>\n</color>";
                                 blockStart = true;
                             }
                         }
