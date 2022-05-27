@@ -16,12 +16,50 @@ namespace TheOtherRoles.Patches {
         private static bool versionSent = false;
         private static string lobbyCodeText = "";
 
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnBecomeHost))]
+        public class AmongUsClientOnBecomeHostPatch
+        {
+            public static void Postfix(AmongUsClient __instance)
+            {
+                Logger.info($"玩家 ID:{__instance.ClientId} 变为房主", "Session");
+            }
+        }
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
+        public class AmongUsClientOnGameJoinedPatch
+        {
+            public static void Postfix(AmongUsClient __instance)
+            {
+                Logger.info($"玩家:{__instance.ClientId} 加入", "Session");
+            }
+        }
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.ExitGame))]
+        public class AmongUsClientOnDisconnectedPatch
+        {
+            public static void Prefix(AmongUsClient __instance)
+            {
+                Logger.info($"玩家:{__instance.ClientId} 退出", "Session");
+            }
+        }
+
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
-        public class AmongUsClientOnPlayerJoinedPatch {
-            public static void Postfix() {
-                if (CachedPlayer.LocalPlayer != null) {
+        public class AmongUsClientOnPlayerJoinedPatch
+        {
+            public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
+            {
+                if (PlayerControl.LocalPlayer != null)
+                {
                     Helpers.shareGameVersion();
                 }
+                Logger.info($"玩家 \"{client.PlayerName}(ID:{client.Id})\" 加入房间", "Session");
+            }
+        }
+
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
+        public class AmongUsClientOnPlayerLeftPatch
+        {
+            public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client, [HarmonyArgument(1)] DisconnectReasons reason)
+            {
+                Logger.info($"玩家 \"{client.PlayerName}(ID:{client.Id})\" 离开房间 (原因: {reason})", "Session");
             }
         }
 
@@ -56,6 +94,7 @@ namespace TheOtherRoles.Patches {
                 if (CachedPlayer.LocalPlayer != null && !versionSent) {
                     versionSent = true;
                     Helpers.shareGameVersion();
+                    Logger.info($"玩家 \"{client.PlayerName}(ID:{client.Id})\" 发送版本号", "Session");
                 }
 
                 // Host update with version handshake infos
