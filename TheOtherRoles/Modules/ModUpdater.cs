@@ -185,16 +185,16 @@ namespace TheOtherRoles.Modules
         public async Task<UpdateData> GetGithubUpdate(string owner, string repo)
         {
             // 干掉更新公告
-            // var client = new HttpClient();
-            // client.DefaultRequestHeaders.Add("User-Agent", "TheOtherRoles Updater");
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("User-Agent", "Ramboplay");
 
-            // var req = await client.GetAsync($"https://api.github.com/repos/{owner}/{repo}/releases/latest", HttpCompletionOption.ResponseContentRead);
-            // if (!req.IsSuccessStatusCode) return null;
+            var req = await client.GetAsync($"https://www.baidu.com", HttpCompletionOption.ResponseContentRead);
+            if (!req.IsSuccessStatusCode) return null;
 
             // var dataString = await req.Content.ReadAsStringAsync();
             // JObject data = JObject.Parse(dataString);
             // return new UpdateData(data);
-            await return null;
+            return null;
         }
 
         private bool TryUpdateSubmergedInternally()
