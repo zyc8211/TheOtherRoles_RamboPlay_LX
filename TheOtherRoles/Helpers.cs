@@ -376,7 +376,7 @@ namespace TheOtherRoles {
             writer.Write(Assembly.GetExecutingAssembly().ManifestModule.ModuleVersionId.ToByteArray());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             RPCProcedure.versionHandshake(TheOtherRolesPlugin.Version.Major, TheOtherRolesPlugin.Version.Minor, TheOtherRolesPlugin.Version.Build, TheOtherRolesPlugin.Version.Revision, Assembly.GetExecutingAssembly().ManifestModule.ModuleVersionId, AmongUsClient.Instance.ClientId);
-            TheOtherRolesPlugin.Logger.LogMessage($"本地请求玩家 ID：\"{AmongUsClient.Instance.ClientId}\"，版本号：{TheOtherRolesPlugin.Version.Major}.{TheOtherRolesPlugin.Version.Minor}.{TheOtherRolesPlugin.Version.Build}，GUID：{Assembly.GetExecutingAssembly().ManifestModule.ModuleVersionId}");
+            TheOtherRolesPlugin.Logger.LogMessage($"本地请求玩家 ID：{AmongUsClient.Instance.ClientId}，版本号：{TheOtherRolesPlugin.Version.Major}.{TheOtherRolesPlugin.Version.Minor}.{TheOtherRolesPlugin.Version.Build}，GUID：{Assembly.GetExecutingAssembly().ManifestModule.ModuleVersionId}");
         }
 
         public static List<PlayerControl> getKillerTeamMembers(PlayerControl player) {
