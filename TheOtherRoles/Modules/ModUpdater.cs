@@ -194,7 +194,7 @@ namespace TheOtherRoles.Modules
             // var dataString = await req.Content.ReadAsStringAsync();
             // JObject data = JObject.Parse(dataString);
             // return new UpdateData(data);
-             return null;
+            await return null;
         }
 
         private bool TryUpdateSubmergedInternally()
