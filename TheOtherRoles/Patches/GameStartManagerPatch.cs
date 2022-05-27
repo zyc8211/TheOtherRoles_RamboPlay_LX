@@ -204,7 +204,7 @@ namespace TheOtherRoles.Patches {
                         // if (diff != 0 || !PV.GuidMatches()) {
                         //     continueStart = false;
                         //     break;
-                        }
+                        // }
                     }
 
                     if (CustomOptionHolder.dynamicMap.getBool() && continueStart) {
