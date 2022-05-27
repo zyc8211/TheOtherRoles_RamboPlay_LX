@@ -108,13 +108,16 @@ namespace TheOtherRoles.Patches {
                         if (dummyComponent != null && dummyComponent.enabled)
                             continue;
                         else if (!playerVersions.ContainsKey(client.Id))  {
-                            blockStart = true;
-                            message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本错误\n</color>";
+                            // 屏蔽没模组不可开始游戏
+                            // blockStart = true;
+                            // message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本错误\n</color>";
+                            TheOtherRolesPlugin.Logger.LogMessage($"{client.Character.Data.PlayerName}版本错误：{playerVersions[client.Id].version.ToString()}，{playerVersions[client.Id].guid.ToString()}");
                         } else {
                             PlayerVersion PV = playerVersions[client.Id];
                             int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
                             if (diff > 0) {
                                 message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太旧了(v{playerVersions[client.Id].version.ToString()})\n</color>";
+                                TheOtherRolesPlugin.Logger.LogMessage($"{client.Character.Data.PlayerName}版本太旧了：{playerVersions[client.Id].version.ToString()}，{playerVersions[client.Id].guid.ToString()}");
                                 blockStart = true;
                             } else if (diff < 0) {
                                 message += $"<color=#FF0000FF>{client.Character.Data.PlayerName}的模组版本太新了(v{playerVersions[client.Id].version.ToString()})\n</color>";
@@ -187,10 +190,11 @@ namespace TheOtherRoles.Patches {
                         if (dummyComponent != null && dummyComponent.enabled)
                             continue;
                         
-                        if (!playerVersions.ContainsKey(client.Id)) {
-                            continueStart = false;
-                            break;
-                        }
+                        // 干掉开始游戏的版本判断
+                        // if (!playerVersions.ContainsKey(client.Id)) {
+                        //     continueStart = false;
+                        //     break;
+                        // }
                         
                         PlayerVersion PV = playerVersions[client.Id];
                         int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
