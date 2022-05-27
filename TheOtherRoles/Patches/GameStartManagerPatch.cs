@@ -31,7 +31,7 @@ namespace TheOtherRoles.Patches {
         {
             public static void Postfix(AmongUsClient __instance)
             {
-                TheOtherRolesPlugin.Logger.LogMessage($"玩家 ID：\"{__instance.ClientId}\"进入，版本号：{playerVersions[client.Id].version.ToString()}，GUID：{playerVersions[client.Id]..guid.ToString()");
+                TheOtherRolesPlugin.Logger.LogMessage($"玩家 ID：\"{__instance.ClientId}\"进入，版本号：{playerVersions[client.Id].version.ToString()}，GUID：{playerVersions[client.Id].guid.ToString()}");
             }
         }
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.ExitGame))]
@@ -52,7 +52,7 @@ namespace TheOtherRoles.Patches {
                 {
                     Helpers.shareGameVersion();
                 }
-               TheOtherRolesPlugin.Logger.LogMessage($"玩家：\"{client.PlayerName}(ID:{client.Id})\"加入房间，版本号：{playerVersions[client.Id].version.ToString()}，GUID：{playerVersions[client.Id]..guid.ToString()");
+               TheOtherRolesPlugin.Logger.LogMessage($"玩家：\"{client.PlayerName}(ID:{client.Id})\"加入房间，版本号：{playerVersions[client.Id].version.ToString()}，GUID：{playerVersions[client.Id]..guid.ToString()}");
             }
         }
 
