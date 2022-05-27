@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
-using UnhollowerBaseLib;
 using UnityEngine;
 using TheOtherRoles.Players;
 using TheOtherRoles.Utilities;
@@ -97,7 +96,6 @@ namespace TheOtherRoles.Patches {
                 if (CachedPlayer.LocalPlayer != null && !versionSent) {
                     versionSent = true;
                     Helpers.shareGameVersion();
-                    TheOtherRolesPlugin.Logger.LogMessage($"玩家 \"{client.PlayerName}(ID:{client.Id})\" 发送版本号");
                 }
 
                 // Host update with version handshake infos
