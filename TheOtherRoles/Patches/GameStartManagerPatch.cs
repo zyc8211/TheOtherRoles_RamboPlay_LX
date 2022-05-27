@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using Hazel;
 using System;
+using InnerNet;
 using TheOtherRoles.Players;
 using TheOtherRoles.Utilities;
 
