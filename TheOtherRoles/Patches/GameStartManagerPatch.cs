@@ -152,7 +152,7 @@ namespace TheOtherRoles.Patches {
                         __instance.GameStartText.text = $"<color=#FF0000FF>房主模组版本错误\n你会在{Math.Round(10 - kickingTimer)}秒后被踢出</color>";
                         __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition + Vector3.up * 2;
                     } else if (versionMismatch) {
-                        __instance.GameStartText.text = $"<color=#FF0000FF>Players With Different Versions:\n</color>" + message;
+                        __instance.GameStartText.text = $"<color=#FF0000FF>版本错误的玩家：\n</color>" + message;
                         __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition + Vector3.up * 2;
                     } else {
                         __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition;
