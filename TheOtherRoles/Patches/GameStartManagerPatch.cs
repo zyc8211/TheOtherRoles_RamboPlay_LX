@@ -98,7 +98,6 @@ namespace TheOtherRoles.Patches {
                     Helpers.shareGameVersion();
                 }
 
-
                 // Check version handshake infos
                 
                 bool versionMismatch = false;
