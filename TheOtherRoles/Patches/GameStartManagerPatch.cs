@@ -1,10 +1,12 @@
   
-using HarmonyLib;
-using UnityEngine;
+
+using System;
 using System.Reflection;
 using System.Collections.Generic;
+using HarmonyLib;
 using Hazel;
-using System;
+using InnerNet;
+using UnityEngine;
 using TheOtherRoles.Players;
 using TheOtherRoles.Utilities;
 
@@ -16,12 +18,50 @@ namespace TheOtherRoles.Patches {
         private static bool versionSent = false;
         private static string lobbyCodeText = "";
 
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnBecomeHost))]
+        public class AmongUsClientOnBecomeHostPatch
+        {
+            public static void Postfix(AmongUsClient __instance)
+            {
+                TheOtherRolesPlugin.Logger.LogMessage($"玩家 ID：\"{__instance.ClientId}\"成为房主");
+            }
+        }
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
+        public class AmongUsClientOnGameJoinedPatch
+        {
+            public static void Postfix(AmongUsClient __instance)
+            {
+                TheOtherRolesPlugin.Logger.LogMessage($"玩家 ID：\"{__instance.ClientId}\"进入");
+            }
+        }
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.ExitGame))]
+        public class AmongUsClientOnDisconnectedPatch
+        {
+            public static void Prefix(AmongUsClient __instance)
+            {
+               TheOtherRolesPlugin.Logger.LogMessage($"玩家 ID：\"{__instance.ClientId}\"离开");
+            }
+        }
+
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
-        public class AmongUsClientOnPlayerJoinedPatch {
-            public static void Postfix() {
-                if (CachedPlayer.LocalPlayer != null) {
+        public class AmongUsClientOnPlayerJoinedPatch
+        {
+            public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
+            {
+                if (PlayerControl.LocalPlayer != null)
+                {
                     Helpers.shareGameVersion();
                 }
+               TheOtherRolesPlugin.Logger.LogMessage($"玩家：\"{client.PlayerName}(ID:{client.Id})\"成功加入房间");
+            }
+        }
+
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
+        public class AmongUsClientOnPlayerLeftPatch
+        {
+            public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client, [HarmonyArgument(1)] DisconnectReasons reason)
+            {
+                TheOtherRolesPlugin.Logger.LogMessage($"玩家：\"{client.PlayerName}(ID:{client.Id})\"离开房间 (原因: {reason})");
             }
         }
 
@@ -111,7 +151,7 @@ namespace TheOtherRoles.Patches {
                         __instance.GameStartText.text = $"<color=#FF0000FF>房主模组版本错误\n你会在{Math.Round(10 - kickingTimer)}秒后被踢出</color>";
                         __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition + Vector3.up * 2;
                     } else if (versionMismatch) {
-                        __instance.GameStartText.text = $"<color=#FF0000FF>Players With Different Versions:\n</color>" + message;
+                        __instance.GameStartText.text = $"<color=#FF0000FF>版本错误的玩家：\n</color>" + message;
                         __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition + Vector3.up * 2;
                     } else {
                         __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition;
@@ -150,17 +190,19 @@ namespace TheOtherRoles.Patches {
                         if (dummyComponent != null && dummyComponent.enabled)
                             continue;
                         
-                        if (!playerVersions.ContainsKey(client.Id)) {
-                            continueStart = false;
-                            break;
-                        }
+                        // 干掉开始游戏的版本判断
+                        // if (!playerVersions.ContainsKey(client.Id)) {
+                        //     continueStart = false;
+                        //     break;
+                        // }
                         
-                        PlayerVersion PV = playerVersions[client.Id];
-                        int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
-                        if (diff != 0 || !PV.GuidMatches()) {
-                            continueStart = false;
-                            break;
-                        }
+                        // 干掉开始游戏的版本判断
+                        // PlayerVersion PV = playerVersions[client.Id];
+                        // int diff = TheOtherRolesPlugin.Version.CompareTo(PV.version);
+                        // if (diff != 0 || !PV.GuidMatches()) {
+                        //     continueStart = false;
+                        //     break;
+                        // }
                     }
 
                     if (CustomOptionHolder.dynamicMap.getBool() && continueStart) {
