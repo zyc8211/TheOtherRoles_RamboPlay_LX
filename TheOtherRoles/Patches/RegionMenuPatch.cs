@@ -40,6 +40,28 @@ namespace TheOtherRoles.Patches {
         public static void Postfix(RegionMenu __instance) {
             if (!TheOtherRolesPlugin.EnableCustomRegion.Value) return;
             if (!__instance.TryCast<RegionMenu>()) return;
+            bool isCustomRegion = FastDestroyableSingleton<ServerManager>.Instance.CurrentRegion.Name == "Custom";
+            if (!isCustomRegion)
+            {
+                if (ipField != null && ipField.gameObject != null) {
+                    ipField.gameObject.SetActive(false);
+
+                }
+                if (portField != null && portField.gameObject != null) {
+                    portField.gameObject.SetActive(false);
+                }
+            } else
+            {
+                if (ipField != null && ipField.gameObject != null)
+                {
+                    ipField.gameObject.SetActive(true);
+
+                }
+                if (portField != null && portField.gameObject != null)
+                {
+                    portField.gameObject.SetActive(true);
+                }
+            }
             var template = FastDestroyableSingleton<JoinGameButton>.Instance;
             var joinGameButtons = GameObject.FindObjectsOfType<JoinGameButton>();
             foreach (var t in joinGameButtons) {  // The correct button has a background, the other 2 dont
@@ -72,6 +94,7 @@ namespace TheOtherRoles.Patches {
                 ipField.OnFocusLost = new Button.ButtonClickedEvent();
                 ipField.OnChange.AddListener((UnityAction)onEnterOrIpChange);
                 ipField.OnFocusLost.AddListener((UnityAction)onFocusLost);
+                ipField.gameObject.SetActive(isCustomRegion);
 
                 void onEnterOrIpChange() {
                     TheOtherRolesPlugin.Ip.Value = ipField.text;
@@ -104,6 +127,7 @@ namespace TheOtherRoles.Patches {
                 portField.OnFocusLost = new Button.ButtonClickedEvent();
                 portField.OnChange.AddListener((UnityAction)onEnterOrPortFieldChange);
                 portField.OnFocusLost.AddListener((UnityAction)onFocusLost);
+                portField.gameObject.SetActive(isCustomRegion);
 
                 void onEnterOrPortFieldChange() {
                     ushort port = 0;
