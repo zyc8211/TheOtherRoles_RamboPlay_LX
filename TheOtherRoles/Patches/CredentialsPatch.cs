@@ -17,7 +17,6 @@ $@"本Mod由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584
 
 $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy 感谢 四个憨批汉化组</color></size>";
 
-
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
         private static class VersionShowerPatch
         {
