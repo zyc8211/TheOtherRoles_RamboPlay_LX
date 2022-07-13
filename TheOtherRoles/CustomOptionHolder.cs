@@ -510,6 +510,11 @@ namespace TheOtherRoles {
             mediumOneTimeUse = CustomOption.Create(363,Types.Crewmate, "每个灵魂只可被提问一次", false, mediumSpawnRate);
 
             // Modifier
+<<<<<<< Updated upstream
+=======
+            modifiersAreHidden = CustomOption.Create(1009, Types.Modifier, cs(Color.yellow, "死亡后隐藏特性"), true, null, true);
+
+>>>>>>> Stashed changes
             modifierBloody = CustomOption.Create(1000, Types.Modifier, cs(Color.yellow, "血语者"), rates, null, true);
             modifierBloodyQuantity = CustomOption.Create(1001, Types.Modifier, cs(Color.yellow, "血语者数量"), ratesModifier, modifierBloody);
             modifierBloodyDuration = CustomOption.Create(1002, Types.Modifier, "血迹持续时长", 10f, 3f, 60f, 1f, modifierBloody);
