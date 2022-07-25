@@ -15,7 +15,8 @@ $@"本Mod由 <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584
 
         public static string contributorsCredentials =
 
-$@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy 感谢 四个憨批汉化组</color></size>";
+$@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy </color> 汉化:<color=#DC143C>四个憨批汉化组</color></size>";
+
 
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
         private static class VersionShowerPatch
@@ -55,7 +56,7 @@ $@"<size=60%> <color=#FCCE03FF>感谢 K3ndo & Smeggy 感谢 四个憨批汉化�
             static void Postfix(PingTracker __instance){
                 __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
                 if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) {
-                    __instance.text.text = $"<size=130%><color=#ff351f>超多职业</color></size> {TheOtherRolesPlugin.Version.ToString()}\n<color=#1a75ff>兰博玩对战(内测)本地帽子</color>\n" +  $"延迟：{AmongUsClient.Instance.Ping}毫秒\n";
+                    __instance.text.text = $"<size=130%><color=#ff351f>超多职业</color></size> {TheOtherRolesPlugin.Version.ToString()}\n<color=#1a75ff>兰博玩对战(内测)本地帽子</color>\n<size=30f%>汉化:<color=#DC143C>四个憨批汉化组</color></size>\n" +  $"延迟：{AmongUsClient.Instance.Ping}毫秒\n";
                     if (CachedPlayer.LocalPlayer.Data.IsDead || (!(CachedPlayer.LocalPlayer.PlayerControl == null) && (CachedPlayer.LocalPlayer.PlayerControl == Lovers.lover1 || CachedPlayer.LocalPlayer.PlayerControl == Lovers.lover2))) {
                         __instance.transform.localPosition = new Vector3(3.45f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
                     } else {
