@@ -368,7 +368,7 @@ namespace TheOtherRoles {
             guesserKillsThroughShield  = CustomOption.Create(315, Types.Neutral, "赌怪无视医生护盾", true, guesserSpawnRate);
             guesserEvilCanKillSpy  = CustomOption.Create(316, Types.Neutral, "邪恶赌怪可猜测卧底", true, guesserSpawnRate);
             guesserSpawnBothRate = CustomOption.Create(317, Types.Neutral, "正义和邪恶赌怪同时生成概率", rates, guesserSpawnRate);
-            guesserCantGuessSnitchIfTaksDone = CustomOption.Create(318, Types.Neutral, "密探任务完成后不能被赌", true, guesserSpawnRate);
+            guesserCantGuessSnitchIfTaksDone = CustomOption.Create(318, Types.Neutral, "告密者任务完成后不能被赌", true, guesserSpawnRate);
 
             jesterSpawnRate = CustomOption.Create(60, Types.Neutral, cs(Jester.color, "小丑"), rates, null, true);
             jesterCanCallEmergency = CustomOption.Create(61, Types.Neutral, "小丑能召开紧急会议", true, jesterSpawnRate);
@@ -479,8 +479,8 @@ namespace TheOtherRoles {
             trackerCorpsesTrackingCooldown = CustomOption.Create(204,Types.Crewmate, "追踪尸体冷却", 30f, 5f, 120f, 5f, trackerCanTrackCorpses);
             trackerCorpsesTrackingDuration = CustomOption.Create(205,Types.Crewmate, "追踪尸体持续时长", 5f, 2.5f, 30f, 2.5f, trackerCanTrackCorpses);
 
-            snitchSpawnRate = CustomOption.Create(210,Types.Crewmate, cs(Snitch.color, "密探"), rates, null, true);
-            snitchLeftTasksForReveal = CustomOption.Create(211,Types.Crewmate, "密探还剩多少任务时会暴露", 1f, 0f, 5f, 1f, snitchSpawnRate);
+            snitchSpawnRate = CustomOption.Create(210,Types.Crewmate, cs(Snitch.color, "告密者"), rates, null, true);
+            snitchLeftTasksForReveal = CustomOption.Create(211,Types.Crewmate, "告密者还剩多少任务时会暴露", 1f, 0f, 5f, 1f, snitchSpawnRate);
             snitchIncludeTeamJackal = CustomOption.Create(212,Types.Crewmate, "是否可追踪豺狼阵营", false, snitchSpawnRate);
             snitchTeamJackalUseDifferentArrowColor = CustomOption.Create(213,Types.Crewmate, "使用不同颜色的箭头来表示豺狼阵营", true, snitchIncludeTeamJackal);
 

@@ -52,7 +52,7 @@ namespace TheOtherRoles
         public static RoleInfo seer = new RoleInfo("灵媒", Seer.color, "我图腾呢？", "可以感知其他玩家死亡", RoleId.Seer);
         public static RoleInfo hacker = new RoleInfo("黑客", Hacker.color, "M A T R I X", "黑入系统找到内鬼", RoleId.Hacker);
         public static RoleInfo tracker = new RoleInfo("追踪者", Tracker.color, "追踪<color=#FF1919FF>内鬼</color>", "追踪内鬼", RoleId.Tracker);
-        public static RoleInfo snitch = new RoleInfo("密探", Snitch.color, "当心那些箭头", "完成所有任务", RoleId.Snitch);
+        public static RoleInfo snitch = new RoleInfo("告密者", Snitch.color, "当心那些箭头", "完成所有任务", RoleId.Snitch);
         public static RoleInfo jackal = new RoleInfo("豺狼", Jackal.color, "我叫山鸡", "杀掉所有人", RoleId.Jackal, true);
         public static RoleInfo sidekick = new RoleInfo("跟班", Sidekick.color, "小弟也有当老大的一天", "帮助豺狼杀掉所有人", RoleId.Sidekick, true);
         public static RoleInfo spy = new RoleInfo("卧底", Spy.color, "其实我想做个好人", "在内鬼眼中你是红名的", RoleId.Spy);
